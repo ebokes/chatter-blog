@@ -8,13 +8,15 @@ import {
   Heading,
   Stack,
   Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
 
 export default function Testimonial() {
+  const { colorMode } = useColorMode();
   return (
-    <Box bg={"#FFEDCC7F"} px={"32px"}>
+    <Box px={"32px"} bg={colorMode === "light" ? "brand.500" : "dark"}>
       <Stack
         minH={"492px"}
         direction={{ base: "column", md: "row" }}
@@ -35,19 +37,28 @@ export default function Testimonial() {
         </Flex>
         <Flex py={8} flex={1} align={"center"} justify={"center"}>
           <Stack spacing={6} w={"full"}>
-            <Text fontSize={{ base: "md", lg: "lg" }}>
+            <Text
+              fontSize={{ base: "md", lg: "lg" }}
+              color={colorMode === "light" ? "brand.900" : "brand.350"}
+            >
               `Chatter has become an integral part of my online experience. As a
               user of this incredible blogging platform, I have discovered a
               vibrant community of individuals who are passionate about sharing
               their ideas and engaging in thoughtful discussions.`
             </Text>
             <HStack>
-              <Heading as="h4" fontWeight={600} fontSize="24px">
+              <Heading
+                as="h4"
+                fontWeight={600}
+                fontSize="24px"
+                color={colorMode === "light" ? "brand.850" : "brand.300"}
+              >
                 Adebobola Muhydeen,{" "}
                 <Text
                   fontWeight={300}
                   fontSize={"16px"}
                   display={"inline-block"}
+                  color={colorMode === "light" ? "brand.900" : "brand.350"}
                 >
                   Software developer at Apple
                 </Text>
@@ -58,10 +69,10 @@ export default function Testimonial() {
                 as={NextLink}
                 href={"/pages/signup"}
                 rounded={"md"}
-                bg={"#543EE0"}
-                color={"white"}
+                bg={"brand.600"}
+                color={"brand.100"}
                 _hover={{
-                  bg: "#715fe3",
+                  bg: "brand.700",
                 }}
                 w={"150px"}
               >

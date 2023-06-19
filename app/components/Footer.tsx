@@ -10,21 +10,31 @@ import {
   SimpleGrid,
   Stack,
   Text,
-  useColorModeValue,
+  useColorMode,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
+  const { colorMode } = useColorMode();
   return (
-    <Text fontWeight={"500"} fontSize={"lg"} mb={2}>
+    <Text
+      fontWeight={"500"}
+      fontSize={"lg"}
+      mb={2}
+      color={colorMode === "light" ? "brand.850" : "brand.300"}
+    >
       {children}
     </Text>
   );
 };
 
 export default function Footer() {
+  const { colorMode } = useColorMode();
   return (
-    <Box bg="#ffedcc7f" color="gray.700">
+    <Box
+      bg={colorMode === "light" ? "brand.500" : "dark"}
+      color={colorMode === "light" ? "brand.800" : "gray.400"}
+    >
       <Container as={Stack} maxW={"6xl"} py={10}>
         <SimpleGrid
           templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 1fr 1fr" }}
@@ -32,7 +42,7 @@ export default function Footer() {
         >
           <Stack spacing={6}>
             <Box>
-              <Heading color="#543EE0">CHATTER</Heading>
+              <Heading color="brand.600">CHATTER</Heading>
             </Box>
             <Text fontSize={"sm"}>© 2023 Chatter. All rights reserved</Text>
           </Stack>

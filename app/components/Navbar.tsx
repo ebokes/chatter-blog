@@ -15,6 +15,10 @@ import {
   PopoverContent,
   useBreakpointValue,
   useDisclosure,
+  useColorMode,
+  FormControl,
+  FormLabel,
+  Switch,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -23,22 +27,25 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import NextLink from "next/link";
+import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
-  // const navigate = useNavigate;
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Box>
+    <Box width="full" bg={colorMode === "light" ? "brand.300" : "brand.800"}>
       <Flex
-        bg="white"
-        color="gray.600"
+        // pos={"fixed"}
+        // right={"0"}
+        // left={"0"}
+        // bg="white"
+        // color="gray.600"
+        // bg={colorMode === "light" ? "#F9FAFB" : "#171923"}
+        color={colorMode === "light" ? "brand.800" : "brand.300"}
         minH={"60px"}
         py={{ base: 2 }}
         px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={"solid"}
-        borderColor="gray.200"
         align={"center"}
         maxW={"1200px"}
         mx={"auto"}
@@ -58,20 +65,34 @@ export default function Navbar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color="#543EE0"
-            fontWeight={600}
-          >
-            CHATTER
-          </Text>
+          <Link href="/">
+            <Text
+              textAlign={useBreakpointValue({ base: "center", md: "left" })}
+              fontFamily={"heading"}
+              color="brand.600"
+              fontWeight={600}
+            >
+              CHATTER
+            </Text>
+          </Link>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>
         </Flex>
 
+        <Button
+          aria-label="Toggle Color Mode"
+          onClick={toggleColorMode}
+          mr={5}
+          _focus={{ boxShadow: "none" }}
+          w="fit-content"
+          variant={"ghost"}
+          _hover={{ variant: "ghost" }}
+          _active={{ variant: "ghost" }}
+        >
+          {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
+        </Button>
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={"flex-end"}
@@ -81,9 +102,18 @@ export default function Navbar() {
           <Button
             as={NextLink}
             fontSize={"sm"}
-            fontWeight={400}
+            fontWeight={600}
             variant={"link"}
-            href={"/pages/auth"}
+            href={"/pages/authnav"}
+            px={"15px"}
+            py={"7px"}
+            color={"brand.600"}
+            border={"1px solid"}
+            borderColor={"brand.600"}
+            _hover={{
+              bg: "brand.700",
+              color: "white",
+            }}
           >
             Sign In
           </Button>
@@ -93,10 +123,10 @@ export default function Navbar() {
             fontSize={"sm"}
             fontWeight={600}
             color={"white"}
-            bg={"#543EE0"}
-            href={"/pages/auth"}
+            bg={"brand.600"}
+            href={"/pages/authnav"}
             _hover={{
-              bg: "#715fe3",
+              bg: "brand.700",
             }}
           >
             Sign Up
@@ -112,10 +142,7 @@ export default function Navbar() {
 }
 
 const DesktopNav = () => {
-  const linkColor = "gray.600";
-  const linkHoverColor = "gray.800";
-  const popoverContentBgColor = "white";
-
+  const { colorMode } = useColorMode();
   return (
     <Stack direction={"row"} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
@@ -127,10 +154,12 @@ const DesktopNav = () => {
                 href={navItem.href ?? "#"}
                 fontSize={"sm"}
                 fontWeight={500}
-                color={linkColor}
+                // color={"gray.600"}
+                color={colorMode === "light" ? "brand.800" : "gray.400"}
                 _hover={{
                   textDecoration: "none",
-                  color: linkHoverColor,
+                  // color: "gray.800",
+                  color: colorMode === "light" ? "brand.800" : "gray.200",
                 }}
               >
                 {navItem.label}
@@ -141,7 +170,7 @@ const DesktopNav = () => {
               <PopoverContent
                 border={0}
                 boxShadow={"xl"}
-                bg={popoverContentBgColor}
+                bg={"white"}
                 p={4}
                 rounded={"xl"}
                 minW={"sm"}
@@ -169,13 +198,13 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       display={"block"}
       p={2}
       rounded={"md"}
-      _hover={{ bg: "#715fe3" }}
+      _hover={{ bg: "brand.700" }}
     >
       <Stack direction={"row"} align={"center"}>
         <Box>
           <Text
             transition={"all .3s ease"}
-            _groupHover={{ color: "#715fe3" }}
+            _groupHover={{ color: "brand.700" }}
             fontWeight={500}
           >
             {label}
@@ -191,7 +220,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
           align={"center"}
           flex={1}
         >
-          <Icon color={"#543EE0"} w={5} h={5} as={ChevronRightIcon} />
+          <Icon color={"brand.600"} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
     </Link>
@@ -199,8 +228,13 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 };
 
 const MobileNav = () => {
+  const { colorMode } = useColorMode();
   return (
-    <Stack bg="white" p={4} display={{ md: "none" }}>
+    <Stack
+      p={4}
+      display={{ md: "none" }}
+      bg={colorMode === "light" ? "brand.100" : "brand.800"}
+    >
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -210,6 +244,7 @@ const MobileNav = () => {
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
+  const { colorMode } = useColorMode();
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -223,7 +258,10 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           textDecoration: "none",
         }}
       >
-        <Text fontWeight={600} color="gray.600">
+        <Text
+          fontWeight={600}
+          color={colorMode === "light" ? "brand.800" : "gray.400"}
+        >
           {label}
         </Text>
         {children && (

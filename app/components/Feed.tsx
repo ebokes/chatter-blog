@@ -1,59 +1,114 @@
 "use client";
-
-import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { ReactNode, useContext } from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Stack,
+  Tab,
+  TabIndicator,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import React from "react";
 import { ImPencil } from "react-icons/im";
 import Post from "./Post";
+import Link from "next/link";
+import { ChatterContext } from "../context/ChatterContext";
 
-interface FeedProps {}
+interface FeedProps {
+  children: ReactNode;
+}
 
 const Feed = (props: FeedProps) => {
+  const { posts } = useContext(ChatterContext);
+  const { colorMode } = useColorMode();
   return (
-    <Box ml={{ base: "", md: "60px" }} px={5} border="1px solid #d0d0d0">
-      <Box maxW={"854px"} mx={"auto"}>
-        <Flex align={"flex-end"} justify={"space-between"} my={5}>
-          <Stack>
-            <Heading fontWeight={500} fontSize={28}>
-              FEED
-            </Heading>
-            <Text>Explore different content you’d love </Text>
-          </Stack>
-          <Button
-            bg={"#543EE0"}
-            color={"white"}
-            _hover={{
-              bg: "#715fe3",
-            }}
-            leftIcon={<ImPencil />}
-          >
-            Post a content
-          </Button>
-        </Flex>
-        <Flex
-          border={"1px solid #d0d0d0"}
-          borderRadius={"lg"}
-          justify={"space-between"}
-          mt={"49px"}
-          px={"51px"}
+    <>
+      <Flex align={"flex-end"} justify={"space-between"} my={5}>
+        <Stack>
+          <Heading fontWeight={500} fontSize={28}>
+            FEED
+          </Heading>
+          <Text>Explore different content you’d love </Text>
+        </Stack>
+        <Button
+          as={Link}
+          href={"/pages/dashboard/write"}
+          bg={"brand.600"}
+          color={"white"}
+          _hover={{
+            bg: "brand.700",
+          }}
+          leftIcon={<ImPencil />}
         >
-          <Heading
-            fontWeight={500}
-            fontSize={24}
-            py={"16px"}
-            borderBottom={"6px solid #543EE0"}
-          >
-            For you
-          </Heading>
-          <Heading fontWeight={500} fontSize={24} py={"16px"}>
-            Featured
-          </Heading>
-          <Heading fontWeight={500} fontSize={24} py={"16px"}>
-            Recent
-          </Heading>
-        </Flex>
-        <Post />
-      </Box>
-    </Box>
+          Post a content
+        </Button>
+      </Flex>
+
+      <Tabs position="relative" variant="unstyled">
+        <TabList
+          border={`1px solid ${
+            colorMode === "dark" ? "rgb(255, 255, 255, .2)" : "#d0d0d0"
+          }`}
+          // py=".5rem"
+          borderRadius={"10px"}
+          display={"flex"}
+          justifyContent={"space-between"}
+          // px={{ base: "0rem", md: "1rem" }}
+        >
+          <Tab>
+            <Heading fontWeight={500} fontSize={24} py={"16px"}>
+              For you
+            </Heading>
+          </Tab>
+          <Tab>
+            <Heading fontWeight={500} fontSize={24} py={"16px"}>
+              Featured
+            </Heading>
+          </Tab>
+          <Tab>
+            <Heading fontWeight={500} fontSize={24} py={"16px"}>
+              Recent
+            </Heading>
+          </Tab>
+        </TabList>
+        <TabIndicator
+          mt="-1.5px"
+          height="2.5px"
+          bg="#543EE0"
+          borderRadius="1px"
+        />
+        <TabPanels>
+          <TabPanel p="0">
+            <Box
+              // border={"1px solid"}
+              // borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
+              borderRadius={"lg"}
+              // justify={"space-between"}
+              mt={"19px"}
+              // px={{ base: "24px", lg: "44px" }}
+              //  px={"51px"}
+            >
+              {posts.map((post) => (
+                <Post key={post.id} post={post} />
+              ))}
+            </Box>
+          </TabPanel>
+          <TabPanel>
+            <p>Featured</p>
+          </TabPanel>
+          <TabPanel>
+            <p>Recent</p>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </>
   );
 };
 

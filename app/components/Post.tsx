@@ -8,18 +8,24 @@ import {
   HStack,
   Heading,
   Icon,
+  IconButton,
   Link,
   Spacer,
   Stack,
   Text,
+  VStack,
+  useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { VscBook } from "react-icons/vsc";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { SlLike } from "react-icons/sl";
 import { MdInsertChartOutlined } from "react-icons/md";
 import { IconType } from "react-icons";
+import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
+// import Loading from "../pages/dashboard/loading";
+// import { useRouter } from "next/router";
 
 interface PostDetailProps {
   avatar: string;
@@ -29,142 +35,140 @@ interface PostDetailProps {
   title: string;
   readTime: string;
   intro: string;
-  image: string;
+  bannerUrl: string;
   alt: string;
+  bookmarked: boolean;
+  tags: string[];
   footer?: {
     icon: IconType;
     count?: number;
   }[];
 }
 
-const PostDetail: Array<PostDetailProps> = [
-  {
-    avatar: "/avatar1.svg",
-    name: "Grace Ikpang",
-    role: "Product designer",
-    date: "May 25th, 2023",
-    title: "Starting out as a Product designer",
-    readTime: "10 mins read",
-    intro:
-      "Embarking on a journey as a product designer can be an exhilarating and fulfilling experience. As a profession that bridges the realms of art, technology, and problem-solving, product design offers an opportunity to shape the way people interact with the world around them.",
-    image: "/img.jpeg",
-    alt: "img",
-    footer: [
-      {
-        icon: IoChatbubblesOutline,
-        count: 200,
-      },
-      {
-        icon: SlLike,
-        count: 20,
-      },
-      {
-        icon: MdInsertChartOutlined,
-        count: 1280,
-      },
-    ],
-  },
-  {
-    avatar: "/avatar1.svg",
-    name: "Grace Ikpang",
-    role: "Product designer",
-    date: "May 25th, 2023",
-    title: "Starting out as a Product designer",
-    readTime: "10 mins read",
-    intro:
-      "Embarking on a journey as a product designer can be an exhilarating and fulfilling experience. As a profession that bridges the realms of art, technology, and problem-solving, product design offers an opportunity to shape the way people interact with the world around them.",
-    image: "/img.jpeg",
-    alt: "img",
-    footer: [
-      {
-        icon: IoChatbubblesOutline,
-        count: 200,
-      },
-      {
-        icon: SlLike,
-        count: 20,
-      },
-      {
-        icon: MdInsertChartOutlined,
-        count: 1280,
-      },
-    ],
-  },
-  {
-    avatar: "/avatar1.svg",
-    name: "Grace Ikpang",
-    role: "Product designer",
-    date: "May 25th, 2023",
-    title: "Starting out as a Product designer",
-    readTime: "10 mins read",
-    intro:
-      "Embarking on a journey as a product designer can be an exhilarating and fulfilling experience. As a profession that bridges the realms of art, technology, and problem-solving, product design offers an opportunity to shape the way people interact with the world around them.",
-    image: "/img.jpeg",
-    alt: "img",
-    footer: [
-      {
-        icon: IoChatbubblesOutline,
-        count: 200,
-      },
-      {
-        icon: SlLike,
-        count: 20,
-      },
-      {
-        icon: MdInsertChartOutlined,
-        count: 1280,
-      },
-    ],
-  },
-];
+const Post = ({ post }: any) => {
+  const { colorMode } = useColorMode();
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
-const Post = () => {
+  const handleBookmark = () => {
+    setIsBookmarked((prev) => !prev);
+  };
+  // if (post.length === 0) return <Loading />;
+
   return (
-    <Box>
-      {PostDetail.map((item) => (
-        <Box
-          border={"1px solid #d0d0d0"}
-          borderRadius={"lg"}
-          key={item.title}
-          mb={6}
+    <Box
+      border={"1px solid "}
+      borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
+      borderRadius={"lg"}
+      mb={6}
+      color={colorMode === "light" ? "brand.800" : "brand.400"}
+    >
+      <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
+        <Link
+          href={`/pages/dashboard/${post.id}`}
+          _hover={{
+            textDecoration: "none",
+            // color: "gray.800",
+            // color: colorMode === "light" ? "brand.800" : "gray.200",
+          }}
+          w={"full"}
         >
-          <Stack mt={27} mx={"44px"}>
-            <HStack>
-              <Avatar size="2xl" name={item.name} src={item.avatar} />
+          <Box>
+            <Flex gap={2} mb={"10px"}>
+              <Avatar size="md" name={"John Doe"} src={post.data.bannerImg} />
               <Box>
-                <Heading fontSize={"24px"} fontWeight={500} mb={4}>
-                  {item.name}
+                <Heading fontSize={"20px"} fontWeight={600} mb={1}>
+                  {post.data.author}
                 </Heading>
                 <HStack flexWrap={"wrap"}>
-                  <Text>{item.role}</Text>
-                  <Spacer />
-                  <Text>{item.date}</Text>
+                  <Text>{post.data.role}</Text>
+                  <Box
+                    boxSize={"4px"}
+                    bg={colorMode === "light" ? "brand.800" : "brand.400"}
+                    borderRadius={"full"}
+                  />
+                  {/* <Spacer /> */}
+                  {/* <Text>{post.data.postedOn}</Text> */}
+                  <Text>
+                    {new Date(post.data.postedOn).toLocaleString("en-US", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </Text>
                 </HStack>
               </Box>
-            </HStack>
-            <Heading fontWeight={500} fontSize={"32px"} mt={"15px"}>
-              {item.title}
-            </Heading>
-            <HStack>
-              <Icon as={VscBook} /> <Text>{item.readTime}</Text>
-            </HStack>
-            <Text fontSize={"18px"} mt={"24px"}>
-              {item.intro}
-            </Text>
-            <Image src={item.image} width={612} height={242} alt="img" />
-            <Flex>
-              <HStack gap={"20%"}>
-                {item.footer?.map((footerItem, i) => (
-                  <Link as={Button} key={i}>
-                    <Icon as={footerItem.icon} mr={1} />
-                    <Text>{footerItem.count}</Text>
-                  </Link>
-                ))}
-              </HStack>
             </Flex>
-          </Stack>
-        </Box>
-      ))}
+            <Flex flexDir={{ base: "column-reverse", lg: "row" }}>
+              <Stack flex={1} mr={{ base: "0", lg: "22px" }}>
+                <Heading fontWeight={500} fontSize={"24px"} mt={"10px"}>
+                  {post.data.title}
+                </Heading>
+                <HStack>
+                  <Icon as={VscBook} />{" "}
+                  <Text>{post.data.postLength} mins read</Text>
+                </HStack>
+                <Text fontSize={"18px"} mt={"10px"}>
+                  {post.data.body.split(". ")[0]}
+                </Text>
+              </Stack>
+              <Flex flex={0.7}>
+                <Image
+                  src={post.data.bannerImg}
+                  width={312}
+                  height={242}
+                  alt="img"
+                  priority={false}
+                  style={{
+                    borderRadius: "10px",
+                    objectFit: "cover",
+                    height: "200px",
+                  }}
+                />
+              </Flex>
+            </Flex>
+          </Box>
+        </Link>
+        <HStack>
+          <Box>
+            <IconButton
+              variant={"ghost"}
+              onClick={handleBookmark}
+              aria-label="Bookmark"
+              icon={
+                isBookmarked ? (
+                  <BsBookmarkCheckFill size={"20px"} />
+                ) : (
+                  <BsBookmarkPlus size={"20px"} />
+                )
+              }
+            />
+          </Box>
+          <HStack>
+            {post.data.tag?.map((item: string, i: number) => (
+              <Button
+                variant={"outline"}
+                px={"8px"}
+                h={"32px"}
+                fontSize={"14px"}
+                key={i}
+              >
+                {item}
+                {/* {i > 1 && `+${item.tags.length - 2}`} */}
+              </Button>
+            ))}
+          </HStack>
+        </HStack>
+        {/* <Flex justify={"flex-end"}>
+            <HStack gap={"20%"}>
+              {item.footer?.map((footerItem, i) => (
+                <Button key={i} variant={"ghost"}>
+                  <Icon as={footerItem.icon} mr={1} />
+                  <Text>{footerItem.count}</Text>
+                </Button>
+              ))}
+            </HStack>
+          </Flex> */}
+      </Stack>
     </Box>
   );
 };

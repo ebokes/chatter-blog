@@ -1,0 +1,252 @@
+Dark background
+bg={colorMode === "light" ? "brand.300" : "brand.800"}
+
+Light background ===> yellow
+bg={colorMode === "light" ? "brand.500" : "dark"}
+
+const { colorMode } = useColorMode();
+
+color={colorMode === "light" ? "brand.400" : "brand.450"}
+
+Heading
+color={colorMode === "light" ? "brand.850" : "brand.300"}
+
+Text
+color={colorMode === "light" ? "brand.900" : "brand.350"}
+
+
+
+function SlideEx() {
+  const { isOpen, onToggle } = useDisclosure()
+
+  return (
+    <>
+      <Button onClick={onToggle}>Click Me</Button>
+      <Slide direction='bottom' in={isOpen} style={{ zIndex: 10 }}>
+        <Box
+          p='40px'
+          color='white'
+          mt='4'
+          bg='teal.500'
+          rounded='md'
+          shadow='md'
+        >
+          <Lorem count={2} />
+        </Box>
+      </Slide>
+    </>
+  )
+}
+
+
+
+
+
+
+
+<HStack pos={"absolute"} top={16} height={"44px"}>
+            <IconButton
+              onClick={() => setOpen(!open)}
+              aria-label="Add media"
+              icon={open ? <TfiPlus /> : <TfiClose />}
+              fontSize={"20px"}
+              border={"1px solid black"}
+              borderRadius={"50%"}
+              variant="outline"
+            />
+            {!open && (
+              <HStack zIndex={6}>
+                <Divider orientation="horizontal" h={12} color={"#543EE0"} />
+                <HStack>
+                  <Slide direction="right" in={isOpen} style={{ zIndex: 10 }}>
+                    <IconButton
+                      aria-label="Add Image"
+                      icon={<CiImageOn />}
+                      fontSize={"25px"}
+                      border={"1px solid #543EE0"}
+                      borderRadius={"50%"}
+                      color={"#543EE0"}
+                      variant="outline"
+                    />
+                    <IconButton
+                      aria-label="Add Image"
+                      icon={<CiVideoOn />}
+                      fontSize={"25px"}
+                      border={"1px solid #543EE0"}
+                      borderRadius={"50%"}
+                      color={"#543EE0"}
+                      variant="outline"
+                    />
+                  </Slide>
+                </HStack>
+              </HStack>
+            )}
+          </HStack>
+
+
+
+
+           querySnapshot.docChanges.map(doc => console.log(doc))
+
+
+
+
+
+
+
+
+
+
+
+           // // import React from "react";
+// // import { createContext, useEffect, useState } from "react";
+// // import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+// // import { db } from "../lib/firebase";
+
+// // interface User {
+// //   // Define your user properties here
+// // }
+
+// // interface Post {
+// //   // Define your post properties here
+// // }
+
+// // interface ChatterContextProps {
+// //   users: User[];
+// //   posts: Post[];
+// // }
+
+// // const ChatterContext = React.createContext<ChatterContextProps>(
+// //   {} as ChatterContextProps
+// // );
+
+// // const ChatterProvider: React.FC<React.ReactNode> = ({ children }: any) => {
+// //   const [users, setUsers] = useState<User[]>([]);
+// //   const [posts, setPosts] = useState<Post[]>([]);
+// //   console.log(users);
+
+// //   useEffect(() => {
+// //     const getUsers = async () => {
+// //       const querySnapshot = await getDocs(collection(db, "users"));
+
+// //       querySnapshot.docs.map((doc) => console.log(doc));
+// //       //   const fetchedUsers: User[] = querySnapshot.docs.map(
+// //       //     (doc) => doc.data() as User
+// //       //   );
+// //       //   setUsers(fetchedUsers);
+// //     };
+// //     getUsers();
+// //   }, []);
+
+// //   return (
+// //     <ChatterContext.Provider value={{ users, posts }}>
+// //       {children}
+// //     </ChatterContext.Provider>
+// //   );
+// // };
+// // export { ChatterContext, ChatterProvider };
+
+
+
+
+{posts.map((post) => (
+        <Box
+          // border={"1px solid "}
+          // borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
+          borderRadius={"lg"}
+          key={post.id}
+          mb={6}
+          color={colorMode === "light" ? "brand.800" : "brand.400"}
+        >
+          <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
+            <Box>
+              <Flex gap={2} mb={"15px"}>
+                <Avatar size="md" name={post.data.author} />
+                <Box>
+                  <Heading fontSize={"20px"} fontWeight={600} mb={1}>
+                    {post.data.author}
+                  </Heading>
+                  <HStack flexWrap={"wrap"}>
+                    <Text>{post.data.role}</Text>
+                    <Box
+                      boxSize={"4px"}
+                      bg={colorMode === "light" ? "brand.800" : "brand.400"}
+                      borderRadius={"full"}
+                    />
+                    {/* <Spacer /> */}
+                    <Text>
+                      {new Date(post.data.postedOn).toLocaleString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </Text>
+                  </HStack>
+                </Box>
+              </Flex>
+              <Flex flex={0.7}>
+                <Image
+                  src={post.data.bannerImg}
+                  width={612}
+                  height={242}
+                  alt="img"
+                  style={{ width: "auto", height: "auto" }}
+                />
+              </Flex>
+              <Box>
+                <Stack flex={1}>
+                  <Heading fontWeight={500} fontSize={"24px"} mt={"10px"}>
+                    {post.data.title}
+                  </Heading>
+                  <HStack>
+                    <Icon as={VscBook} /> <Text>{post.data.postLength}</Text>
+                  </HStack>
+                  <Text fontSize={"18px"} mt={"10px"}>
+                    {post.data.body}
+                  </Text>
+                </Stack>
+              </Box>
+            </Box>
+            <HStack>
+              {/* <Box>
+                <IconButton
+                  variant={"ghost"}
+                  onClick={handleBookmark}
+                  aria-label="Bookmark"
+                  icon={
+                    isBookmarked ? (
+                      <BsBookmarkCheckFill size={"20px"} />
+                    ) : (
+                      <BsBookmarkPlus size={"20px"} />
+                    )
+                  }
+                />
+              </Box> */}
+              {/* <HStack>
+                {post.data.tags.map((tag, i) => (
+                  <Button
+                    variant={"outline"}
+                    px={"8px"}
+                    h={"32px"}
+                    fontSize={"14px"}
+                    key={i}
+                  >
+                    {tag}
+                    // {i > 1 && `+${post.data.tags.length - 2}`}
+                  </Button>
+                ))}
+              </HStack> */}
+            </HStack>
+            {/* <Flex justify={"flex-end"}>
+              <HStack gap={"20%"}>
+                {post.data.footer?.map((footerpost.data, i) => (
+                  <Button key={i} variant={"ghost"}>
+                    <Icon as={footerpost.data.icon} mr={1} />
+                    <Text>{footerpost.data.count}</Text>
+                  </Button>
+                ))}
+              </HStack>
+            </Flex> */}
+          </Stack>
+        </Box>
+      ))}

@@ -69,7 +69,7 @@ const AnalyticsPost = () => {
     <Box>
       {PostDetail.map((item) => (
         <Box
-          borderTop={"3px solid #543EE0"}
+          borderTop={"3px solid brand.600"}
           //   borderRadius={"lg"}
           key={item.title}
           mb={6}
@@ -128,10 +128,10 @@ const AnalyticsPost = () => {
             </Flex>
             <Box my={2}>
               <Button
-                bg={"#543EE0"}
+                bg={"brand.600"}
                 color={"white"}
                 _hover={{
-                  bg: "#715fe3",
+                  bg: "brand.700",
                 }}
               >
                 View post activity

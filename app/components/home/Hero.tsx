@@ -1,10 +1,18 @@
 "use client";
 
-import { Box, Center, Heading, Link, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  Link,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
 
 const Hero = () => {
+  const { colorMode } = useColorMode();
   return (
     <Center
       h="764px"
@@ -20,7 +28,10 @@ const Hero = () => {
         px={"32px"}
         mx={"auto"}
       >
-        <Box maxW="850px" color="white">
+        <Box
+          maxW="850px"
+          color={colorMode === "light" ? "brand.100" : "gray.200"}
+        >
           <Heading fontSize="48px">
             Welcome to Chatter: A Haven for Text-Based Content
           </Heading>
@@ -31,11 +42,10 @@ const Hero = () => {
           <Link
             as={NextLink}
             href="/pages/signin"
-            // w="100%"
             maxW="400px"
-            bg="#543EE0"
+            bg="brand.600"
             color="white"
-            _hover={{ bg: "#715fe3" }}
+            _hover={{ bg: "brand.700" }}
             py="15px"
             px="45px"
             borderRadius="md"

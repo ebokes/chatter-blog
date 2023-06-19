@@ -1,18 +1,12 @@
 "use client";
 
+import Signin from "@/app/components/Signin";
+import Signup from "@/app/components/Signup";
 import {
   Box,
-  Button,
   Center,
-  Flex,
-  FormControl,
   HStack,
   Heading,
-  Icon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
   Stack,
   Tab,
   TabIndicator,
@@ -21,12 +15,12 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import React from "react";
-import Signupp from "@/app/components/Signupp";
-import Signinn from "@/app/components/Signinn";
 
-export default function Auth() {
+export default function AuthNav() {
+  const { colorMode } = useColorMode();
   return (
     <Stack mx="auto">
       <HStack align={"stretch"}>
@@ -62,19 +56,33 @@ export default function Auth() {
                 mx={"20px"}
               >
                 <Tab flex={1}>
-                  <Box>REGISTER</Box>
+                  <Box>
+                    <Heading
+                      color={colorMode === "light" ? "brand.850" : "brand.300"}
+                      fontSize={"18px"}
+                    >
+                      REGISTER
+                    </Heading>
+                  </Box>
                 </Tab>
                 <Tab flex={1} justifySelf={"flex-end"}>
-                  <Box>LOGIN</Box>
+                  <Box>
+                    <Heading
+                      fontSize={"18px"}
+                      color={colorMode === "light" ? "brand.850" : "brand.300"}
+                    >
+                      LOG IN
+                    </Heading>
+                  </Box>
                 </Tab>
               </TabList>
-              <TabIndicator mt="-1.5px" height="6px" bg="#543EE0" />
+              <TabIndicator mt="-1.5px" height="4px" bg="#543EE0" />
               <TabPanels>
                 <TabPanel>
-                  <Signupp />
+                  <Signup />
                 </TabPanel>
                 <TabPanel>
-                  <Signinn />
+                  <Signin />
                 </TabPanel>
               </TabPanels>
             </Tabs>
