@@ -42,6 +42,11 @@ import {
 import { SlPeople } from "react-icons/sl";
 import NextLink from "next/link";
 import DashboardWrapper from "./DashboardWrapper";
+import { auth } from "../lib/firebase";
+import { useRouter } from "next/navigation";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+import Loading from "../loader/Loading";
+// import { useRouter } from "next/router";
 // import { useSession, signOut } from "next-auth/react";
 
 interface ItemProps {
@@ -82,35 +87,42 @@ const Personal: Array<ItemProps> = [
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
-  return (
-    <Box minH="100vh">
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-      >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
-      <Box
-        ml={{ base: 0, md: "299px" }}
-        p="4"
-        bg={colorMode === "light" ? "brand.300" : "brand.800"}
-      >
-        <DashboardWrapper>{children}</DashboardWrapper>
+  const [user, loading, error] = useAuthState(auth);
+
+  if (error) return <Text>Oops, something went wrong</Text>;
+  if (loading) return <Loading />;
+
+  if (user) {
+    return (
+      <Box minH="100vh">
+        <SidebarContent
+          onClose={() => onClose}
+          display={{ base: "none", md: "block" }}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+        >
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        {/* mobilenav */}
+        <MobileNav onOpen={onOpen} />
+        <Box
+          ml={{ base: 0, md: "241px" }}
+          p="4"
+          bg={colorMode === "light" ? "brand.300" : "brand.800"}
+        >
+          <DashboardWrapper>{children}</DashboardWrapper>
+        </Box>
       </Box>
-    </Box>
-  );
+    );
+  }
 }
 
 interface SidebarProps extends BoxProps {
@@ -119,16 +131,26 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { colorMode } = useColorMode();
+  const router = useRouter();
+  const [signOut, loading, error] = useSignOut(auth);
+  // const [user, eloading, eerror] = useAuthState(auth);
+  // console.log(user);
+  const Logout = () => {
+    signOut();
+    router.push("/");
+  };
+
   return (
     // Top navbar
     <Box
       transition="3s ease"
-      // bg="white"
+      // bg="transparent"
       bg={colorMode === "light" ? "white" : "dark"}
       color={colorMode === "light" ? "#171923" : "#F9FAFB"}
       borderRight="1px"
       borderRightColor={colorMode === "light" ? "brand.400" : "brand.450"}
-      w={{ base: "full", md: "300px" }}
+      w={{ base: "full", md: "240px" }}
+      // w="230px"
       pos="fixed"
       right={0}
       left={0}
@@ -143,22 +165,16 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      <Stack ml={"55px"} spacing={6}>
+      <Stack ml={"35px"} spacing={6}>
         <Stack>
           <Text fontSize={"18px"}>Overview</Text>
           <Stack pl={"20px"} spacing={4}>
             {LinkItems.map((item) => (
-              <Button
-                variant={"ghost"}
-                // as={NextLink}
-                // href={item.href}
-                key={item.name}
-                _hover={{ fontWeight: "semibold", variant: "ghost" }}
-              >
-                {/* <HStack> */}
-                <NavItem icon={item.icon}>{item.name}</NavItem>
-                {/* </HStack> */}
-              </Button>
+              <Box key={item.name}>
+                <NavItem icon={item.icon} href={item.href}>
+                  {item.name}
+                </NavItem>
+              </Box>
             ))}
           </Stack>
         </Stack>
@@ -168,17 +184,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           </Text>
           <Stack pl={"20px"} spacing={2}>
             {Tags.map((item) => (
-              <Button
-                variant={"ghost"}
-                // as={NextLink}
-                // href="/fix"
-                key={item.name}
-                _hover={{ fontWeight: "semibold", variant: "ghost" }}
-              >
-                {/* <Box> */}
+              <Box key={item.name}>
                 <NavItem icon={item.icon}>{item.name}</NavItem>
-                {/* </Box> */}
-              </Button>
+              </Box>
             ))}
           </Stack>
         </Stack>
@@ -186,43 +194,49 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           <Text fontSize={"18px"}>Personal</Text>
           <Stack pl={"20px"}>
             {Personal.map((item) => (
-              <Button
-                variant={"ghost"}
-                // as={NextLink}
-                // href="/fix"
-                key={item.name}
-                textDecor={"none"}
-                _hover={{ fontWeight: "semibold", variant: "ghost" }}
-              >
-                {/* <Box> */}
+              <Box key={item.name}>
                 <NavItem icon={item.icon}>{item.name}</NavItem>
-                {/* </Box> */}
-              </Button>
+              </Box>
             ))}
           </Stack>
         </Stack>
-        <HStack color={"red"}>
+        {/* <HStack color={"red"} onClick={Logout} cursor={"pointer"}>
           <Text>Logout</Text>
           <FiLogOut size={"18px"} />
-        </HStack>
+        </HStack> */}
+        <Stack pl={"20px"}>
+          <Button
+            leftIcon={<FiLogOut size={"18px"} />}
+            onClick={Logout}
+            isLoading={loading}
+            color={"red"}
+            variant={"ghost"}
+            _hover={{ variant: "ghost" }}
+            _active={{ variant: "ghost" }}
+            w={"30px"}
+          >
+            Logout
+          </Button>
+        </Stack>
       </Stack>
     </Box>
   );
 };
 
-const NavItem = ({ icon, children, ...rest }: any) => {
+const NavItem = ({ icon, href, key, children, ...rest }: any) => {
   return (
     <Link
-      href="#"
+      as={NextLink}
+      href={href || "#"}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
       <Flex
         align="center"
-        mx="4"
-        borderRadius="lg"
+        // mx="4px"
+        // borderRadius="lg"
         role="group"
-        cursor="pointer"
+        // cursor="pointer"
         {...rest}
       >
         {icon && <Icon mr="4" fontSize="16" boxSize={5} as={icon} />}
@@ -240,12 +254,19 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   // const session = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const [show, setShow] = useState(false);
+  const router = useRouter();
+  const [signOut, loading, error] = useSignOut(auth);
+
+  const Logout = () => {
+    signOut();
+    router.push("/");
+  };
 
   const handleToggle = () => setShow(!show);
   return (
     <Box
-      w={"97.5vw"}
-      ml={"auto"}
+      w={"100vw"}
+      // ml={"auto"}
       // mx={"auto"}
       // border={"1px solid red"}
       // zIndex={"5"}
@@ -270,45 +291,49 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
           aria-label="open menu"
           icon={<FiMenu />}
         />
-        <IconButton
-          onClick={handleToggle}
-          icon={<MdSearch />}
-          aria-label="Search"
-        />
-        <HStack justify={"space-between"} w={"65%"} pos={"relative"}>
+
+        <HStack justify={"flex-end"} w={"90%"} pos={"relative"}>
           {show && (
-            <Icon
-              as={MdSearch}
-              pos={"absolute"}
-              boxSize={"26px"}
-              left={"5px"}
-              opacity={0.7}
-            />
+            <>
+              {/* <Icon
+                as={MdSearch}
+                pos={"absolute"}
+                boxSize={"26px"}
+                left={"5px"}
+                opacity={0.7}
+              /> */}
+
+              <Input
+                maxW="20rem"
+                placeholder="Search Chatter..."
+                borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
+                borderRadius="5px"
+                // display={{ base: "none", md: "block" }}
+                justifySelf={"flex-start"}
+                // pl="35px"
+              />
+            </>
           )}
-          <Input
-            maxW="20rem"
-            placeholder="Search Chatter..."
-            borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-            borderRadius="5px"
-            // display={{ base: "none", md: "block" }}
-            justifySelf={"flex-start"}
-            pl="35px"
-          />
-          <Button
-            aria-label="Toggle Color Mode"
-            onClick={toggleColorMode}
-            mr={5}
-            _focus={{ boxShadow: "none" }}
-            w="fit-content"
-            variant={"ghost"}
-            _hover={{ variant: "ghost" }}
-            _active={{ variant: "ghost" }}
-          >
-            {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
-          </Button>
+          <HStack>
+            <IconButton
+              onClick={handleToggle}
+              icon={<MdSearch />}
+              aria-label="Toggle Search Bar"
+              variant={"ghost"}
+              _hover={{ variant: "ghost" }}
+            />
+
+            <IconButton
+              aria-label="Toggle Color Mode"
+              onClick={toggleColorMode}
+              variant={"ghost"}
+              _hover={{ variant: "ghost" }}
+              icon={colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
+            />
+          </HStack>
           <HStack spacing={{ base: "0", md: "6" }}>
             <IconButton
-              size="lg"
+              // size="lg"
               variant="ghost"
               aria-label="open menu"
               icon={<FiBell />}
@@ -344,7 +369,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   <MenuItem>Settings</MenuItem>
                   <MenuItem>Billing</MenuItem>
                   <MenuDivider />
-                  <MenuItem>Sign out</MenuItem>
+                  <MenuItem onClick={Logout}>Sign out</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

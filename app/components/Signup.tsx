@@ -1,8 +1,6 @@
-"use client";
-
+import React, { useState } from "react";
 import {
   Button,
-  ButtonGroup,
   Center,
   Flex,
   FormControl,
@@ -14,69 +12,46 @@ import {
   InputRightElement,
   Select,
   Stack,
-  VStack,
+  Text,
   useColorMode,
 } from "@chakra-ui/react";
-import React, { ReactElement, useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaLinkedin } from "react-icons/fa";
-import { signIn } from "next-auth/react";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebase";
 import {
-  FieldErrors,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
-import {
-  emailValidate,
   firstNameValidate,
   lastNameValidate,
+  emailValidate,
   passwordValidate,
 } from "../utils/form-validate";
-import { IconType } from "react-icons";
 import { FiEye } from "react-icons/fi";
 import { RxEyeClosed } from "react-icons/rx";
-import { auth } from "../lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-// interface PasswordInputProps {
-//   icon?: ReactElement<IconType>;
-//   // password?: string;
-// }
+import { useForm } from "react-hook-form";
+import { FIREBASE_ERRORS } from "../lib/errors";
 
 interface SignUpForm {
   firstName: string;
   lastName: string;
-  email: string;
   joiningAs: string;
+  email: string;
   password: string;
 }
 
-export default async function Signup({
-  email,
-  password,
-}: SignUpForm): Promise<React.JSX.Element> {
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
-
+const SignUp: React.FC = () => {
+  const { colorMode } = useColorMode();
+  const [showPassword, setShowPassword] = useState(false);
+  const [createUserWithEmailAndPassword, user, loading, authError] =
+    useCreateUserWithEmailAndPassword(auth);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpForm>();
 
-  // const formSubmit = (data: SignUpForm) => console.log(data);
-  const { colorMode } = useColorMode();
-
-  const formSubmit = async (data: SignUpForm) => {
-    try {
-      const { email, password } = data;
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User created successfully");
-    } catch (error) {
-      console.error("Error creating user:", error);
-    }
+  const onSubmit = (data: SignUpForm) => {
+    createUserWithEmailAndPassword(data.email, data.password);
   };
+
+  const handleClick = () => setShowPassword(!showPassword);
 
   return (
     <Stack mx="auto">
@@ -91,18 +66,20 @@ export default async function Signup({
             >
               Register as a Writer/Reader
             </Heading>
-            <form onSubmit={handleSubmit(formSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Flex flexDir="column" gap={6}>
                 <HStack gap={6} flexDir={{ base: "column", sm: "row" }}>
                   <FormControl>
                     <label>First Name</label>
                     <Input
+                      // name="firstName"
                       type="text"
                       placeholder="Enter First name"
                       border="1px  solid"
                       borderColor={
                         colorMode === "light" ? "brand.400" : "brand.450"
                       }
+                      // onChange={onChange}
                       // required
                       {...register("firstName", firstNameValidate)}
                     />
@@ -125,7 +102,6 @@ export default async function Signup({
                     />
                     <FormErrorMessage>
                       {errors.lastName && errors.lastName.message}
-                      {/* aria-invalid={errors.lastName ? "true" : "false"} */}
                     </FormErrorMessage>
                   </FormControl>
                 </HStack>
@@ -133,6 +109,7 @@ export default async function Signup({
                   <label>You are joining as?</label>
                   <Select
                     {...register("joiningAs")}
+                    name="joiningAs"
                     border="1px  solid"
                     borderColor={
                       colorMode === "light" ? "brand.400" : "brand.450"
@@ -164,7 +141,7 @@ export default async function Signup({
                   <InputGroup size="md">
                     <Input
                       pr="4.5rem"
-                      type={show ? "text" : "password"}
+                      type={showPassword ? "text" : "password"}
                       placeholder="Enter password"
                       // required
                       border="1px  solid"
@@ -187,7 +164,7 @@ export default async function Signup({
                         _active={{ variant: "ghost" }}
                         opacity={0.7}
                       >
-                        {show ? (
+                        {showPassword ? (
                           <FiEye size={"20px"} />
                         ) : (
                           <RxEyeClosed size={"20px"} />
@@ -196,45 +173,27 @@ export default async function Signup({
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
+
+                {authError && (
+                  <Text textAlign="center" mt={2} fontSize="10pt" color="red">
+                    {
+                      FIREBASE_ERRORS[
+                        authError?.message as keyof typeof FIREBASE_ERRORS
+                      ]
+                    }
+                  </Text>
+                )}
+
                 <Button
                   w="100%"
                   bg="brand.600"
                   color="white"
                   type="submit"
                   _hover={{ bg: "brand.700" }}
+                  isLoading={loading}
                 >
                   Create account
                 </Button>
-                <ButtonGroup display={"flex"} flexDir={"column"} spacing={0}>
-                  <Button
-                    border="1px  solid"
-                    borderColor={
-                      colorMode === "light" ? "brand.400" : "brand.450"
-                    }
-                    w="full"
-                    borderRadius="md"
-                    p="5px"
-                    textAlign="center"
-                    onClick={() => signIn("google")}
-                    leftIcon={<FcGoogle size={"24px"} />}
-                  >
-                    Sign up with google
-                  </Button>
-                  <Button
-                    border="1px  solid"
-                    borderColor={
-                      colorMode === "light" ? "brand.400" : "brand.450"
-                    }
-                    // variant="solid"
-                    w="full"
-                    borderRadius="md"
-                    p="5px"
-                    mt="21px"
-                    leftIcon={<FaLinkedin color="#0077b5" size={"24px"} />}
-                  >
-                    Sign up with Linkedin
-                  </Button>
-                </ButtonGroup>
               </Flex>
             </form>
           </Stack>
@@ -242,4 +201,5 @@ export default async function Signup({
       </HStack>
     </Stack>
   );
-}
+};
+export default SignUp;

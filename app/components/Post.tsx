@@ -86,8 +86,6 @@ const Post = ({ post }: any) => {
                     bg={colorMode === "light" ? "brand.800" : "brand.400"}
                     borderRadius={"full"}
                   />
-                  {/* <Spacer /> */}
-                  {/* <Text>{post.data.postedOn}</Text> */}
                   <Text>
                     {new Date(post.data.postedOn).toLocaleString("en-US", {
                       day: "numeric",

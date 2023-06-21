@@ -13,17 +13,26 @@ import {
   InputGroup,
   InputRightElement,
   Stack,
+  Text,
   VStack,
   useColorMode,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaLinkedin } from "react-icons/fa";
-import { signIn } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+
 import { emailValidate, passwordValidate } from "../utils/form-validate";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { RxEyeClosed } from "react-icons/rx";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "../lib/firebase";
+import {
+  useAuthState,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebase";
+import { FIREBASE_ERRORS } from "../lib/errors";
+import { useRouter } from "next/navigation";
+// import { useLogin } from "../hooks/auth";
 
 interface SignInForm {
   email: string;
@@ -31,19 +40,42 @@ interface SignInForm {
 }
 
 export default function Signin() {
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
-
+  const { colorMode } = useColorMode();
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClick = () => setShowPassword(!showPassword);
+  const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
+    useSignInWithEmailAndPassword(auth);
+  const [user, loading, error] = useAuthState(auth);
+  // const { login, isLoading } = useLogin();
+  // console.log("SignIn", signInUser?.user);
+  // console.log("UseAuthState", user);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInForm>();
+  const router = useRouter();
 
-  // const formSubmit: SubmitHandler<FieldValues> = (data) => console.log(data);
-  const formSubmit = (data: SignInForm) => console.log(data);
+  // async function handleLogin(data: SignInForm) {
+  //   const succeeded = await login({
+  //     email: data.email,
+  //     password: data.password,
+  //     redirectTo: "/pages/dashboard",
+  //   });
+  //   // if (succeeded) reset();
+  //   if (succeeded) console.log("SignIn successfull");
+  // }
 
-  const { colorMode } = useColorMode();
+  const onSubmit = (data: SignInForm) => {
+    signInWithEmailAndPassword(data.email, data.password);
+  };
+
+  useEffect(() => {
+    if (user) {
+      router.push("/pages/dashboard");
+    }
+  }, [user, router]);
+
   return (
     <Stack mx="auto">
       <HStack align={"stretch"}>
@@ -57,7 +89,7 @@ export default function Signin() {
             >
               Welcome back
             </Heading>
-            <form onSubmit={handleSubmit(formSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Flex flexDir="column" gap={6}>
                 <FormControl>
                   <label>Email</label>
@@ -80,7 +112,7 @@ export default function Signin() {
                   <InputGroup size="md">
                     <Input
                       pr="4.5rem"
-                      type={show ? "text" : "password"}
+                      type={showPassword ? "text" : "password"}
                       placeholder="Enter password"
                       // required
                       border="1px  solid"
@@ -100,7 +132,7 @@ export default function Signin() {
                         _active={{ variant: "ghost" }}
                         opacity={0.7}
                       >
-                        {show ? (
+                        {showPassword ? (
                           <FiEye size={"20px"} />
                         ) : (
                           <RxEyeClosed size={"20px"} />
@@ -112,44 +144,26 @@ export default function Signin() {
                     {errors.password && errors.password.message}
                   </FormErrorMessage>
                 </FormControl>
+                {signInError && (
+                  <Text textAlign="center" mt={2} fontSize="10pt" color="red">
+                    {
+                      FIREBASE_ERRORS[
+                        signInError?.message as keyof typeof FIREBASE_ERRORS
+                      ]
+                    }
+                  </Text>
+                )}
                 <Button
                   w="100%"
                   bg="brand.600"
                   color="white"
                   type="submit"
+                  isLoading={signInLoading}
+                  // isLoading={isLoading}
                   _hover={{ bg: "brand.700" }}
                 >
                   Login
                 </Button>
-                <ButtonGroup display={"flex"} flexDir={"column"} spacing={0}>
-                  <Button
-                    border="1px solid"
-                    borderColor={
-                      colorMode === "light" ? "brand.400" : "brand.450"
-                    }
-                    w="full"
-                    borderRadius="md"
-                    p="5px"
-                    textAlign="center"
-                    onClick={() => signIn("google")}
-                    leftIcon={<FcGoogle size={"24px"} />}
-                  >
-                    Sign in with google
-                  </Button>
-                  <Button
-                    border="1px solid"
-                    borderColor={
-                      colorMode === "light" ? "brand.400" : "brand.450"
-                    }
-                    w="full"
-                    borderRadius="md"
-                    p="5px"
-                    mt="21px"
-                    leftIcon={<FaLinkedin color="#0077b5" size={"24px"} />}
-                  >
-                    Sign in with Linkedin
-                  </Button>
-                </ButtonGroup>
               </Flex>
             </form>
           </Stack>

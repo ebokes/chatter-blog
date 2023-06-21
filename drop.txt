@@ -15,238 +15,209 @@ Text
 color={colorMode === "light" ? "brand.900" : "brand.350"}
 
 
+import React, { useState } from "react";
+import {
+  Button,
+  Center,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  HStack,
+  Heading,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Select,
+  Stack,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebase";
+import {
+  firstNameValidate,
+  lastNameValidate,
+  emailValidate,
+  passwordValidate,
+} from "../utils/form-validate";
+import { FiEye } from "react-icons/fi";
+import { RxEyeClosed } from "react-icons/rx";
+import { useForm } from "react-hook-form";
+import { FIREBASE_ERRORS } from "../lib/errors";
 
-function SlideEx() {
-  const { isOpen, onToggle } = useDisclosure()
-
-  return (
-    <>
-      <Button onClick={onToggle}>Click Me</Button>
-      <Slide direction='bottom' in={isOpen} style={{ zIndex: 10 }}>
-        <Box
-          p='40px'
-          color='white'
-          mt='4'
-          bg='teal.500'
-          rounded='md'
-          shadow='md'
-        >
-          <Lorem count={2} />
-        </Box>
-      </Slide>
-    </>
-  )
+interface SignUpForm {
+  firstName: string;
+  lastName: string;
+  joiningAs: string;
+  email: string;
+  password: string;
 }
 
+const SignUp: React.FC = () => {
+  const { colorMode } = useColorMode();
+  const [showPassword, setShowPassword] = useState(false);
+  const [createUserWithEmailAndPassword, user, loading, authError] =
+    useCreateUserWithEmailAndPassword(auth);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpForm>();
 
+  const onSubmit = (data: SignUpForm) => {
+    createUserWithEmailAndPassword(data.email, data.password);
+  };
 
+  const handleClick = () => setShowPassword(!showPassword);
 
-
-
-<HStack pos={"absolute"} top={16} height={"44px"}>
-            <IconButton
-              onClick={() => setOpen(!open)}
-              aria-label="Add media"
-              icon={open ? <TfiPlus /> : <TfiClose />}
-              fontSize={"20px"}
-              border={"1px solid black"}
-              borderRadius={"50%"}
-              variant="outline"
-            />
-            {!open && (
-              <HStack zIndex={6}>
-                <Divider orientation="horizontal" h={12} color={"#543EE0"} />
-                <HStack>
-                  <Slide direction="right" in={isOpen} style={{ zIndex: 10 }}>
-                    <IconButton
-                      aria-label="Add Image"
-                      icon={<CiImageOn />}
-                      fontSize={"25px"}
-                      border={"1px solid #543EE0"}
-                      borderRadius={"50%"}
-                      color={"#543EE0"}
-                      variant="outline"
+  return (
+    <Stack mx="auto">
+      <HStack align={"stretch"}>
+        <Center mx="auto" flex={1}>
+          <Stack alignSelf={"flex-start"} maxW={"520px"} w={"full"} py={"35px"}>
+            <Heading
+              textAlign="center"
+              mb="26px"
+              mt={"30px"}
+              color={colorMode === "light" ? "brand.850" : "brand.300"}
+            >
+              Register as a Writer/Reader
+            </Heading>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Flex flexDir="column" gap={6}>
+                <HStack gap={6} flexDir={{ base: "column", sm: "row" }}>
+                  <FormControl>
+                    <label>First Name</label>
+                    <Input
+                      // name="firstName"
+                      type="text"
+                      placeholder="Enter First name"
+                      border="1px  solid"
+                      borderColor={
+                        colorMode === "light" ? "brand.400" : "brand.450"
+                      }
+                      // onChange={onChange}
+                      // required
+                      {...register("firstName", firstNameValidate)}
                     />
-                    <IconButton
-                      aria-label="Add Image"
-                      icon={<CiVideoOn />}
-                      fontSize={"25px"}
-                      border={"1px solid #543EE0"}
-                      borderRadius={"50%"}
-                      color={"#543EE0"}
-                      variant="outline"
+
+                    <FormErrorMessage>
+                      {errors.firstName && errors.firstName.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl>
+                    <label>Last Name</label>
+                    <Input
+                      type="text"
+                      placeholder="Enter Last name"
+                      // required
+                      border="1px  solid"
+                      borderColor={
+                        colorMode === "light" ? "brand.400" : "brand.450"
+                      }
+                      {...register("lastName", lastNameValidate)}
                     />
-                  </Slide>
+                    <FormErrorMessage>
+                      {errors.lastName && errors.lastName.message}
+                    </FormErrorMessage>
+                  </FormControl>
                 </HStack>
-              </HStack>
-            )}
-          </HStack>
-
-
-
-
-           querySnapshot.docChanges.map(doc => console.log(doc))
-
-
-
-
-
-
-
-
-
-
-
-           // // import React from "react";
-// // import { createContext, useEffect, useState } from "react";
-// // import { collection, getDocs, setDoc, doc } from "firebase/firestore";
-// // import { db } from "../lib/firebase";
-
-// // interface User {
-// //   // Define your user properties here
-// // }
-
-// // interface Post {
-// //   // Define your post properties here
-// // }
-
-// // interface ChatterContextProps {
-// //   users: User[];
-// //   posts: Post[];
-// // }
-
-// // const ChatterContext = React.createContext<ChatterContextProps>(
-// //   {} as ChatterContextProps
-// // );
-
-// // const ChatterProvider: React.FC<React.ReactNode> = ({ children }: any) => {
-// //   const [users, setUsers] = useState<User[]>([]);
-// //   const [posts, setPosts] = useState<Post[]>([]);
-// //   console.log(users);
-
-// //   useEffect(() => {
-// //     const getUsers = async () => {
-// //       const querySnapshot = await getDocs(collection(db, "users"));
-
-// //       querySnapshot.docs.map((doc) => console.log(doc));
-// //       //   const fetchedUsers: User[] = querySnapshot.docs.map(
-// //       //     (doc) => doc.data() as User
-// //       //   );
-// //       //   setUsers(fetchedUsers);
-// //     };
-// //     getUsers();
-// //   }, []);
-
-// //   return (
-// //     <ChatterContext.Provider value={{ users, posts }}>
-// //       {children}
-// //     </ChatterContext.Provider>
-// //   );
-// // };
-// // export { ChatterContext, ChatterProvider };
-
-
-
-
-{posts.map((post) => (
-        <Box
-          // border={"1px solid "}
-          // borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-          borderRadius={"lg"}
-          key={post.id}
-          mb={6}
-          color={colorMode === "light" ? "brand.800" : "brand.400"}
-        >
-          <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
-            <Box>
-              <Flex gap={2} mb={"15px"}>
-                <Avatar size="md" name={post.data.author} />
-                <Box>
-                  <Heading fontSize={"20px"} fontWeight={600} mb={1}>
-                    {post.data.author}
-                  </Heading>
-                  <HStack flexWrap={"wrap"}>
-                    <Text>{post.data.role}</Text>
-                    <Box
-                      boxSize={"4px"}
-                      bg={colorMode === "light" ? "brand.800" : "brand.400"}
-                      borderRadius={"full"}
-                    />
-                    {/* <Spacer /> */}
-                    <Text>
-                      {new Date(post.data.postedOn).toLocaleString("en-US", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </Text>
-                  </HStack>
-                </Box>
-              </Flex>
-              <Flex flex={0.7}>
-                <Image
-                  src={post.data.bannerImg}
-                  width={612}
-                  height={242}
-                  alt="img"
-                  style={{ width: "auto", height: "auto" }}
-                />
-              </Flex>
-              <Box>
-                <Stack flex={1}>
-                  <Heading fontWeight={500} fontSize={"24px"} mt={"10px"}>
-                    {post.data.title}
-                  </Heading>
-                  <HStack>
-                    <Icon as={VscBook} /> <Text>{post.data.postLength}</Text>
-                  </HStack>
-                  <Text fontSize={"18px"} mt={"10px"}>
-                    {post.data.body}
-                  </Text>
-                </Stack>
-              </Box>
-            </Box>
-            <HStack>
-              {/* <Box>
-                <IconButton
-                  variant={"ghost"}
-                  onClick={handleBookmark}
-                  aria-label="Bookmark"
-                  icon={
-                    isBookmarked ? (
-                      <BsBookmarkCheckFill size={"20px"} />
-                    ) : (
-                      <BsBookmarkPlus size={"20px"} />
-                    )
-                  }
-                />
-              </Box> */}
-              {/* <HStack>
-                {post.data.tags.map((tag, i) => (
-                  <Button
-                    variant={"outline"}
-                    px={"8px"}
-                    h={"32px"}
-                    fontSize={"14px"}
-                    key={i}
+                <FormControl>
+                  <label>You are joining as?</label>
+                  <Select
+                    {...register("joiningAs")}
+                    name="joiningAs"
+                    border="1px  solid"
+                    borderColor={
+                      colorMode === "light" ? "brand.400" : "brand.450"
+                    }
+                    defaultValue={"writer"}
                   >
-                    {tag}
-                    // {i > 1 && `+${post.data.tags.length - 2}`}
-                  </Button>
-                ))}
-              </HStack> */}
-            </HStack>
-            {/* <Flex justify={"flex-end"}>
-              <HStack gap={"20%"}>
-                {post.data.footer?.map((footerpost.data, i) => (
-                  <Button key={i} variant={"ghost"}>
-                    <Icon as={footerpost.data.icon} mr={1} />
-                    <Text>{footerpost.data.count}</Text>
-                  </Button>
-                ))}
-              </HStack>
-            </Flex> */}
+                    <option value="writer">Writer</option>
+                    <option value="reader">Reader</option>
+                  </Select>
+                </FormControl>
+                <FormControl>
+                  <label>Email</label>
+                  <Input
+                    type="text"
+                    placeholder="Enter email"
+                    border="1px  solid"
+                    borderColor={
+                      colorMode === "light" ? "brand.400" : "brand.450"
+                    }
+                    // required
+                    {...register("email", emailValidate)}
+                  />
+                  <FormErrorMessage>
+                    {errors.email && errors.email?.message}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl>
+                  <label>Password</label>
+                  <InputGroup size="md">
+                    <Input
+                      pr="4.5rem"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter password"
+                      // required
+                      border="1px  solid"
+                      borderColor={
+                        colorMode === "light" ? "brand.400" : "brand.450"
+                      }
+                      {...register("password", passwordValidate)}
+                    />
+                    <FormErrorMessage>
+                      {errors.password && errors.password.message}
+                    </FormErrorMessage>
+                    <InputRightElement width="4.5rem">
+                      <Button
+                        h="1.75rem"
+                        size="sm"
+                        onClick={handleClick}
+                        mr="-15.5px"
+                        variant="ghost"
+                        _hover={{ variant: "ghost" }}
+                        _active={{ variant: "ghost" }}
+                        opacity={0.7}
+                      >
+                        {showPassword ? (
+                          <FiEye size={"20px"} />
+                        ) : (
+                          <RxEyeClosed size={"20px"} />
+                        )}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+
+                {authError && (
+                  <Text textAlign="center" mt={2} fontSize="10pt" color="red">
+                    {
+                      FIREBASE_ERRORS[
+                        authError?.message as keyof typeof FIREBASE_ERRORS
+                      ]
+                    }
+                  </Text>
+                )}
+
+                <Button
+                  w="100%"
+                  bg="brand.600"
+                  color="white"
+                  type="submit"
+                  _hover={{ bg: "brand.700" }}
+                  isLoading={loading}
+                >
+                  Create account
+                </Button>
+              </Flex>
+            </form>
           </Stack>
-        </Box>
-      ))}
+        </Center>
+      </HStack>
+    </Stack>
+  );
+};
+export default SignUp;

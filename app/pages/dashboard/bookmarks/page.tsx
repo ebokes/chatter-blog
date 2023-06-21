@@ -1,8 +1,7 @@
 "use client";
 
-import DashboardWrapper from "@/app/components/DashboardWrapper";
-import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 const page = () => {
   return <>Bookmarks</>;

@@ -1,5 +1,6 @@
 "use client";
 
+import OAuthButtons from "@/app/components/OAuthButtons";
 import Signin from "@/app/components/Signin";
 import Signup from "@/app/components/Signup";
 import {
@@ -80,9 +81,11 @@ export default function AuthNav() {
               <TabPanels>
                 <TabPanel>
                   <Signup />
+                  <OAuthButtons />
                 </TabPanel>
                 <TabPanel>
                   <Signin />
+                  <OAuthButtons />
                 </TabPanel>
               </TabPanels>
             </Tabs>
