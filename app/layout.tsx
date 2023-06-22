@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import { ColorModeScript } from "@chakra-ui/react";
 import theme from "./utils/theme";
 import { ChatterProvider } from "./context/ChatterContext";
+import Navbar from "./components/Navbar";
 
 // export const metadata = {
 //   title: "Chatter",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <ChatterProvider>
           <Providers>
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+            {/* <Navbar /> */}
             {children}
           </Providers>
         </ChatterProvider>

@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { BsMoonStarsFill, BsSun } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -137,6 +138,7 @@ export default function Navbar() {
 
 const DesktopNav = () => {
   const { colorMode } = useColorMode();
+  const currentRoute = usePathname();
   return (
     <Stack direction={"row"} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
@@ -146,15 +148,25 @@ const DesktopNav = () => {
               <Link
                 p={2}
                 href={navItem.href ?? "#"}
+                borderRadius={"xl"}
+                // border={"2px solid"}
+                border={
+                  currentRoute === navItem.href ? "2px solid" : "0px solid"
+                }
+                borderColor={
+                  currentRoute === navItem.href ? "brand.650" : "transparent"
+                }
+                _hover={{ color: "brand.700" }}
+                _active={{ color: "brand.600" }}
                 fontSize={"sm"}
                 fontWeight={500}
                 // color={"gray.600"}
                 color={colorMode === "light" ? "brand.800" : "gray.400"}
-                _hover={{
-                  textDecoration: "none",
-                  // color: "gray.800",
-                  color: colorMode === "light" ? "brand.800" : "gray.200",
-                }}
+                // _hover={{
+                //   textDecoration: "none",
+                //   // color: "gray.800",
+                //   color: colorMode === "light" ? "brand.800" : "gray.200",
+                // }}
               >
                 {navItem.label}
               </Link>
@@ -300,7 +312,7 @@ interface NavItem {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Feed",
-    href: "/feed",
+    href: "/pages/feed",
     // children: [
     //   {
     //     label: "Explore Design Work",

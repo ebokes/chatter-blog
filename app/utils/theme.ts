@@ -22,6 +22,7 @@ const theme = extendTheme({
       450: "#606477",
       500: "#ffedcc7f",
       600: "#543EE0",
+      650: "#543EE052",
       700: "#715fe3",
       800: "#171923",
       850: "#0f172a", //Heading ==> Light mode

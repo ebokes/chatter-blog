@@ -22,11 +22,13 @@ import Link from "next/link";
 import { ChatterContext } from "../context/ChatterContext";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../lib/firebase";
+import { useAuth } from "../hooks/auth";
 
 const Feed = () => {
   const { posts } = useContext(ChatterContext);
   const { colorMode } = useColorMode();
-  
+  const { user, isLoading } = useAuth();
+
   return (
     <>
       <Flex align={"flex-end"} justify={"space-between"} my={5}>
@@ -36,22 +38,27 @@ const Feed = () => {
           </Heading>
           <Text>Explore different content you’d love </Text>
         </Stack>
-        <Button
-          as={Link}
-          href={"/pages/dashboard/write"}
-          bg={"brand.600"}
-          color={"white"}
-          _hover={{
-            bg: "brand.700",
-          }}
-          leftIcon={<ImPencil />}
-        >
-          Post a content
-        </Button>
+
+        {user && (
+          <Button
+            as={Link}
+            href={"/pages/dashboard/write"}
+            bg={"brand.600"}
+            color={"white"}
+            _hover={{
+              bg: "brand.700",
+            }}
+            leftIcon={<ImPencil />}
+            // display={user ? "unset" : "none"}
+          >
+            Write
+          </Button>
+        )}
       </Flex>
 
       <Tabs position="relative" variant="unstyled">
         <TabList
+          minW={"full"}
           border={`1px solid ${
             colorMode === "dark" ? "rgb(255, 255, 255, .2)" : "#d0d0d0"
           }`}
