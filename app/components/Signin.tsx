@@ -32,7 +32,7 @@ import {
 import { auth } from "../lib/firebase";
 import { FIREBASE_ERRORS } from "../lib/errors";
 import { useRouter } from "next/navigation";
-// import { useLogin } from "../hooks/auth";
+import { useLogin } from "../hooks/auth";
 
 interface SignInForm {
   email: string;
@@ -46,7 +46,7 @@ export default function Signin() {
   const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
     useSignInWithEmailAndPassword(auth);
   const [user, loading, error] = useAuthState(auth);
-  // const { login, isLoading } = useLogin();
+  const { login, isLoading } = useLogin();
   // console.log("SignIn", signInUser?.user);
   // console.log("UseAuthState", user);
   const {
@@ -56,19 +56,19 @@ export default function Signin() {
   } = useForm<SignInForm>();
   const router = useRouter();
 
-  // async function handleLogin(data: SignInForm) {
-  //   const succeeded = await login({
-  //     email: data.email,
-  //     password: data.password,
-  //     redirectTo: "/pages/dashboard",
-  //   });
-  //   // if (succeeded) reset();
-  //   if (succeeded) console.log("SignIn successfull");
-  // }
+  async function handleLogin(data: SignInForm) {
+    const succeeded = await login({
+      email: data.email,
+      password: data.password,
+      redirectTo: "/pages/dashboard",
+    });
+    // if (succeeded) reset();
+    if (succeeded) console.log("SignIn successfull");
+  }
 
-  const onSubmit = (data: SignInForm) => {
-    signInWithEmailAndPassword(data.email, data.password);
-  };
+  // const onSubmit = (data: SignInForm) => {
+  //   signInWithEmailAndPassword(data.email, data.password);
+  // };
 
   useEffect(() => {
     if (user) {
@@ -89,7 +89,7 @@ export default function Signin() {
             >
               Welcome back
             </Heading>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(handleLogin)}>
               <Flex flexDir="column" gap={6}>
                 <FormControl>
                   <label>Email</label>
@@ -158,8 +158,8 @@ export default function Signin() {
                   bg="brand.600"
                   color="white"
                   type="submit"
-                  isLoading={signInLoading}
-                  // isLoading={isLoading}
+                  // isLoading={signInLoading}
+                  isLoading={isLoading}
                   _hover={{ bg: "brand.700" }}
                 >
                   Login

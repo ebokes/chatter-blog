@@ -36,12 +36,6 @@ export default function Navbar() {
   return (
     <Box width="full" bg={colorMode === "light" ? "brand.300" : "brand.800"}>
       <Flex
-        // pos={"fixed"}
-        // right={"0"}
-        // left={"0"}
-        // bg="white"
-        // color="gray.600"
-        // bg={colorMode === "light" ? "#F9FAFB" : "#171923"}
         color={colorMode === "light" ? "brand.800" : "brand.300"}
         minH={"60px"}
         py={{ base: 2 }}
@@ -305,8 +299,8 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Home",
-    href: "/",
+    label: "Feed",
+    href: "/feed",
     // children: [
     //   {
     //     label: "Explore Design Work",

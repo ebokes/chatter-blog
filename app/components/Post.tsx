@@ -19,13 +19,8 @@ import {
 import Image from "next/image";
 import React, { useState } from "react";
 import { VscBook } from "react-icons/vsc";
-import { IoChatbubblesOutline } from "react-icons/io5";
-import { SlLike } from "react-icons/sl";
-import { MdInsertChartOutlined } from "react-icons/md";
 import { IconType } from "react-icons";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
-// import Loading from "../pages/dashboard/loading";
-// import { useRouter } from "next/router";
 
 interface PostDetailProps {
   avatar: string;

@@ -1,56 +1,53 @@
-// // import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
-// // import { auth, db } from "../lib/firebase";
-// // import {
-// //   signInWithEmailAndPassword,
-// //   createUserWithEmailAndPassword,
-// // } from "firebase/auth";
-// // import { useToast } from "@chakra-ui/react";
-// // import { useNavigate } from "react-router-dom";
-// // import { useEffect, useState } from "react";
-// // import { DASHBOARD, LOGIN } from "../App";
-// // import isUsernameExists from "../utils/IsUsernameExist";
-// // import { doc, getDoc, setDoc } from "firebase/firestore";
-
 import { useToast } from "@chakra-ui/react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
-import { auth } from "../lib/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useEffect, useState } from "react";
+import { auth, db } from "../lib/firebase";
 import { useRouter } from "next/navigation";
-import Error from "next/error";
+import { setDoc, doc, getDoc, DocumentData } from "firebase/firestore";
+import isUsernameExists from "../utils/isUsernameExists";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 
-// import { useToast } from "@chakra-ui/react";
-// import {
-//   signInWithEmailAndPassword,
-//   createUserWithEmailAndPassword,
-// } from "firebase/auth";
-// import { doc, getDoc, setDoc } from "firebase/firestore";
-// import { useState, useEffect } from "react";
-// import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
-// import { auth, db } from "../lib/firebase";
+export function useAuth() {
+  const [authUser, authLoading, error] = useAuthState(auth);
+  const [isLoading, setLoading] = useState(true);
+  const [user, setUser] = useState<DocumentData | null>(null);
+  const [Testuser, loading, eerror] = useAuthState(auth);
 
-// export function useAuth() {
-//   const [authUser, authLoading, error] = useAuthState(auth);
-//   const [isLoading, setLoading] = useState(true);
-//   const [user, setUser] = useState(null);
+  console.log("TestData", Testuser);
+  console.log("UseAuth now", user);
 
-//   useEffect(() => {
-//     async function fetchData() {
-//       setLoading(true);
-//       const ref = doc(db, "users", authUser.uid);
-//       const docSnap = await getDoc(ref);
-//       setUser(docSnap.data());
-//       setLoading(false);
-//     }
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      if (authUser) {
+        const ref = doc(db, "users", authUser.uid);
+        const docSnap = await getDoc(ref);
+        setUser(docSnap.data() as DocumentData);
+      }
+      setLoading(false);
+    }
 
-//     if (!authLoading) {
-//       if (authUser) fetchData();
-//       else setLoading(false); // Not signed in
-//     }
-//   }, [authLoading]);
+    if (!authLoading) {
+      if (authUser) fetchData();
+      else setLoading(false); // Not signed in
+    }
+  }, [authLoading, authUser]);
 
-//   return { user, isLoading, error };
-// }
+  return { user, isLoading, error };
+}
 
+interface SignUpProps {
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  joiningAs: string;
+  redirectTo: string;
+}
 interface SignInProps {
   email: string;
   password: string;
@@ -99,86 +96,92 @@ export function useLogin() {
   return { login, isLoading };
 }
 
-// export function useRegister() {
-//   const [isLoading, setLoading] = useState(false);
-//   const toast = useToast();
-//   const navigate = useNavigate();
+export function useRegister() {
+  const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
+  const router = useRouter();
 
-//   async function register({
-//     username,
-//     email,
-//     password,
-//     redirectTo = DASHBOARD,
-//   }) {
-//     setLoading(true);
+  async function register({
+    firstName,
+    lastName,
+    joiningAs,
+    username,
+    email,
+    password,
+    redirectTo = "/pages/dashboard",
+  }: SignUpProps) {
+    setLoading(true);
 
-//     const usernameExists = await isUsernameExists(username);
+    const usernameExists = await isUsernameExists(username);
 
-//     if (usernameExists) {
-//       toast({
-//         title: "Username already exists",
-//         status: "error",
-//         isClosable: true,
-//         position: "top",
-//         duration: 5000,
-//       });
-//       setLoading(false);
-//     } else {
-//       try {
-//         const res = await createUserWithEmailAndPassword(auth, email, password);
+    if (usernameExists) {
+      toast({
+        title: "Username already exists",
+        status: "error",
+        isClosable: true,
+        position: "top",
+        duration: 5000,
+      });
+      setLoading(false);
+    } else {
+      try {
+        const res = await createUserWithEmailAndPassword(auth, email, password);
 
-//         await setDoc(doc(db, "users", res.user.uid), {
-//           id: res.user.uid,
-//           username: username.toLowerCase(),
-//           avatar: "",
-//           date: Date.now(),
-//         });
+        await setDoc(doc(db, "users", res.user.uid), {
+          id: res.user.uid,
+          username: username?.toLowerCase(),
+          firstName,
+          lastName,
+          joiningAs,
+          avatar: "",
+          date: Date.now(),
+        });
 
-//         toast({
-//           title: "Account created",
-//           description: "You are logged in",
-//           status: "success",
-//           isClosable: true,
-//           position: "top",
-//           duration: 5000,
-//         });
+        toast({
+          title: "Account created",
+          description: "You are logged in",
+          status: "success",
+          isClosable: true,
+          position: "top",
+          duration: 5000,
+        });
 
-//         navigate(redirectTo);
-//       } catch (error) {
-//         toast({
-//           title: "Signing Up failed",
-//           description: error.message,
-//           status: "error",
-//           isClosable: true,
-//           position: "top",
-//           duration: 5000,
-//         });
-//       } finally {
-//         setLoading(false);
-//       }
-//     }
-//   }
+        router.push(redirectTo);
+      } catch (error: any) {
+        toast({
+          title: "Signing Up failed",
+          description: error.message,
+          status: "error",
+          isClosable: true,
+          position: "top",
+          duration: 5000,
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
 
-//   return { register, isLoading };
-// }
+  return { register, isLoading };
+}
 
-// export function useLogout() {
-//   const [signOut, isLoading, error] = useSignOut(auth);
-//   const toast = useToast();
-//   const navigate = useNavigate();
+export function useLogout() {
+  const [signOut, isLoading, error] = useSignOut(auth);
+  const toast = useToast();
+  const router = useRouter();
 
-//   async function logout() {
-//     if (await signOut()) {
-//       toast({
-//         title: "Successfully logged out",
-//         status: "success",
-//         isClosable: true,
-//         position: "top",
-//         duration: 5000,
-//       });
-//       navigate(LOGIN);
-//     } // else: show error [signOut() returns false if failed]
-//   }
+  async function logout() {
+    if (await signOut()) {
+      toast({
+        title: "Successfully logged out",
+        status: "success",
+        isClosable: true,
+        position: "top",
+        duration: 5000,
+      });
+      router.push("/");
+    } // else: show error [signOut() returns false if failed]
+  }
 
-//   return { logout, isLoading };
-// }
+  return { logout, isLoading };
+}

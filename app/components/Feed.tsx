@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useContext } from "react";
+import { useContext } from "react";
 import {
   Box,
   Button,
@@ -20,14 +20,13 @@ import { ImPencil } from "react-icons/im";
 import Post from "./Post";
 import Link from "next/link";
 import { ChatterContext } from "../context/ChatterContext";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebase";
 
-interface FeedProps {
-  children: ReactNode;
-}
-
-const Feed = (props: FeedProps) => {
+const Feed = () => {
   const { posts } = useContext(ChatterContext);
   const { colorMode } = useColorMode();
+  
   return (
     <>
       <Flex align={"flex-end"} justify={"space-between"} my={5}>

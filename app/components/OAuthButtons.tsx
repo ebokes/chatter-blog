@@ -11,7 +11,6 @@ import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { FaLinkedin } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { auth } from "../lib/firebase";
-// import { auth, provider } from "../lib/firebase";
 
 interface Props {}
 
@@ -19,6 +18,7 @@ const OAuthButtons = (props: Props) => {
   const { colorMode } = useColorMode();
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const toast = useToast();
+  console.log("OauthButtons", user?.user);
 
   //   const GoogleLogin = async () => {
 

@@ -1,53 +1,52 @@
 "use client";
 
-import React, { ReactNode, ReactText, useState } from "react";
 import {
-  IconButton,
   Avatar,
+  Box,
+  BoxProps,
+  Button,
   CloseButton,
-  Flex,
-  HStack,
-  VStack,
-  Icon,
-  Link,
   Drawer,
   DrawerContent,
-  Text,
-  useDisclosure,
-  BoxProps,
+  Flex,
   FlexProps,
+  HStack,
+  Icon,
+  IconButton,
+  Input,
+  Link,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
   Stack,
-  Input,
+  Text,
+  VStack,
   useColorMode,
-  Button,
-  Box,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { FiMenu, FiBell, FiChevronDown, FiLogOut } from "react-icons/fi";
+import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import { ReactNode, useState } from "react";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { IconType } from "react-icons";
 import { BsLayoutWtf, BsMoonStarsFill, BsSun } from "react-icons/bs";
+import { FiBell, FiChevronDown, FiLogOut, FiMenu } from "react-icons/fi";
 import {
+  MdInsertChartOutlined,
+  MdNotificationsNone,
   MdOutlineBookmarks,
   MdOutlineDrafts,
-  MdInsertChartOutlined,
-  MdPersonOutline,
-  MdNotificationsNone,
   MdOutlineShowChart,
+  MdPersonOutline,
   MdSearch,
 } from "react-icons/md";
 import { SlPeople } from "react-icons/sl";
-import NextLink from "next/link";
-import DashboardWrapper from "./DashboardWrapper";
+import { useAuth, useLogout } from "../hooks/auth";
 import { auth } from "../lib/firebase";
-import { useRouter } from "next/navigation";
-import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import Loading from "../loader/Loading";
-// import { useRouter } from "next/router";
-// import { useSession, signOut } from "next-auth/react";
+import DashboardWrapper from "./DashboardWrapper";
 
 interface ItemProps {
   name: string;
@@ -131,14 +130,7 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { colorMode } = useColorMode();
-  const router = useRouter();
-  const [signOut, loading, error] = useSignOut(auth);
-  // const [user, eloading, eerror] = useAuthState(auth);
-  // console.log(user);
-  const Logout = () => {
-    signOut();
-    router.push("/");
-  };
+  const { logout, isLoading } = useLogout();
 
   return (
     // Top navbar
@@ -157,7 +149,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
       overflow={"auto"}
-      // zIndex={"10"}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="bold" color="#543EE0">
@@ -207,8 +198,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <Stack pl={"20px"}>
           <Button
             leftIcon={<FiLogOut size={"18px"} />}
-            onClick={Logout}
-            isLoading={loading}
+            onClick={logout}
+            isLoading={isLoading}
             color={"red"}
             variant={"ghost"}
             _hover={{ variant: "ghost" }}
@@ -255,7 +246,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [show, setShow] = useState(false);
   const router = useRouter();
+  const { user, isLoading } = useAuth();
   const [signOut, loading, error] = useSignOut(auth);
+
+  console.log("Profile", user);
 
   const Logout = () => {
     signOut();
@@ -346,7 +340,11 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   _focus={{ boxShadow: "none" }}
                 >
                   <HStack>
-                    <Avatar size={"sm"} src="/alex.webp" />
+                    <Avatar
+                      size={"sm"}
+                      name={user?.firstName + " " + user?.lastName}
+                      src={user?.avatar}
+                    />
                     {/* <Text>{session?.data?.user?.email}</Text> */}
                     <VStack
                       display={{ base: "none", md: "flex" }}
@@ -354,7 +352,11 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                       spacing="1px"
                       ml="2"
                     >
-                      <Text fontSize="sm">Justina Clark</Text>
+                      <Text fontSize="sm">
+                        {user?.displayName ||
+                          user?.email?.split("@")[0] ||
+                          user?.username}
+                      </Text>
                       {/* <Text fontSize="xs" color="gray.600">
                         Admin
                       </Text> */}

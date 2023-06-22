@@ -22,13 +22,16 @@ import {
   lastNameValidate,
   emailValidate,
   passwordValidate,
+  userNameValidate,
 } from "../utils/form-validate";
 import { FiEye } from "react-icons/fi";
 import { RxEyeClosed } from "react-icons/rx";
 import { useForm } from "react-hook-form";
 import { FIREBASE_ERRORS } from "../lib/errors";
+import { useRegister } from "../hooks/auth";
 
 interface SignUpForm {
+  username: string;
   firstName: string;
   lastName: string;
   joiningAs: string;
@@ -41,15 +44,28 @@ const SignUp: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [createUserWithEmailAndPassword, user, loading, authError] =
     useCreateUserWithEmailAndPassword(auth);
+  const { register: signup, isLoading } = useRegister();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpForm>();
 
-  const onSubmit = (data: SignUpForm) => {
-    createUserWithEmailAndPassword(data.email, data.password);
-  };
+  // const onSubmit = (data: SignUpForm) => {
+  //   createUserWithEmailAndPassword(data.email, data.password);
+  // };
+
+  async function handleRegister(data: SignUpForm) {
+    signup({
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      joiningAs: data.joiningAs,
+      redirectTo: "/pages/dashboard",
+    });
+  }
 
   const handleClick = () => setShowPassword(!showPassword);
 
@@ -66,7 +82,7 @@ const SignUp: React.FC = () => {
             >
               Register as a Writer/Reader
             </Heading>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(handleRegister)}>
               <Flex flexDir="column" gap={6}>
                 <HStack gap={6} flexDir={{ base: "column", sm: "row" }}>
                   <FormControl>
@@ -105,6 +121,22 @@ const SignUp: React.FC = () => {
                     </FormErrorMessage>
                   </FormControl>
                 </HStack>
+                <FormControl>
+                  <label>Username</label>
+                  <Input
+                    type="text"
+                    placeholder="Enter username"
+                    border="1px  solid"
+                    borderColor={
+                      colorMode === "light" ? "brand.400" : "brand.450"
+                    }
+                    // required
+                    {...register("username", userNameValidate)}
+                  />
+                  {/* <FormErrorMessage>
+                    {errors.username && errors.username?.message}
+                  </FormErrorMessage> */}
+                </FormControl>
                 <FormControl>
                   <label>You are joining as?</label>
                   <Select
@@ -190,7 +222,7 @@ const SignUp: React.FC = () => {
                   color="white"
                   type="submit"
                   _hover={{ bg: "brand.700" }}
-                  isLoading={loading}
+                  isLoading={isLoading}
                 >
                   Create account
                 </Button>

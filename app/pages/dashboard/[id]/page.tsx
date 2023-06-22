@@ -1,7 +1,7 @@
 "use client";
 
 import { ChatterContext } from "@/app/context/ChatterContext";
-import { db } from "@/app/lib/firebase";
+import { auth, db } from "@/app/lib/firebase";
 import {
   Avatar,
   Box,
@@ -32,6 +32,7 @@ import { useParams } from "next/navigation";
 import MarkdownWrapper from "@/app/components/MarkdownWrapper";
 import ReactMarkdown from "react-markdown";
 import Loading from "@/app/loader/Loading";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface MarkdownProps {
   children: string;
@@ -59,6 +60,9 @@ const Post = () => {
   const { colorMode } = useColorMode();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { posts } = useContext(ChatterContext);
+  const [user, loading, error] = useAuthState(auth);
+
+  console.log("Post => ", user);
 
   const [post, setPost] = useState<PostDetailProps | any>(null);
   const params = useParams();
