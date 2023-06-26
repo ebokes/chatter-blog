@@ -18,12 +18,12 @@ export interface Posts {
     author: string;
     title: string;
     role: string;
-    postedOn: any;
+    postedOn: string;
     category: string;
     bannerImg: string;
     body: string;
     postLength: number;
-    tag: string[];
+    tags: string[];
   };
 }
 export const ChatterProvider = ({
@@ -46,7 +46,6 @@ export const ChatterProvider = ({
           },
         };
       });
-      // console.log(usersList);
       setUsers(usersList);
     };
 
@@ -64,18 +63,16 @@ export const ChatterProvider = ({
             author: doc.data().author,
             title: doc.data().title,
             role: doc.data().role,
-            postedOn: doc.data().postedOn.toDate(),
+            postedOn: doc.data().postedOn,
             category: doc.data().category,
             bannerImg: doc.data().bannerImg,
             body: doc.data().body,
             postLength: doc.data().postLength,
-            tag: doc.data().tag,
+            tags: doc.data().tags,
           },
         };
       });
       setPosts(postsList);
-      // console.log(data.postedOn);
-      // console.log(postsList);
     };
 
     fetchPosts();

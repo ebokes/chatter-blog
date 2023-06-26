@@ -10,23 +10,22 @@ import {
   Icon,
   IconButton,
   Link,
-  Spacer,
   Stack,
   Text,
-  VStack,
   useColorMode,
 } from "@chakra-ui/react";
+import MarkdownIt from "markdown-it";
 import Image from "next/image";
-import React, { useState } from "react";
-import { VscBook } from "react-icons/vsc";
+import { useState } from "react";
 import { IconType } from "react-icons";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
+import { VscBook } from "react-icons/vsc";
 
 interface PostDetailProps {
   avatar: string;
   name: string;
   role: string;
-  date: string;
+  postedOn: string;
   title: string;
   readTime: string;
   intro: string;
@@ -49,6 +48,12 @@ const Post = ({ post }: any) => {
   };
   // if (post.length === 0) return <Loading />;
 
+  function renderMarkdownToHtml(markdownText: string): React.ReactNode {
+    const md = new MarkdownIt();
+    const html = md.render(markdownText);
+    return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  }
+
   return (
     <Box
       border={"1px solid "}
@@ -56,6 +61,7 @@ const Post = ({ post }: any) => {
       borderRadius={"lg"}
       mb={6}
       color={colorMode === "light" ? "brand.800" : "brand.400"}
+      pb={"20px"}
     >
       <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
         <Link
@@ -69,44 +75,38 @@ const Post = ({ post }: any) => {
         >
           <Box>
             <Flex gap={2} mb={"10px"}>
-              <Avatar size="md" name={"John Doe"} src={post.data.bannerImg} />
+              <Avatar size="md" name={"John Doe"} src={post?.data?.bannerImg} />
               <Box>
                 <Heading fontSize={"20px"} fontWeight={600} mb={1}>
-                  {post.data.author}
+                  {post?.data?.author}
                 </Heading>
                 <HStack flexWrap={"wrap"}>
-                  <Text>{post.data.role}</Text>
+                  <Text>{post?.data?.role}</Text>
                   <Box
                     boxSize={"4px"}
                     bg={colorMode === "light" ? "brand.800" : "brand.400"}
                     borderRadius={"full"}
                   />
-                  <Text>
-                    {new Date(post.data.postedOn).toLocaleString("en-US", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </Text>
+                  <Text>{post?.data?.postedOn}</Text>
                 </HStack>
               </Box>
             </Flex>
             <Flex flexDir={{ base: "column-reverse", lg: "row" }}>
               <Stack flex={1} mr={{ base: "0", lg: "22px" }}>
                 <Heading fontWeight={500} fontSize={"24px"} mt={"10px"}>
-                  {post.data.title}
+                  {post?.data?.title}
                 </Heading>
                 <HStack>
                   <Icon as={VscBook} />{" "}
-                  <Text>{post.data.postLength} mins read</Text>
+                  <Text>{post?.data?.postLength} mins read</Text>
                 </HStack>
                 <Text fontSize={"18px"} mt={"10px"}>
-                  {post.data.body.split(". ")[0]}
+                  {renderMarkdownToHtml(post?.data?.body.split(". ")[0])}
                 </Text>
               </Stack>
               <Flex flex={0.7}>
                 <Image
-                  src={post.data.bannerImg}
+                  src={post?.data?.bannerImg}
                   width={312}
                   height={242}
                   alt="img"
@@ -137,7 +137,7 @@ const Post = ({ post }: any) => {
             />
           </Box>
           <HStack>
-            {post.data.tag?.map((item: string, i: number) => (
+            {post?.data?.tags?.map((item: string, i: number) => (
               <Button
                 variant={"outline"}
                 px={"8px"}
@@ -152,15 +152,15 @@ const Post = ({ post }: any) => {
           </HStack>
         </HStack>
         {/* <Flex justify={"flex-end"}>
-            <HStack gap={"20%"}>
-              {item.footer?.map((footerItem, i) => (
-                <Button key={i} variant={"ghost"}>
-                  <Icon as={footerItem.icon} mr={1} />
-                  <Text>{footerItem.count}</Text>
-                </Button>
-              ))}
-            </HStack>
-          </Flex> */}
+          <HStack gap={"20%"}>
+            {item.footer?.map((footerItem, i) => (
+              <Button key={i} variant={"ghost"}>
+                <Icon as={footerItem.icon} mr={1} />
+                <Text>{footerItem.count}</Text>
+              </Button>
+            ))}
+          </HStack>
+        </Flex> */}
       </Stack>
     </Box>
   );

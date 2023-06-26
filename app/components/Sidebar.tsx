@@ -248,13 +248,14 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const router = useRouter();
   const { user, isLoading } = useAuth();
   const [signOut, loading, error] = useSignOut(auth);
+  const { logout } = useLogout();
 
   console.log("Profile", user);
 
-  const Logout = () => {
-    signOut();
-    router.push("/");
-  };
+  // const Logout = () => {
+  //   signOut();
+  //   router.push("/");
+  // };
 
   const handleToggle = () => setShow(!show);
   return (
@@ -366,12 +367,16 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     </Box>
                   </HStack>
                 </MenuButton>
-                <MenuList bg="white" borderColor="gray.200">
-                  <MenuItem>Profile</MenuItem>
-                  <MenuItem>Settings</MenuItem>
-                  <MenuItem>Billing</MenuItem>
+                <MenuList
+                  bg={colorMode === "light" ? "brand.300" : "brand.950"}
+
+                  // borderColor="gray.200"
+                >
+                  <MenuItem as={NextLink} href={"/pages/dashboard/profile"}>
+                    Profile
+                  </MenuItem>
                   <MenuDivider />
-                  <MenuItem onClick={Logout}>Sign out</MenuItem>
+                  <MenuItem onClick={logout}>Sign out</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

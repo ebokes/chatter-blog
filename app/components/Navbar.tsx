@@ -99,7 +99,7 @@ export default function Navbar() {
             fontSize={"sm"}
             fontWeight={600}
             variant={"link"}
-            href={"/pages/authnav"}
+            href={"/pages/signin"}
             px={"15px"}
             py={"7px"}
             color={"brand.600"}
@@ -119,7 +119,7 @@ export default function Navbar() {
             fontWeight={600}
             color={"white"}
             bg={"brand.600"}
-            href={"/pages/authnav"}
+            href={"/pages/signup"}
             _hover={{
               bg: "brand.700",
             }}

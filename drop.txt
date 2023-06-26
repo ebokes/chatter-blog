@@ -14,6 +14,7 @@ color={colorMode === "light" ? "brand.850" : "brand.300"}
 Text
 color={colorMode === "light" ? "brand.900" : "brand.350"}
 
+"#777a80"
 
 import React, { useState } from "react";
 import {
@@ -221,3 +222,476 @@ const SignUp: React.FC = () => {
   );
 };
 export default SignUp;
+
+
+
+
+
+"use client";
+
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  HStack,
+  Heading,
+  IconButton,
+  Stack,
+  Textarea,
+} from "@chakra-ui/react";
+import React, { ReactElement, useState, ChangeEvent } from "react";
+import { CiImageOn, CiVideoOn } from "react-icons/ci";
+import { TfiClose, TfiPlus } from "react-icons/tfi";
+import { IconType } from "react-icons";
+import ReactMarkdown from "react-markdown";
+import MarkdownWrapper from "@/app/components/MarkdownWrapper";
+import { Firestore } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import Tiptap from "@/app/components/TipTap";
+
+interface WriteProps {
+  icon: ReactElement<IconType>;
+}
+
+interface MarkdownFile {
+  filename: string;
+  content: string;
+}
+
+// import { useState } from "react";
+// import firebase from "firebase/app";
+// import "firebase/firestore";
+// import Error from "next/error";
+
+// interface MarkdownProps {
+//   markdown: string;
+// }
+
+// const Markdown: React.FC<MarkdownProps> = ({ markdown }) => {
+//   const [saving, setSaving] = useState(false);
+
+//   const saveMarkdownToFirestore = () => {
+//     setSaving(true);
+//     const db = firebase.firestore(); // Access Firestore through the firestore() method
+//     db.collection("markdowns")
+//       .add({
+//         content: markdown,
+//         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+//       })
+//       .then(() => {
+//         console.log("Markdown saved to Firestore!");
+//       })
+//       .catch((error: Error) => {
+//         console.error("Error saving markdown to Firestore: ", error);
+//       })
+//       .finally(() => {
+//         setSaving(false);
+//       });
+//   };
+
+// return (
+//   <div>
+//     <div>
+//       <div className="output">{/* Render Markdown content here */}</div>
+//     </div>
+//     <button onClick={saveMarkdownToFirestore} disabled={saving}>
+//       {saving ? "Saving..." : "Save to Firestore"}
+//     </button>
+//   </div>
+// );
+// };
+
+const Write = ({ icon }: WriteProps): React.JSX.Element => {
+  // const [open, setOpen] = useState(false);
+  const [markdown, setMarkdown] = useState<string>("");
+
+  const handleMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setMarkdown(e.target.value);
+  };
+  return (
+    <>
+      <Stack maxW={"854px"} mx={"auto"} my={6} p={{ base: 0, md: 5 }}>
+        <Flex justify={"flex-end"} w={"100%"} gap={2}>
+          {/* <Box w={"78px"} /> */}
+
+          <Button bg="#543EE0" color="#fff" _hover={{ bg: "#715fe3" }}>
+            Save to draft
+          </Button>
+          <Button
+            bg="#543EE0"
+            color="#fff"
+            // disabled={markdown.length < 1}
+            _hover={{ bg: "#715fe3" }}
+            // onClick={saveMarkdownToFirestore}
+            // disabled={saving}
+          >
+            Publish
+          </Button>
+        </Flex>
+        <Flex pos={"relative"}>
+          <Textarea
+            maxW={"full"}
+            minH={"800px"}
+            // ml={"45px"}
+            placeholder="Enter text in markdown text"
+            zIndex={5}
+            value={markdown}
+            onChange={handleMarkdownChange}
+          />
+          {/* <HStack pos={"absolute"} top={16} height={"44px"}>
+            <IconButton
+              onClick={() => setOpen((prev) => !prev)}
+              aria-label="Add media"
+              icon={open ? <TfiClose /> : <TfiPlus />}
+              fontSize={"20px"}
+              border={"1px solid black"}
+              borderRadius={"50%"}
+              variant="outline"
+            />
+            {open && (
+              <HStack zIndex={6}>
+                <Divider orientation="horizontal" h={12} color={"#543EE0"} />
+                <HStack>
+                  <IconButton
+                    aria-label="Add Image"
+                    icon={<CiImageOn />}
+                    fontSize={"25px"}
+                    border={"1px solid #543EE0"}
+                    borderRadius={"50%"}
+                    color={"#543EE0"}
+                    variant="outline"
+                  />
+                  <IconButton
+                    aria-label="Add Image"
+                    icon={<CiVideoOn />}
+                    fontSize={"25px"}
+                    border={"1px solid #543EE0"}
+                    borderRadius={"50%"}
+                    color={"#543EE0"}
+                    variant="outline"
+                  />
+                </HStack>
+              </HStack>
+            )}
+          </HStack> */}
+        </Flex>
+        {markdown && (
+          <Heading mt={10} mb={5} fontSize={"2xl"}>
+            Preview
+          </Heading>
+        )}
+        <MarkdownWrapper>{markdown}</MarkdownWrapper>
+        <Tiptap />
+      </Stack>
+    </>
+  );
+};
+
+export default Write;
+
+
+
+
+
+"use client";
+
+import MarkdownEditor from "@/app/components/MarkdownEditor";
+import MarkdownViewer from "@/app/components/MarkdownViewer";
+import { useState } from "react";
+
+const IndexPage: React.FC = () => {
+  const [markdownContent, setMarkdownContent] = useState("");
+
+  const handleEditorChange = (content: string) => {
+    setMarkdownContent(content);
+  };
+
+  return (
+    <div>
+      <h1>Markdown Editor</h1>
+      <MarkdownEditor value={markdownContent} onChange={handleEditorChange} />
+      <h2>Preview</h2>
+      <MarkdownViewer content={markdownContent} />
+    </div>
+  );
+};
+
+export default IndexPage;
+
+
+
+
+
+"use client";
+
+import Navbar from "@/app/components/Navbar";
+import Recommendation from "@/app/components/Recommendation";
+import { ChatterContext } from "@/app/context/ChatterContext";
+import { useAuth } from "@/app/hooks/auth";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Heading,
+  Icon,
+  IconButton,
+  Link,
+  Stack,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
+import Image from "next/image";
+import { useContext, useState } from "react";
+import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
+import { ImPencil } from "react-icons/im";
+import { VscBook } from "react-icons/vsc";
+
+interface PostDetailProps {
+  avatar: string;
+  name: string;
+  role: string;
+  date: string;
+  title: string;
+  readTime: string;
+  intro: string;
+  bannerUrl: string;
+  alt: string;
+  bookmarked: boolean;
+  tags: string[];
+  // footer?: {
+  //   icon: IconType;
+  //   count?: number;
+  // }[];
+}
+
+const Feed = () => {
+  const { posts } = useContext(ChatterContext);
+  const { colorMode } = useColorMode();
+  const { user, isLoading } = useAuth();
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handleBookmark = () => {
+    setIsBookmarked((prev) => !prev);
+  };
+  return (
+    <>
+      <Recommendation>
+        <Box>
+          <Flex align={"flex-end"} justify={"space-between"} my={5}>
+            {user && (
+              <Button
+                as={Link}
+                href={"/pages/dashboard/write"}
+                bg={"brand.600"}
+                color={"white"}
+                _hover={{
+                  bg: "brand.700",
+                }}
+                leftIcon={<ImPencil />}
+              >
+                Write
+              </Button>
+            )}
+          </Flex>
+
+          <Box>
+            {posts.map((post) => (
+              <Box
+                key={post.id}
+                border={"1px solid "}
+                borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
+                borderRadius={"lg"}
+                mb={6}
+                color={colorMode === "light" ? "brand.800" : "brand.400"}
+              >
+                <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
+                  <Link
+                    href={`/pages/feed/${post.id}`}
+                    _hover={{
+                      textDecoration: "none",
+                    }}
+                    w={"full"}
+                  >
+                    <Box>
+                      <Flex gap={2} mb={"10px"}>
+                        <Avatar
+                          size="md"
+                          name={"John Doe"}
+                          src={post.data.bannerImg}
+                        />
+                        <Box>
+                          <Heading fontSize={"20px"} fontWeight={600} mb={1}>
+                            {post.data.author}
+                          </Heading>
+                          <HStack flexWrap={"wrap"}>
+                            <Text>{post.data.role}</Text>
+                            <Box
+                              boxSize={"4px"}
+                              bg={
+                                colorMode === "light"
+                                  ? "brand.800"
+                                  : "brand.400"
+                              }
+                              borderRadius={"full"}
+                            />
+                            <Text>
+                              {new Date(post.data.postedOn).toLocaleString(
+                                "en-US",
+                                {
+                                  day: "numeric",
+                                  month: "short",
+                                  year: "numeric",
+                                }
+                              )}
+                            </Text>
+                          </HStack>
+                        </Box>
+                      </Flex>
+                      <Flex flexDir={{ base: "column-reverse", lg: "row" }}>
+                        <Stack flex={1} mr={{ base: "0", lg: "22px" }}>
+                          <Heading
+                            fontWeight={500}
+                            fontSize={"24px"}
+                            mt={"10px"}
+                          >
+                            {post.data.title}
+                          </Heading>
+                          <HStack>
+                            <Icon as={VscBook} />{" "}
+                            <Text>{post.data.postLength} mins read</Text>
+                          </HStack>
+                          <Text fontSize={"18px"} mt={"10px"}>
+                            {post.data.body.split(". ")[0]}
+                          </Text>
+                        </Stack>
+                        <Flex flex={0.7}>
+                          <Image
+                            src={post.data.bannerImg}
+                            width={312}
+                            height={242}
+                            alt="img"
+                            priority={false}
+                            style={{
+                              borderRadius: "10px",
+                              objectFit: "cover",
+                              height: "200px",
+                            }}
+                          />
+                        </Flex>
+                      </Flex>
+                    </Box>
+                  </Link>
+                  <HStack>
+                    <Box>
+                      <IconButton
+                        variant={"ghost"}
+                        onClick={handleBookmark}
+                        aria-label="Bookmark"
+                        icon={
+                          isBookmarked ? (
+                            <BsBookmarkCheckFill size={"20px"} />
+                          ) : (
+                            <BsBookmarkPlus size={"20px"} />
+                          )
+                        }
+                      />
+                    </Box>
+                    <HStack>
+                      {post.data.tag?.map((item: string, i: number) => (
+                        <Button
+                          variant={"outline"}
+                          px={"8px"}
+                          h={"32px"}
+                          fontSize={"14px"}
+                          key={i}
+                        >
+                          {item}
+                          {/* {i > 1 && `+${item.tags.length - 2}`} */}
+                        </Button>
+                      ))}
+                    </HStack>
+                  </HStack>
+
+                  {/* <Flex justify={"flex-end"}>
+            <HStack gap={"20%"}>
+              {item.footer?.map((footerItem, i) => (
+                <Button key={i} variant={"ghost"}>
+                  <Icon as={footerItem.icon} mr={1} />
+                  <Text>{footerItem.count}</Text>
+                </Button>
+              ))}
+            </HStack>
+          </Flex> */}
+                </Stack>
+              </Box>
+            ))}
+          </Box>
+          {/* </Box> */}
+        </Box>
+      </Recommendation>
+    </>
+  );
+};
+
+export default Feed;
+
+
+
+
+
+function VerticallyCenter() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  return (
+    <>
+      <Button onClick={onOpen}>Trigger modal</Button>
+
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Lorem count={2} />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
+
+
+ { value: "education", label: "Education" },
+  { value: "culture", label: "Culture" },
+  { value: "art", label: "Art" },
+  { value: "books", label: "Books" },
+  { value: "fashion", label: "Fashion" },
+  { value: "beauty", label: "Beauty" },
+  { value: "film", label: "Film" },
+  { value: "music", label: "Music" },
+  { value: "gaming", label: "Gaming" },
+  { value: "design", label: "Design" },
+  { value: "photography", label: "Photography" },
+  { value: "writing", label: "Writing" },
+  { value: "marketing", label: "Marketing" },
+  { value: "social-media", label: "Social Media" },
+  { value: "productivity", label: "Productivity" },
+  { value: "programming", label: "Programming" },
+  { value: "javascript", label: "JavaScript" },
+  { value: "python", label: "Python" },
+  { value: "react", label: "React" },
+  { value: "angular", label: "Angular" },
+  { value: "vue", label: "Vue" },
+  { value: "nodejs", label: "Node.js" },
+  { value: "graphql", label: "GraphQL" },
+  { value: "typescript", label: "TypeScript" },
+  { value: "nextjs", label: "Next.js" },
+  { value: "gatsby", label: "Gatsby" },
+  { value: "flutter", label: "Flutter" },
+  { value: "android", label: "Android" },

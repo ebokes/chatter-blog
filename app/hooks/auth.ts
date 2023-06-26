@@ -69,20 +69,20 @@ export function useLogin() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast({
-        title: "You are logged in",
+        title: "Login successful",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
       router.push(redirectTo);
     } catch (error: any) {
       toast({
         title: "Logging in failed",
-        description: error.message,
+        description: "Wrong email or password",
         status: "error",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
       setLoading(false);
@@ -119,7 +119,7 @@ export function useRegister() {
         title: "Username already exists",
         status: "error",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
       setLoading(false);
@@ -138,11 +138,11 @@ export function useRegister() {
         });
 
         toast({
-          title: "Account created",
-          description: "You are logged in",
+          title: "Account created successfully",
+          description: "We've created your account for you.",
           status: "success",
           isClosable: true,
-          position: "top",
+          position: "top-right",
           duration: 5000,
         });
 
@@ -153,7 +153,7 @@ export function useRegister() {
           description: error.message,
           status: "error",
           isClosable: true,
-          position: "top",
+          position: "top-right",
           duration: 5000,
         });
       } finally {
@@ -176,7 +176,7 @@ export function useLogout() {
         title: "Successfully logged out",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
       router.push("/");
