@@ -3,9 +3,29 @@ import React, { createContext, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-export const ChatterContext = createContext({
-  posts: [] as Posts[],
-  users: [] as Users[],
+// export const ChatterContext = createContext({
+//   posts: [] as Posts[],
+//   users: [] as Users[],
+// });
+
+export const ChatterContext = createContext<{
+  posts: Posts[];
+  users: Users[];
+  entry: Entry;
+  setEntry: React.Dispatch<React.SetStateAction<Entry>>;
+}>({
+  posts: [],
+  users: [],
+  entry: {
+    title: "",
+    bannerImg: "",
+    body: "",
+    category: "",
+    postedOn: "",
+    postLength: 0,
+    tags: [],
+  },
+  setEntry: () => {},
 });
 
 export interface Users {
@@ -26,6 +46,17 @@ export interface Posts {
     tags: string[];
   };
 }
+
+interface Entry {
+  title: string;
+  bannerImg: string;
+  body: string;
+  category: string;
+  postedOn: string;
+  postLength: number;
+  tags: string[];
+}
+
 export const ChatterProvider = ({
   children,
 }: {
@@ -78,8 +109,25 @@ export const ChatterProvider = ({
     fetchPosts();
   }, []);
 
+  const [entry, setEntry] = useState<Entry>({
+    title: "",
+    bannerImg: "",
+    body: "",
+    category: "",
+    postedOn: "",
+    postLength: 0,
+    tags: [],
+  });
+
   return (
-    <ChatterContext.Provider value={{ posts, users }}>
+    <ChatterContext.Provider
+      value={{
+        posts,
+        users,
+        entry,
+        setEntry,
+      }}
+    >
       {children}
     </ChatterContext.Provider>
   );

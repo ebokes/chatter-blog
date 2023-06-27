@@ -16,10 +16,12 @@ import {
 } from "@chakra-ui/react";
 import MarkdownIt from "markdown-it";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconType } from "react-icons";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
+import { doc, getDoc, DocumentData } from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 interface PostDetailProps {
   avatar: string;
@@ -42,17 +44,38 @@ interface PostDetailProps {
 const Post = ({ post }: any) => {
   const { colorMode } = useColorMode();
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [author, setAuthor] = useState<DocumentData | any>(null);
 
   const handleBookmark = () => {
     setIsBookmarked((prev) => !prev);
   };
   // if (post.length === 0) return <Loading />;
+  console.log(post?.data);
 
   function renderMarkdownToHtml(markdownText: string): React.ReactNode {
     const md = new MarkdownIt();
     const html = md.render(markdownText);
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   }
+
+  useEffect(() => {
+    const fetchAuthorData = async () => {
+      try {
+        const docRef = doc(db, "users", post?.data?.author);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const authorProfile = docSnap.data();
+          setAuthor(authorProfile);
+        } else {
+          return;
+        }
+      } catch (error) {
+        return;
+      }
+    };
+
+    fetchAuthorData();
+  }, [post?.data?.author]);
 
   return (
     <Box

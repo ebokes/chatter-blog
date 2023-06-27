@@ -39,21 +39,19 @@ const Feed = () => {
           <Text>Explore different content you’d love </Text>
         </Stack>
 
-        {user && (
-          <Button
-            as={Link}
-            href={"/pages/dashboard/write"}
-            bg={"brand.600"}
-            color={"white"}
-            _hover={{
-              bg: "brand.700",
-            }}
-            leftIcon={<ImPencil />}
-            // display={user ? "unset" : "none"}
-          >
-            Write
-          </Button>
-        )}
+        <Button
+          as={Link}
+          href={"/pages/dashboard/write"}
+          bg={"brand.600"}
+          color={"white"}
+          _hover={{
+            bg: "brand.700",
+          }}
+          leftIcon={<ImPencil />}
+          // display={user ? "unset" : "none"}
+        >
+          Write
+        </Button>
       </Flex>
 
       <Tabs position="relative" variant="unstyled">

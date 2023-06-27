@@ -16,8 +16,9 @@ export function useAuth() {
   const [user, setUser] = useState<DocumentData | null>(null);
   const [Testuser, loading, eerror] = useAuthState(auth);
 
-  console.log("TestData", Testuser);
-  console.log("UseAuth now", user);
+  // console.log("TestData", Testuser);
+  // console.log("UseAuth now", user);
+  console.log("UseAuth now", authUser);
 
   useEffect(() => {
     async function fetchData() {
@@ -132,6 +133,7 @@ export function useRegister() {
           username: username?.toLowerCase(),
           firstName,
           lastName,
+          email,
           joiningAs,
           avatar: "",
           date: Date.now(),

@@ -7,14 +7,23 @@ import {
   HStack,
   Input,
   Select,
+  Text,
   useColorMode,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { addDoc, collection } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
+import { ChatterContext } from "../context/ChatterContext";
+import Modal from "./PreviewModal";
+import Preview from "./Preview";
+import PreviewModal from "./PreviewModal";
+import { useRouter } from "next/navigation";
+// import { useAddPost } from "../hooks/post";
+import { useForm } from "react-hook-form";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -40,21 +49,41 @@ interface Entry {
 }
 
 const LiteEditor: React.FC = () => {
+  const { entry, setEntry } = useContext(ChatterContext);
   const { colorMode } = useColorMode();
   const mdParser = new MarkdownIt();
   const toast = useToast();
   const [publishLoading, setPublishLoading] = useState(false);
   const [draftLoading, setDraftLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
+  // const { addPost, publishLoading } = useAddPost();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm();
 
-  const [entry, setEntry] = useState<Entry>({
-    title: "",
-    bannerImg: "",
-    body: "",
-    category: "",
-    postedOn: "",
-    postLength: 0,
-    tags: [],
-  });
+  // const [entry, setEntry] = useState<Entry>({
+  //   title: "",
+  //   bannerImg: "",
+  //   body: "",
+  //   category: "",
+  //   postedOn: "",
+  //   postLength: 0,
+  //   tags: [],
+  // });
+
+  // function onImageUpload(file) {
+  //   return new Promise((resolve) => {
+  //     const url = URL.createObjectURL(file);
+  //     resolve(url);
+  //   });
+  // }
+
+  // function handleAddPost() {
+  //   addPost(entry);
+  // }
 
   function calculateReadTime(content: string) {
     const wordCount = content.trim().split(/\s+/).length;
@@ -84,7 +113,7 @@ const LiteEditor: React.FC = () => {
       postLength: calculateReadTime(entry.body),
       postedOn: formattedDate,
     }));
-  }, [formattedDate, entry.body, entry.tags]);
+  }, [formattedDate, entry.body, entry.tags, setEntry]);
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -128,6 +157,7 @@ const LiteEditor: React.FC = () => {
       });
       setPublishLoading(false);
       console.log("Article Published Successfully!");
+      router.push("/pages/dashboard");
       setEntry({
         title: "",
         bannerImg: "",
@@ -165,6 +195,7 @@ const LiteEditor: React.FC = () => {
         duration: 5000,
       });
       setDraftLoading(false);
+      router.push("/pages/dashboard/drafts");
       console.log("Article Saved Successfully!");
       setEntry({
         title: "",
@@ -193,7 +224,11 @@ const LiteEditor: React.FC = () => {
       <form>
         <Flex flexDir={"column"} justify={"flex-end"}>
           <HStack justify={"space-between"} w={"100%"}>
-            <Box />
+            {/* <Box /> */}
+            <Button onClick={onOpen}>Preview</Button>
+            <PreviewModal isOpen={isOpen} onClose={onClose}>
+              <Preview />
+            </PreviewModal>
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
               <Button
                 type="submit"
@@ -233,6 +268,7 @@ const LiteEditor: React.FC = () => {
             onChange={handleInputChange}
             value={entry.bannerImg}
           />
+
           {/* <label>You are joining as?</label> */}
           <Select
             // {...register("joiningAs")}
@@ -264,6 +300,7 @@ const LiteEditor: React.FC = () => {
           renderHTML={(text) => mdParser.render(text)}
           onChange={handleEditorChange}
           view={{ menu: true, md: true, html: false }}
+          // onImageUpload={onImageUpload}
         />
       </form>
     </Box>
