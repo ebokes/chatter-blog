@@ -155,7 +155,7 @@ const LiteEditor: React.FC = () => {
         position: "top-right",
         duration: 5000,
       });
-      setPublishLoading(false);
+
       console.log("Article Published Successfully!");
       router.push("/pages/dashboard");
       setEntry({

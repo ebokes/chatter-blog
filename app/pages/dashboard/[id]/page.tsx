@@ -24,6 +24,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { IconType } from "react-icons";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
+import ReactMarkdown from "react-markdown";
 
 interface MarkdownProps {
   children: string;
@@ -84,7 +85,7 @@ const Post = () => {
     return <Loading />;
   }
 
-  console.log("data post", post?.data);
+  console.log("data post", post?.data?.body);
 
   return (
     <>
@@ -158,6 +159,9 @@ const Post = () => {
                 </Heading>
 
                 <Box>{renderMarkdownToHtml(post?.data?.body)}</Box>
+                {/* <Box>
+                  <ReactMarkdown children={post?.data?.body} />
+                </Box> */}
               </Stack>
             </Box>
           </Box>

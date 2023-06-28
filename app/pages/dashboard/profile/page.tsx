@@ -4,21 +4,16 @@ import {
   Avatar,
   Box,
   Center,
-  Flex,
   HStack,
   Heading,
   Icon,
-  Stack,
   Text,
-  VStack,
   useColorMode,
 } from "@chakra-ui/react";
-import React from "react";
 import { FaRegCommentDots } from "react-icons/fa";
-import { GrArticle } from "react-icons/gr";
 import { IoIosPeople } from "react-icons/io";
-import { TiGroup } from "react-icons/ti";
 import { MdOutlineArticle } from "react-icons/md";
+import { TiGroup } from "react-icons/ti";
 
 const Profile = () => {
   const { colorMode } = useColorMode();

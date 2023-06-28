@@ -76,6 +76,7 @@ const Post = ({ post }: any) => {
 
     fetchAuthorData();
   }, [post?.data?.author]);
+  console.log("Author ==> ", author);
 
   return (
     <Box
@@ -98,7 +99,7 @@ const Post = ({ post }: any) => {
         >
           <Box>
             <Flex gap={2} mb={"10px"}>
-              <Avatar size="md" name={"John Doe"} src={post?.data?.bannerImg} />
+              <Avatar size="md" name={"John Doe"} src={author?.avatar} />
               <Box>
                 <Heading fontSize={"20px"} fontWeight={600} mb={1}>
                   {post?.data?.author}

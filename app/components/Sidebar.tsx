@@ -247,7 +247,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const { user, isLoading } = useAuth();
-  const [signOut, loading, error] = useSignOut(auth);
   const { logout } = useLogout();
 
   console.log("Profile", user);
@@ -355,7 +354,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     >
                       <Text fontSize="sm">
                         {user?.displayName ||
-                          user?.email?.split("@")[0] ||
+                          // user?.email?.split("@")[0] ||
                           user?.username}
                       </Text>
                       {/* <Text fontSize="xs" color="gray.600">

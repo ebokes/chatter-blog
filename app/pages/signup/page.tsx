@@ -49,8 +49,7 @@ interface SignUpForm {
 export default function Signup() {
   const { colorMode } = useColorMode();
   const [showPassword, setShowPassword] = useState(false);
-  const [createUserWithEmailAndPassword, user, loading, authError] =
-    useCreateUserWithEmailAndPassword(auth);
+  useCreateUserWithEmailAndPassword(auth);
   const { register: signup, isLoading } = useRegister();
   const {
     register,

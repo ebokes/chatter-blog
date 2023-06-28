@@ -9,12 +9,13 @@ import { useRouter } from "next/navigation";
 import { setDoc, doc, getDoc, DocumentData } from "firebase/firestore";
 import isUsernameExists from "../utils/isUsernameExists";
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
 export function useAuth() {
   const [authUser, authLoading, error] = useAuthState(auth);
   const [isLoading, setLoading] = useState(true);
   const [user, setUser] = useState<DocumentData | null>(null);
-  const [Testuser, loading, eerror] = useAuthState(auth);
+  // const [Testuser, loading, eerror] = useAuthState(auth);
 
   // console.log("TestData", Testuser);
   // console.log("UseAuth now", user);
@@ -126,10 +127,10 @@ export function useRegister() {
       setLoading(false);
     } else {
       try {
-        const res = await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, email, password);
 
-        await setDoc(doc(db, "users", res.user.uid), {
-          id: res.user.uid,
+        await setDoc(doc(db, "users", email), {
+          id: email,
           username: username?.toLowerCase(),
           firstName,
           lastName,
@@ -166,6 +167,21 @@ export function useRegister() {
 
   return { register, isLoading };
 }
+
+// export function useGoogleAuth() {
+//   const [signInWithGoogle, gUser, gLoading, gError] =
+//     useSignInWithGoogle(auth);
+
+//     async function register({
+
+//       useEffect(() => {
+//         if (gUser) {
+//           router.push("/pages/dashboard");
+//         }
+//       }, [gUser]);
+//     })
+//   return { gUser, gLoading, gError, signInWithGoogle };
+// }
 
 export function useLogout() {
   const [signOut, isLoading, error] = useSignOut(auth);

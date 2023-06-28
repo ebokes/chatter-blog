@@ -7,6 +7,7 @@ const nextConfig = {
       "images.pexels.com",
       "assets.whichcar.com.au",
       "149520306.v2.pressablecdn.com",
+      "lh3.googleusercontent.com",
     ],
   },
 };
