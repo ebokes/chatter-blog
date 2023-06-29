@@ -20,6 +20,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  SkeletonCircle,
   Stack,
   Text,
   VStack,
@@ -47,6 +48,7 @@ import { useAuth, useLogout } from "../hooks/auth";
 import { auth } from "../lib/firebase";
 import Loading from "../loader/Loading";
 import DashboardWrapper from "./DashboardWrapper";
+// import Avatar from "./Avatar";
 
 interface ItemProps {
   name: string;
@@ -257,6 +259,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   // };
 
   const handleToggle = () => setShow(!show);
+  if (isLoading) return <div>Loading...</div>;
   return (
     <Box
       w={"100vw"}
@@ -269,6 +272,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         ml={{ base: 0, md: 60 }}
         px={{ base: 4, md: 4 }}
         height="20"
+        // h={"80px"}
         alignItems="center"
         // bg="white"
         bg={colorMode === "light" ? "white" : "dark"}
@@ -345,25 +349,24 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                       name={user?.firstName + " " + user?.lastName}
                       src={user?.avatar}
                     />
+                    {/* {isLoading ? (
+                      <SkeletonCircle size="10" />
+                    ) : (
+                      <Avatar user={user} size="md" />
+                    )} */}
+                    {/* <Avatar user={user} size="md" /> */}
                     {/* <Text>{session?.data?.user?.email}</Text> */}
-                    <VStack
+                    {/* <VStack
                       display={{ base: "none", md: "flex" }}
                       alignItems="flex-start"
                       spacing="1px"
                       ml="2"
                     >
-                      <Text fontSize="sm">
-                        {user?.displayName ||
-                          // user?.email?.split("@")[0] ||
-                          user?.username}
-                      </Text>
-                      {/* <Text fontSize="xs" color="gray.600">
-                        Admin
-                      </Text> */}
+                      <Text fontSize="sm">{user?.displayName}</Text>
                     </VStack>
                     <Box display={{ base: "none", md: "flex" }}>
                       <FiChevronDown />
-                    </Box>
+                    </Box> */}
                   </HStack>
                 </MenuButton>
                 <MenuList
@@ -371,8 +374,11 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 
                   // borderColor="gray.200"
                 >
-                  <MenuItem as={NextLink} href={"/pages/dashboard/profile"}>
-                    Profile
+                  <MenuItem
+                    as={NextLink}
+                    href={`/pages/dashboard/profile/${user?.id}`}
+                  >
+                    {user?.displayName}
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={logout}>Sign out</MenuItem>

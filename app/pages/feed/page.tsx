@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "@/app/components/Navbar";
-import Post from "@/app/components/Post";
+import Post from "@/app/components/PostCard";
 import Recommendation from "@/app/components/Rightbar";
 import { ChatterContext } from "@/app/context/ChatterContext";
 import { useAuth } from "@/app/hooks/auth";

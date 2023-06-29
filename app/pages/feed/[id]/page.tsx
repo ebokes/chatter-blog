@@ -61,9 +61,9 @@ const Post = () => {
   const { colorMode } = useColorMode();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { posts } = useContext(ChatterContext);
-  const [user, loading, error] = useAuthState(auth);
+  // const [user, loading, error] = useAuthState(auth);
 
-  console.log("Post => ", user);
+  // console.log("Post => ", user);
 
   const [post, setPost] = useState<PostDetailProps | any>(null);
   const params = useParams();

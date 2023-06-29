@@ -11,6 +11,21 @@ import isUsernameExists from "../utils/isUsernameExists";
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
+interface SignUpProps {
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  joiningAs: string;
+  redirectTo: string;
+}
+interface SignInProps {
+  email: string;
+  password: string;
+  redirectTo: string;
+}
+
 export function useAuth() {
   const [authUser, authLoading, error] = useAuthState(auth);
   const [isLoading, setLoading] = useState(true);
@@ -39,21 +54,6 @@ export function useAuth() {
   }, [authLoading, authUser]);
 
   return { user, isLoading, error };
-}
-
-interface SignUpProps {
-  username: string;
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  joiningAs: string;
-  redirectTo: string;
-}
-interface SignInProps {
-  email: string;
-  password: string;
-  redirectTo: string;
 }
 
 export function useLogin() {
@@ -127,13 +127,14 @@ export function useRegister() {
       setLoading(false);
     } else {
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const res = await createUserWithEmailAndPassword(auth, email, password);
 
-        await setDoc(doc(db, "users", email), {
-          id: email,
+        await setDoc(doc(db, "users", res.user.uid), {
+          id: res.user.uid,
           username: username?.toLowerCase(),
           firstName,
           lastName,
+          displayName: firstName + " " + lastName,
           email,
           joiningAs,
           avatar: "",
@@ -198,6 +199,15 @@ export function useLogout() {
         duration: 5000,
       });
       router.push("/");
+    } else {
+      toast({
+        title: "Logout failed",
+        // description: error.message,
+        status: "error",
+        isClosable: true,
+        position: "top-right",
+        duration: 5000,
+      });
     } // else: show error [signOut() returns false if failed]
   }
 

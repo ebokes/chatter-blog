@@ -50,7 +50,7 @@ const Post = ({ post }: any) => {
     setIsBookmarked((prev) => !prev);
   };
   // if (post.length === 0) return <Loading />;
-  console.log(post?.data);
+  // console.log(post?.data);
 
   function renderMarkdownToHtml(markdownText: string): React.ReactNode {
     const md = new MarkdownIt();
@@ -76,7 +76,7 @@ const Post = ({ post }: any) => {
 
     fetchAuthorData();
   }, [post?.data?.author]);
-  console.log("Author ==> ", author);
+  // console.log("Author ==> ", author);
 
   return (
     <Box

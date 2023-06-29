@@ -17,12 +17,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { ImPencil } from "react-icons/im";
-import Post from "./Post";
+import Post from "./PostCard";
 import Link from "next/link";
 import { ChatterContext } from "../context/ChatterContext";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../lib/firebase";
 import { useAuth } from "../hooks/auth";
+import PostCard from "./PostCard";
 
 const Feed = () => {
   const { posts } = useContext(ChatterContext);
@@ -100,7 +101,7 @@ const Feed = () => {
               //  px={"51px"}
             >
               {posts.map((post) => (
-                <Post key={post.id} post={post} />
+                <PostCard key={post.id} post={post} />
               ))}
             </Box>
           </TabPanel>

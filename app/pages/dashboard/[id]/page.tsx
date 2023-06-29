@@ -85,7 +85,7 @@ const Post = () => {
     return <Loading />;
   }
 
-  console.log("data post", post?.data?.body);
+  // console.log("data post", post?.data?.body);
 
   return (
     <>

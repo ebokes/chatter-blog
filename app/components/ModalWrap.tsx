@@ -17,7 +17,7 @@ interface ModalProps {
   isCentered?: boolean;
 }
 
-const PreviewModal = ({ isOpen, onClose, children }: ModalProps) => {
+const ModalWrap = ({ isOpen, onClose, children }: ModalProps) => {
   return (
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size={"3xl"}>
@@ -35,4 +35,4 @@ const PreviewModal = ({ isOpen, onClose, children }: ModalProps) => {
   );
 };
 
-export default PreviewModal;
+export default ModalWrap;

@@ -74,7 +74,7 @@ export const ChatterProvider = ({
           id: doc.id,
           data: {
             ...doc.data(),
-            username: doc.data().username,
+            // username: doc.data().username,
           },
         };
       });

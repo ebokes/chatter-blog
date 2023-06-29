@@ -18,12 +18,13 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import { ChatterContext } from "../context/ChatterContext";
-import Modal from "./PreviewModal";
+// import Modal from "./ModalWrap";
 import Preview from "./Preview";
-import PreviewModal from "./PreviewModal";
+// import PreviewModal from "./ModalWrap";
 import { useRouter } from "next/navigation";
 // import { useAddPost } from "../hooks/post";
 import { useForm } from "react-hook-form";
+import ModalWrap from "./ModalWrap";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -226,9 +227,9 @@ const LiteEditor: React.FC = () => {
           <HStack justify={"space-between"} w={"100%"}>
             {/* <Box /> */}
             <Button onClick={onOpen}>Preview</Button>
-            <PreviewModal isOpen={isOpen} onClose={onClose}>
+            <ModalWrap isOpen={isOpen} onClose={onClose}>
               <Preview />
-            </PreviewModal>
+            </ModalWrap>
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
               <Button
                 type="submit"
