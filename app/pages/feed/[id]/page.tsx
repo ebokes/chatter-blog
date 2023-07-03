@@ -42,25 +42,19 @@ interface MarkdownProps {
 interface PostDetailProps {
   avatar: string;
   name: string;
-  role: string;
-  date: string;
+  role?: string;
+  postedOn: string;
   title: string;
-  readTime: string;
+  postLength: string;
   intro: string;
   image: string;
-  alt: string;
-  // bookmarked: boolean;
-  tags: string[];
-  footer?: {
-    icon: IconType;
-    count?: number;
-  }[];
 }
 
 const Post = () => {
   const { colorMode } = useColorMode();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { posts } = useContext(ChatterContext);
+
   // const [user, loading, error] = useAuthState(auth);
 
   // console.log("Post => ", user);

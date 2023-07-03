@@ -1,5 +1,4 @@
 "use client";
-import { useContext } from "react";
 import {
   Box,
   Button,
@@ -15,20 +14,14 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import React from "react";
-import { ImPencil } from "react-icons/im";
-import Post from "./PostCard";
 import Link from "next/link";
-import { ChatterContext } from "../context/ChatterContext";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../lib/firebase";
-import { useAuth } from "../hooks/auth";
+import { ImPencil } from "react-icons/im";
+import { usePosts } from "../hooks/post";
 import PostCard from "./PostCard";
 
 const Feed = () => {
-  const { posts } = useContext(ChatterContext);
+  const { posts, isLoading: postLoading } = usePosts();
   const { colorMode } = useColorMode();
-  const { user, isLoading } = useAuth();
 
   return (
     <>
@@ -40,7 +33,7 @@ const Feed = () => {
           <Text>Explore different content you’d love </Text>
         </Stack>
 
-        <Button
+        {/* <Button
           as={Link}
           href={"/pages/dashboard/write"}
           bg={"brand.600"}
@@ -52,7 +45,7 @@ const Feed = () => {
           // display={user ? "unset" : "none"}
         >
           Write
-        </Button>
+        </Button> */}
       </Flex>
 
       <Tabs position="relative" variant="unstyled">
@@ -100,9 +93,11 @@ const Feed = () => {
               // px={{ base: "24px", lg: "44px" }}
               //  px={"51px"}
             >
-              {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
+              {posts?.length === 0 ? (
+                <Text>No posts yet</Text>
+              ) : (
+                posts?.map((post) => <PostCard key={post.id} post={post} />)
+              )}
             </Box>
           </TabPanel>
           <TabPanel>

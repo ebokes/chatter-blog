@@ -1,9 +1,11 @@
 "use client";
 
 import Comments from "@/app/components/Comments";
-import { ChatterContext } from "@/app/context/ChatterContext";
-import { auth } from "@/app/lib/firebase";
+// import Comments from "@/app/components/comments/Comments";
+import { usePost, usePosts } from "@/app/hooks/post";
+import { useUser } from "@/app/hooks/user";
 import Loading from "@/app/loader/Loading";
+import { formatDate } from "@/app/utils/funcns";
 import {
   Avatar,
   Box,
@@ -19,44 +21,44 @@ import {
 import MarkdownIt from "markdown-it";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { IconType } from "react-icons";
+import { useEffect, useState } from "react";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
-import ReactMarkdown from "react-markdown";
 
 interface MarkdownProps {
   children: string;
 }
 
-interface PostDetailProps {
-  avatar: string;
-  name: string;
-  role: string;
-  date: string;
-  title: string;
-  readTime: string;
-  intro: string;
-  image: string;
-  alt: string;
-  // bookmarked: boolean;
-  tags: string[];
-  footer?: {
-    icon: IconType;
-    count?: number;
-  }[];
-}
-
 // interface MarkdownRendererProps {
 //   markdownText: string;
 // }
+interface PostDetailProps {
+  avatar: string;
+  name: string;
+  role?: string;
+  postedOn: any;
+  title: string;
+  postLength: string;
+  intro: string;
+  image: string;
+}
 
 const Post = () => {
   const { colorMode } = useColorMode();
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const { posts } = useContext(ChatterContext);
-  const [user, loading, error] = useAuthState(auth);
+  const [currentPost, setCurrentPost] = useState<PostDetailProps | any>(null);
+  const params = useParams();
+  const { id } = params;
+  const { posts, isLoading: postsLoading } = usePosts();
+  const { user, isLoading: userLoading } = useUser(currentPost?.uid);
+
+  useEffect(() => {
+    if (posts?.length === 0) {
+      return;
+    }
+
+    const selectedPost = posts?.find((post) => post.id === id);
+    setCurrentPost(selectedPost);
+  }, [posts, id, params]);
 
   function renderMarkdownToHtml(markdownText: string): React.ReactNode {
     const md = new MarkdownIt();
@@ -64,28 +66,9 @@ const Post = () => {
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   }
 
-  const [post, setPost] = useState<PostDetailProps | any>(null);
-  const params = useParams();
-
-  const handleBookmark = () => {
-    setIsBookmarked((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (posts.length === 0) {
-      return;
-    }
-
-    const { id } = params;
-    const selectedPost = posts.find((post) => post.id === id);
-    setPost(selectedPost);
-  }, [post, posts, params]);
-
-  if (!post) {
+  if (postsLoading || userLoading) {
     return <Loading />;
   }
-
-  // console.log("data post", post?.data?.body);
 
   return (
     <>
@@ -98,19 +81,23 @@ const Post = () => {
           <Box>
             <Flex justify={"space-between"} w={"full"}>
               <Flex gap={2} mb={"15px"}>
-                <Avatar size="md" name={post?.data?.author} />
+                <Avatar size="md" name={user?.displayName} />
                 <Box>
                   <Heading fontSize={"20px"} fontWeight={600} mb={1}>
-                    {post?.data?.author}
+                    {user?.displayName}
                   </Heading>
                   <HStack flexWrap={"wrap"}>
-                    <Text>{post?.data?.role}</Text>
+                    {user?.role ? (
+                      <Text>{user?.role}</Text>
+                    ) : (
+                      <Text>@{user?.email.split("@")[0]}</Text>
+                    )}
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
                       borderRadius={"full"}
                     />
-                    <Text>{post?.data?.postedOn}</Text>
+                    <Text>{formatDate(currentPost?.postedOn)}</Text>
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
@@ -118,7 +105,7 @@ const Post = () => {
                     />
                     <HStack>
                       <Icon as={VscBook} />{" "}
-                      <Text>{post?.data?.postLength} mins read</Text>
+                      <Text>{currentPost?.postLength} mins read</Text>
                     </HStack>
                   </HStack>
                 </Box>
@@ -126,10 +113,10 @@ const Post = () => {
               <Box mr={"-11px"}>
                 <IconButton
                   variant={"ghost"}
-                  onClick={handleBookmark}
+                  //   onClick={handleBookmark}
                   aria-label="Bookmark"
                   icon={
-                    post?.data?.bookmarked ? (
+                    currentPost?.bookmarked ? (
                       <BsBookmarkCheckFill size={"20px"} />
                     ) : (
                       <BsBookmarkPlus size={"20px"} />
@@ -139,59 +126,37 @@ const Post = () => {
               </Box>
             </Flex>
             <Flex flex={0.7}>
-              <Image
-                src={post?.data?.bannerImg}
-                width={612}
-                height={242}
-                alt="img"
-                style={{
-                  width: "812px",
-                  objectFit: "cover",
-                  height: "442px",
-                  objectPosition: "center",
-                }}
-              />
+              {currentPost?.bannerImg && (
+                <Image
+                  src={currentPost?.bannerImg}
+                  width={612}
+                  height={242}
+                  alt="img"
+                  style={{
+                    width: "812px",
+                    objectFit: "cover",
+                    height: "442px",
+                    objectPosition: "center",
+                  }}
+                />
+              )}
             </Flex>
             <Box>
               <Stack flex={1}>
                 <Heading fontWeight={700} fontSize={"34px"} my={"30px"}>
-                  {post?.data?.title}
+                  {currentPost?.title}
                 </Heading>
 
-                <Box>{renderMarkdownToHtml(post?.data?.body)}</Box>
+                {/* <Box>{renderMarkdownToHtml(currentPost?.body)}</Box> */}
+                <Box>{currentPost?.body}</Box>
                 {/* <Box>
-                  <ReactMarkdown children={post?.data?.body} />
+                  <ReactMarkdown children={currentPost?.body} />
                 </Box> */}
               </Stack>
             </Box>
           </Box>
-          <HStack>
-            {/* <HStack>
-            {post?.data?.tags.map((tag, i) => (
-              <Button
-                variant={"outline"}
-                px={"8px"}
-                h={"32px"}
-                fontSize={"14px"}
-                key={i}
-              >
-                {tag}
-                // {i > 1 && `+${post?.data?.tags.length - 2}`}
-              </Button>
-            ))}
-          </HStack> */}
-          </HStack>
-          {/* <Flex justify={"flex-end"}>
-          <HStack gap={"20%"}>
-            {post?.data?.footer?.map((footerpost?.data?, i) => (
-              <Button key={i} variant={"ghost"}>
-                <Icon as={footerpost?.data?.icon} mr={1} />
-                <Text>{footerpost?.data?.count}</Text>
-              </Button>
-            ))}
-          </HStack>
-        </Flex> */}
-          <Comments />
+          <HStack></HStack>
+          <Comments post={currentPost} />
         </Stack>
       </Box>
       {/* ))} */}

@@ -34,7 +34,7 @@ export function useAuth() {
 
   // console.log("TestData", Testuser);
   // console.log("UseAuth now", user);
-  console.log("UseAuth now", authUser);
+  // console.log("UseAuth now", authUser);
 
   useEffect(() => {
     async function fetchData() {
@@ -182,7 +182,25 @@ export function useRegister() {
 //       }, [gUser]);
 //     })
 //   return { gUser, gLoading, gError, signInWithGoogle };
-// }
+// // }
+
+// interface Props {}
+
+export const useGoogle = () => {
+  // const OAuthButtons = (props: Props) => {
+  // const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, googleUser, googleLoading, error] =
+    useSignInWithGoogle(auth);
+  const toast = useToast();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (googleUser) {
+      router.push("/pages/dashboard");
+    }
+  }, [googleUser, router]);
+  return { signInWithGoogle, googleUser, googleLoading, error };
+};
 
 export function useLogout() {
   const [signOut, isLoading, error] = useSignOut(auth);

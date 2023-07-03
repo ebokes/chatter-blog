@@ -15,15 +15,16 @@ interface ModalProps {
   onClose: () => void;
   isOpen: boolean;
   isCentered?: boolean;
+  title: string;
 }
 
-const ModalWrap = ({ isOpen, onClose, children }: ModalProps) => {
+const ModalWrap = ({ isOpen, onClose, title, children }: ModalProps) => {
   return (
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size={"3xl"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>{children}</ModalBody>
           <ModalFooter>

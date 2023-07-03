@@ -11,9 +11,5 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <Sidebar>{children}</Sidebar>
-    </>
-  );
+  return <Sidebar>{children}</Sidebar>;
 }

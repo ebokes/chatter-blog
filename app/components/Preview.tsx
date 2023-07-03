@@ -33,27 +33,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { IconType } from "react-icons";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
+import { useAuth, useGoogle } from "../hooks/auth";
+import { formatDate } from "../utils/funcns";
+// import { formatDate } from "../utils/formatDate";
 
 interface MarkdownProps {
   children: string;
-}
-
-interface PostDetailProps {
-  avatar: string;
-  name: string;
-  role: string;
-  date: string;
-  title: string;
-  readTime: string;
-  intro: string;
-  image: string;
-  alt: string;
-  // bookmarked: boolean;
-  tags: string[];
-  footer?: {
-    icon: IconType;
-    count?: number;
-  }[];
 }
 
 // interface MarkdownRendererProps {
@@ -63,6 +48,10 @@ interface PostDetailProps {
 const Preview = () => {
   const { colorMode } = useColorMode();
   const { entry } = useContext(ChatterContext);
+  const { user, isLoading: authLoading } = useAuth();
+  // const { googleUser, googleLoading } = useGoogle();
+
+  // console.log("Preview => ", googleUser);
   // const { isOpen: previewIsOpen, onClose: previewOnClose } = useDisclosure();
 
   function renderMarkdownToHtml(markdownText: string): React.ReactNode {
@@ -83,18 +72,21 @@ const Preview = () => {
             <Flex justify={"space-between"} w={"full"}>
               <Flex gap={2} mb={"15px"}>
                 {/* <Avatar size="md" name={post?.data?.author} /> */}
+                <Avatar size="md" name={user?.displayName} />
                 <Box>
-                  {/* <Heading fontSize={"20px"} fontWeight={600} mb={1}>
-                    {post?.data?.author}
-                  </Heading> */}
+                  <Heading fontSize={"20px"} fontWeight={600} mb={1}>
+                    {/* {post?.data?.author} */}
+                    {user?.displayName}
+                  </Heading>
                   <HStack flexWrap={"wrap"}>
+                    <Text>@{user?.username}</Text>
                     {/* <Text>{post?.data?.role}</Text> */}
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
                       borderRadius={"full"}
                     />
-                    <Text>{entry.postedOn}</Text>
+                    <Text>{formatDate(entry.postedOn)}</Text>
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
@@ -109,18 +101,20 @@ const Preview = () => {
               </Flex>
             </Flex>
             <Flex flex={0.7}>
-              <Image
-                src={entry.bannerImg}
-                width={412}
-                height={142}
-                alt="img"
-                style={{
-                  width: "612px",
-                  objectFit: "cover",
-                  height: "242px",
-                  objectPosition: "center",
-                }}
-              />
+              {entry.bannerImg && (
+                <Image
+                  src={entry.bannerImg}
+                  width={412}
+                  height={142}
+                  alt="img"
+                  style={{
+                    width: "612px",
+                    objectFit: "cover",
+                    height: "342px",
+                    objectPosition: "center",
+                  }}
+                />
+              )}
             </Flex>
             <Box>
               <Stack flex={1}>

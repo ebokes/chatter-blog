@@ -28,6 +28,7 @@ const theme = extendTheme({
       850: "#0f172a", //Heading ==> Light mode
       900: "#475569", //Texr ===> Light mode
       950: "#1a202c",
+      970: "#4BB543",
     },
   },
 });

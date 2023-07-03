@@ -1,4 +1,3 @@
-import { db } from "@/app/lib/firebase";
 import {
   Box,
   Button,
@@ -7,14 +6,12 @@ import {
   HStack,
   Input,
   Select,
-  Text,
   useColorMode,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { addDoc, collection } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
 import MarkdownIt from "markdown-it";
+import React, { useContext, useEffect, useState } from "react";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import { ChatterContext } from "../context/ChatterContext";
@@ -23,7 +20,8 @@ import Preview from "./Preview";
 // import PreviewModal from "./ModalWrap";
 import { useRouter } from "next/navigation";
 // import { useAddPost } from "../hooks/post";
-import { useForm } from "react-hook-form";
+import { useAuth } from "../hooks/auth";
+import { useAddPost } from "../hooks/post";
 import ModalWrap from "./ModalWrap";
 
 const categories = [
@@ -37,16 +35,20 @@ const categories = [
   { value: "travel", label: "Travel" },
   { value: "lifestyle", label: "Lifestyle" },
   { value: "food", label: "Food" },
+  { value: "education", label: "Education" },
+  { value: "culture", label: "Culture" },
+  { value: "other", label: "Other" },
 ];
 
 interface Entry {
+  uid?: string;
   title: string;
   bannerImg: string;
   body: string;
   category: string;
-  postedOn: string;
+  postedOn: number;
   postLength: number;
-  tags: string[];
+  intro: string;
 }
 
 const LiteEditor: React.FC = () => {
@@ -54,41 +56,33 @@ const LiteEditor: React.FC = () => {
   const { colorMode } = useColorMode();
   const mdParser = new MarkdownIt();
   const toast = useToast();
-  const [publishLoading, setPublishLoading] = useState(false);
+  // const [publishLoading, setPublishLoading] = useState(false);
   const [draftLoading, setDraftLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  // const { addPost, publishLoading } = useAddPost();
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
+  const { addPost, isLoading: publishingPost } = useAddPost();
+  const { user, isLoading: authLoading } = useAuth();
 
-  // const [entry, setEntry] = useState<Entry>({
-  //   title: "",
-  //   bannerImg: "",
-  //   body: "",
-  //   category: "",
-  //   postedOn: "",
-  //   postLength: 0,
-  //   tags: [],
-  // });
-
-  // function onImageUpload(file) {
-  //   return new Promise((resolve) => {
-  //     const url = URL.createObjectURL(file);
-  //     resolve(url);
-  //   });
-  // }
-
-  // function handleAddPost() {
-  //   addPost(entry);
-  // }
+  async function handlePublish(
+    entry: Entry,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) {
+    event.preventDefault();
+    addPost({
+      uid: user?.id,
+      title: entry.title,
+      bannerImg: entry.bannerImg,
+      body: entry.body,
+      category: entry.category,
+      postLength: entry.postLength,
+      postedOn: Date.now(),
+      intro: entry.intro,
+    });
+  }
 
   function calculateReadTime(content: string) {
     const wordCount = content.trim().split(/\s+/).length;
-    const averageReadingSpeed = 200;
+    const averageReadingSpeed = 100;
     const readTime = Math.ceil(wordCount / averageReadingSpeed);
     return readTime;
   }
@@ -100,29 +94,12 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
-  const timestamp: number = new Date().getTime();
-  const date: Date = new Date(timestamp);
-  const formattedDate: string = date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-
   useEffect(() => {
     setEntry((prevEntry) => ({
       ...prevEntry,
       postLength: calculateReadTime(entry.body),
-      postedOn: formattedDate,
     }));
-  }, [formattedDate, entry.body, entry.tags, setEntry]);
-
-  const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEntry((prevEntry) => ({
-      ...prevEntry,
-      [name]: value.split(","),
-    }));
-  };
+  }, [entry.body, setEntry]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -140,98 +117,24 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
-  console.log(entry);
-
-  const handlePublish = async (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setPublishLoading(true);
-    try {
-      const articlesRef = collection(db, "articles");
-      await addDoc(articlesRef, entry);
-      toast({
-        title: "Article Published Successfully!",
-        // description: "Your article has been .",
-        status: "success",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-
-      console.log("Article Published Successfully!");
-      router.push("/pages/dashboard");
-      setEntry({
-        title: "",
-        bannerImg: "",
-        body: "",
-        category: "",
-        postedOn: "",
-        postLength: 0,
-        tags: [],
-      });
-    } catch (error) {
-      toast({
-        title: "Error Publishing Article",
-        // description: "We've created your account for you.",
-        status: "success",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-      console.error("Error creating article:", error);
-    }
-  };
-
-  const handleSaveToDraft = async (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setDraftLoading(true);
-    try {
-      const draftRef = collection(db, "draft");
-      await addDoc(draftRef, entry);
-      toast({
-        title: "Article Saved to Drafts!",
-        // description: "We've created your account for you.",
-        status: "success",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-      setDraftLoading(false);
-      router.push("/pages/dashboard/drafts");
-      console.log("Article Saved Successfully!");
-      setEntry({
-        title: "",
-        bannerImg: "",
-        body: "",
-        category: "",
-        postedOn: "",
-        postLength: 0,
-        tags: [],
-      });
-    } catch (error) {
-      toast({
-        title: "Error Publishing Article",
-        // description: "We've created your account for you.",
-        status: "success",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-      console.error("Error creating article:", error);
-    }
-  };
+  // console.log(entry);
 
   return (
-    <Box>
+    <Box w={"full"}>
       <form>
-        <Flex flexDir={"column"} justify={"flex-end"}>
+        <Flex flexDir={"column"} justify={"flex-end"} w={"full"}>
           <HStack justify={"space-between"} w={"100%"}>
             {/* <Box /> */}
             <Button onClick={onOpen}>Preview</Button>
-            <ModalWrap isOpen={isOpen} onClose={onClose}>
+            <ModalWrap
+              isOpen={isOpen}
+              onClose={onClose}
+              title="Article Preview"
+            >
               <Preview />
             </ModalWrap>
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
-              <Button
+              {/* <Button
                 type="submit"
                 bg="#543EE0"
                 _hover={{ bg: "#715fe3" }}
@@ -240,20 +143,21 @@ const LiteEditor: React.FC = () => {
                 isLoading={draftLoading}
               >
                 Save to draft
-              </Button>
+              </Button> */}
               <Button
                 type="submit"
                 bg="#543EE0"
                 _hover={{ bg: "#715fe3" }}
                 color={"white"}
-                onClick={handlePublish}
-                isLoading={publishLoading}
+                onClick={(event) => handlePublish(entry, event)}
+                isLoading={publishingPost}
               >
                 Publish
               </Button>
             </ButtonGroup>
           </HStack>
           <Input
+            required
             placeholder="Title"
             type="text"
             name="title"
@@ -261,17 +165,27 @@ const LiteEditor: React.FC = () => {
             onChange={handleInputChange}
             value={entry.title}
             fontWeight={600}
+            variant={"flushed"}
+            autoComplete="off"
+            // borderBottom={"1px solid brand.400"}
+            // _focus={{
+            //   borderBottom: "1px solid brand.400",
+            // }}
           />
           <Input
+            required
             placeholder="Cover Image URL"
             type="text"
             name="bannerImg"
             onChange={handleInputChange}
             value={entry.bannerImg}
+            autoComplete="off"
+            variant={"flushed"}
           />
 
           {/* <label>You are joining as?</label> */}
           <Select
+            required
             // {...register("joiningAs")}
             placeholder="Select Category"
             name="category"
@@ -279,6 +193,7 @@ const LiteEditor: React.FC = () => {
             borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
             value={entry.category}
             onChange={handleCategoryChange}
+            variant={"flushed"}
           >
             {/* <option value="">Select Category</option> */}
             {categories.map((category) => (
@@ -288,11 +203,15 @@ const LiteEditor: React.FC = () => {
             ))}
           </Select>
           <Input
-            placeholder="Tags, enter tags separated by comma"
+            required
+            placeholder="Enter a brief description"
             type="text"
-            name="tags"
-            onChange={handleTagChange}
-            value={entry.tags}
+            name="intro"
+            onChange={handleInputChange}
+            value={entry.intro}
+            autoComplete="off"
+            variant={"flushed"}
+            mb={"10px"}
           />
         </Flex>
 

@@ -24,6 +24,7 @@ import {
   Stack,
   Text,
   VStack,
+  useBreakpointValue,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -34,6 +35,7 @@ import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { IconType } from "react-icons";
 import { BsLayoutWtf, BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { FiBell, FiChevronDown, FiLogOut, FiMenu } from "react-icons/fi";
+import { CiEdit } from "react-icons/ci";
 import {
   MdInsertChartOutlined,
   MdNotificationsNone,
@@ -251,12 +253,14 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const { user, isLoading } = useAuth();
   const { logout } = useLogout();
 
-  console.log("Profile", user);
+  // console.log("Profile", user);
 
   // const Logout = () => {
   //   signOut();
   //   router.push("/");
   // };
+
+  const showText = useBreakpointValue({ base: false, sm: true });
 
   const handleToggle = () => setShow(!show);
   if (isLoading) return <div>Loading...</div>;
@@ -312,6 +316,25 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               />
             </>
           )}
+
+          <HStack
+            as={Link}
+            href={"/pages/dashboard/write"}
+            borderRadius={"30px"}
+            pr={"10px"}
+            bg={"brand.600"}
+            px={"10px"}
+            py={"7px"}
+            fontWeight={"semibold"}
+            color={colorMode === "light" ? "brand.100" : "brand.100"}
+            _hover={{
+              bg: "brand.700",
+              textDecoration: "none",
+            }}
+          >
+            <Icon as={CiEdit} boxSize={"20px"} />
+            <Text display={{ base: "none", md: "inline" }}>Write</Text>
+          </HStack>
           <HStack>
             <IconButton
               onClick={handleToggle}
