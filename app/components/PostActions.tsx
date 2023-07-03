@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/auth";
 import { useDeletePost, useToggleLike } from "../hooks/post";
 import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
 import Link from "next/link";
+import { useComments } from "../hooks/comments";
 
 const PostActions = ({ post }: any) => {
   const { likes, id } = post;
@@ -13,7 +14,7 @@ const PostActions = ({ post }: any) => {
   const config = { id, isLiked, uid: user?.id };
   const { toggleLike, isLoading: likeLoading } = useToggleLike(config);
   const { deletePost, isLoading: deleteLoading } = useDeletePost(id);
-  // const { comments, isLoading: commentsLoading } = useComments(id);
+  const { comments, isLoading: commentsLoading } = useComments(id);
 
   return (
     <Flex justify={"flex-end"}>
@@ -37,11 +38,10 @@ const PostActions = ({ post }: any) => {
             size="md"
             colorScheme="teal"
             variant="ghost"
-            // icon={comments?.length === 0 ? <FaRegComment /> : <FaComment />}
-            icon={<FaRegComment />}
+            icon={comments?.length === 0 ? <FaRegComment /> : <FaComment />}
             isRound
           />
-          <Text>{likes?.length}</Text>
+          <Text>{comments?.length}</Text>
         </HStack>
         <HStack spacing={"1px"}>
           {/* {!userLoading && user.id === uid && ( */}

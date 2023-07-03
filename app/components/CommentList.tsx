@@ -1,6 +1,10 @@
+"use client";
+
 import React from "react";
 import { PostProps } from "../hooks/post";
 import { useComments } from "../hooks/comments";
+import Comment from "./Comment";
+import { Stack } from "@chakra-ui/react";
 
 interface CommentListProps {
   post: PostProps;
@@ -13,11 +17,11 @@ const CommentList: React.FC<CommentListProps> = ({ post }) => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <>
+    <Stack spacing={8} mt={"35px"} ml={"55px"}>
       {comments?.map((comment) => (
-        <div key={comment.id}>{comment.text}</div>
+        <Comment key={comment.id} comment={comment} />
       ))}
-    </>
+    </Stack>
   );
 };
 

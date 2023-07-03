@@ -1,15 +1,3 @@
-// import {
-//   useCollectionData,
-//   useDocumentData,
-// } from "react-firebase-hooks/firestore";
-// import { db, storage } from "../lib/firebase";
-// import { collection, doc, query, updateDoc } from "firebase/firestore";
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useToast } from "@chakra-ui/react";
-// import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
-// import { query, doc, DocumentData, useDocumentData } from "firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuth } from "@/app/hooks/auth";
 import { useAddComment } from "@/app/hooks/comments";
 import { PostProps } from "@/app/hooks/post";
@@ -38,6 +40,8 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
 
   if (authLoading || !user) return <div>Loading...</div>;
 
+  const formWidth = { width: "100%" };
+
   return (
     <Flex gap={"10px"}>
       {/* <Avatar name="Chibuokem Egbuchulam" /> */}
@@ -45,7 +49,7 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
       <Avatar user={user} />
       {/* </Flex> */}
       {/* <Flex flex={0.9}> */}
-      <form onSubmit={handleSubmit(handleAddComment)} style={{ width: "100%" }}>
+      <form onSubmit={handleSubmit(handleAddComment)} style={formWidth}>
         <Box>
           <Textarea
             as={TextareaAutoSize}

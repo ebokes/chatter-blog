@@ -42,6 +42,8 @@ const Profile = () => {
       year: "numeric",
     });
   };
+
+  if (isLoading || !user) return <div>Loading...</div>;
   return (
     <main>
       <Box h={"100vh"}>

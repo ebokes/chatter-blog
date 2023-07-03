@@ -9,7 +9,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { uuidv4 } from "@firebase/util";
 import { db } from "../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
@@ -75,27 +75,27 @@ export function useComments(postID: string) {
   return { comments, isLoading };
 }
 
-// export function useDeleteComment(id: string) {
-//   const [isLoading, setLoading] = useState(false);
-//   const toast = useToast();
+export function useDeleteComment(id: string) {
+  const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
 
-//   async function deleteComment() {
-//     const res = window.confirm("Are you sure you want to delete this comment?");
+  async function deleteComment() {
+    const res = window.confirm("Are you sure you want to delete this comment?");
 
-//     if (res) {
-//       setLoading(true);
-//       const docRef = doc(db, "comments", id);
-//       await deleteDoc(docRef);
-//       toast({
-//         title: "Comment deleted!",
-//         status: "info",
-//         isClosable: true,
-//         position: "top",
-//         duration: 5000,
-//       });
-//       setLoading(false);
-//     }
-//   }
+    if (res) {
+      setLoading(true);
+      const docRef = doc(db, "comments", id);
+      await deleteDoc(docRef);
+      toast({
+        title: "Comment deleted!",
+        status: "info",
+        isClosable: true,
+        position: "top",
+        duration: 5000,
+      });
+      setLoading(false);
+    }
+  }
 
-//   return { deleteComment, isLoading };
-// }
+  return { deleteComment, isLoading };
+}
