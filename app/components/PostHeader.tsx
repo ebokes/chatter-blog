@@ -32,7 +32,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
       <Flex gap={2} mb="10px">
         <Avatar user={user} />
         <Box>
-          <Link href={`/dashboard/profile/${user?.id}`}>
+          <Link href={`/pages/dashboard/profile/${user?.id}`}>
             <Heading fontSize="20px" fontWeight={600} mb={1}>
               {user?.displayName}
             </Heading>
@@ -49,7 +49,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
               </>
             ) : (
               <>
-                <Text>@{user?.email.split("@")[0]}</Text>
+                <Text>@{user?.email?.split("@")[0]}</Text>
                 <Box
                   boxSize="4px"
                   bg={colorMode === "light" ? "brand.800" : "brand.400"}

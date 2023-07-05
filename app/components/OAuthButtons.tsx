@@ -1,18 +1,22 @@
 import { Button, ButtonGroup, useColorMode, useToast } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
-import { useGoogle } from "../hooks/auth";
+// import { useGoogle } from "../hooks/auth";
+import { useContext, useEffect } from "react";
+import { ChatterContext } from "../context/ChatterContext";
+import { useRouter } from "next/navigation";
 
 const OAuthButtons = () => {
   const { colorMode } = useColorMode();
+  const { googleUser, handleUserAuth } = useContext(ChatterContext);
   // const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const toast = useToast();
-  // const router = useRouter();
-  const {
-    signInWithGoogle,
-    googleUser,
-    googleLoading,
-    error: gError,
-  } = useGoogle();
+  const router = useRouter();
+  // const {
+  //   signInWithGoogle,
+  //   googleUser,
+  //   googleLoading,
+  //   error: gError,
+  // } = useGoogle();
   // console.log("OauthButtonsGOO", gUser?.user);
 
   // useEffect(() => {
@@ -20,6 +24,22 @@ const OAuthButtons = () => {
   //     router.push("/pages/dashboard");
   //   }
   // }, [gUser, router]);
+
+  // if (googleLoading) return <p>Loading...</p>;
+  // console.log(googleUser?.user);
+  useEffect(() => {
+    if (googleUser) {
+      router.push("/pages/dashboard");
+      toast({
+        title: "Login successful",
+        status: "success",
+        isClosable: true,
+        position: "top-right",
+        duration: 5000,
+      });
+    }
+  }, [googleUser, toast, router]);
+  console.log("googleUser ==> ", googleUser?.user);
 
   return (
     <ButtonGroup
@@ -38,13 +58,15 @@ const OAuthButtons = () => {
         leftIcon={<FcGoogle size={"24px"} />}
         bg={colorMode === "light" ? "brand.300" : "brand.800"}
         // color={colorMode === "light" ? "brand.900" : "brand.350"}
-        isLoading={googleLoading}
-        onClick={() => signInWithGoogle()}
+        // isLoading={googleLoading}
+        onClick={handleUserAuth}
+        // isLoading={googleLoading}
+        // onClick={() => signInWithGoogle()}
       >
         Continue with google
       </Button>
 
-      {gError &&
+      {/* {gError &&
         toast({
           title: "Logging in failed",
           description: gError?.message,
@@ -52,7 +74,7 @@ const OAuthButtons = () => {
           isClosable: true,
           position: "top-right",
           duration: 5000,
-        })}
+        })} */}
     </ButtonGroup>
   );
 };

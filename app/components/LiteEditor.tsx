@@ -87,10 +87,17 @@ const LiteEditor: React.FC = () => {
     return readTime;
   }
 
-  const handleEditorChange = ({ text }: { text: string }) => {
+  const handleEditorChange = ({
+    html,
+    text,
+  }: {
+    text: string;
+    html: string;
+  }) => {
+    // console.log("handleEditorChange", html, text);
     setEntry((prevEntry) => ({
       ...prevEntry,
-      body: text,
+      body: html,
     }));
   };
 

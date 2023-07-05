@@ -4,12 +4,13 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { auth, db } from "../lib/firebase";
+import { auth, db, provider } from "../lib/firebase";
 import { useRouter } from "next/navigation";
 import { setDoc, doc, getDoc, DocumentData } from "firebase/firestore";
 import isUsernameExists from "../utils/isUsernameExists";
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { signInWithPopup } from "firebase/auth";
 
 interface SignUpProps {
   username: string;
@@ -30,11 +31,6 @@ export function useAuth() {
   const [authUser, authLoading, error] = useAuthState(auth);
   const [isLoading, setLoading] = useState(true);
   const [user, setUser] = useState<DocumentData | null>(null);
-  // const [Testuser, loading, eerror] = useAuthState(auth);
-
-  // console.log("TestData", Testuser);
-  // console.log("UseAuth now", user);
-  // console.log("UseAuth now", authUser);
 
   useEffect(() => {
     async function fetchData() {
@@ -170,6 +166,54 @@ export function useRegister() {
 }
 
 // export function useGoogleAuth() {
+//   const [isLoading, setLoading] = useState(false);
+//   const [googleUser, setGoogleUser] = useState<any>(null);
+//   const toast = useToast();
+//   const router = useRouter();
+
+//   setLoading(true)
+//     try {
+//       // const res = await signInWithPopup(auth, provider);
+
+//       await setDoc(doc(db, "users", user.uid), {
+//         id: user.uid,
+//         username: user.email.split("@")[0],
+//         firstName: user.displayName.split(" ")[0],
+//         lastName: user.displayName.split(" ")[1],
+//         displayName: user.displayName,
+//         email: user.email,
+//         joiningAs: "writer",
+//         avatar: user.photoURL,
+//         date: Date.now(),
+//       });
+
+//       toast({
+//         title: "Login successful",
+//         status: "success",
+//         isClosable: true,
+//         position: "top-right",
+//         duration: 5000,
+//       });
+
+//       router.push("/pages/dashboard");
+//     } catch (error: any) {
+//       toast({
+//         title: "Signing in failed",
+//         description: error.message,
+//         status: "error",
+//         isClosable: true,
+//         position: "top-right",
+//         duration: 5000,
+//       });
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
+
+//   return { register, isLoading };
+// // }
+
+// export function useGoogleAuth() {
 //   const [signInWithGoogle, gUser, gLoading, gError] =
 //     useSignInWithGoogle(auth);
 
@@ -186,21 +230,28 @@ export function useRegister() {
 
 // interface Props {}
 
-export const useGoogle = () => {
-  // const OAuthButtons = (props: Props) => {
-  // const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const [signInWithGoogle, googleUser, googleLoading, error] =
-    useSignInWithGoogle(auth);
-  const toast = useToast();
-  const router = useRouter();
+// export const useGoogle = () => {
+//   // const OAuthButtons = (props: Props) => {
+//   // const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+//   const [signInWithGoogle, googleUser, googleLoading, error] =
+//     useSignInWithGoogle(auth);
+//   const toast = useToast();
+//   const router = useRouter();
 
-  useEffect(() => {
-    if (googleUser) {
-      router.push("/pages/dashboard");
-    }
-  }, [googleUser, router]);
-  return { signInWithGoogle, googleUser, googleLoading, error };
-};
+//   useEffect(() => {
+//     if (googleUser) {
+//       toast({
+//         title: "Login successful",
+//         status: "success",
+//         isClosable: true,
+//         position: "top-right",
+//         duration: 5000,
+//       });
+//       router.push("/pages/dashboard");
+//     }
+//   }, [googleUser, toast, router]);
+//   return { signInWithGoogle, googleUser, googleLoading, error };
+// };
 
 export function useLogout() {
   const [signOut, isLoading, error] = useSignOut(auth);

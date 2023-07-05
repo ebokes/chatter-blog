@@ -40,8 +40,6 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
 
   if (authLoading || !user) return <div>Loading...</div>;
 
-  const formWidth = { width: "100%" };
-
   return (
     <Flex gap={"10px"}>
       {/* <Avatar name="Chibuokem Egbuchulam" /> */}
@@ -49,7 +47,7 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
       <Avatar user={user} />
       {/* </Flex> */}
       {/* <Flex flex={0.9}> */}
-      <form onSubmit={handleSubmit(handleAddComment)} style={formWidth}>
+      <form onSubmit={handleSubmit(handleAddComment)} className="form">
         <Box>
           <Textarea
             as={TextareaAutoSize}

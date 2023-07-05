@@ -4,16 +4,16 @@ import { db } from "../lib/firebase";
 import { useEffect, useState } from "react";
 
 export interface UserData {
-  displayName: string;
-  avatar: string;
-  email: string;
-  username: string;
-  uid: string;
-  date: number;
-  role: string;
-  bio: string;
-  likes: string[];
-  id: string;
+  displayName?: string;
+  avatar?: string;
+  email?: string;
+  username?: string;
+  uid?: string;
+  date?: number;
+  role?: string;
+  bio?: string;
+  likes?: string[];
+  id?: string;
 }
 
 interface UserHookResult {

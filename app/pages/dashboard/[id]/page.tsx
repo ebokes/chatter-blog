@@ -2,7 +2,7 @@
 
 import Comments from "@/app/components/Comments";
 // import Comments from "@/app/components/comments/Comments";
-import { usePost, usePosts } from "@/app/hooks/post";
+import { PostProps, usePost, usePosts } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
 import Loading from "@/app/loader/Loading";
 import { formatDate } from "@/app/utils/funcns";
@@ -29,23 +29,9 @@ interface MarkdownProps {
   children: string;
 }
 
-// interface MarkdownRendererProps {
-//   markdownText: string;
-// }
-interface PostDetailProps {
-  avatar: string;
-  name: string;
-  role?: string;
-  postedOn: any;
-  title: string;
-  postLength: string;
-  intro: string;
-  image: string;
-}
-
 const Post = () => {
   const { colorMode } = useColorMode();
-  const [currentPost, setCurrentPost] = useState<PostDetailProps | any>(null);
+  const [currentPost, setCurrentPost] = useState<PostProps | any>(null);
   const params = useParams();
   const { id } = params;
   const { posts, isLoading: postsLoading } = usePosts();
@@ -90,7 +76,7 @@ const Post = () => {
                     {user?.role ? (
                       <Text>{user?.role}</Text>
                     ) : (
-                      <Text>@{user?.email.split("@")[0]}</Text>
+                      <Text>@{user?.email?.split("@")[0]}</Text>
                     )}
                     <Box
                       boxSize={"4px"}

@@ -235,3 +235,147 @@ export function useLogout() {
 
   return { logout, isLoading };
 }
+
+
+
+import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import ReactMarkdown from "react-markdown";
+import MarkdownEditor from "react-markdown-editor-lite";
+import "react-markdown-editor-lite/lib/index.css";
+import { useContext, useState } from "react";
+import { PostProps, useAddPost } from "../hooks/post";
+import { useAuth } from "../hooks/auth";
+
+const PostPreview = ({ content }: { content: string }) => {
+  return <ReactMarkdown>{content}</ReactMarkdown>;
+};
+
+const PostEditor = ({
+  initialContent,
+  onChange,
+}: {
+  initialContent: string;
+  onChange: (newContent: string) => void;
+}) => {
+  return (
+    <MarkdownEditor
+      value={initialContent}
+      renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
+      onChange={({ text }) => onChange(text)}
+    />
+  );
+};
+
+const PostPage = () => {
+  const [content, setContent] = useState("");
+  const { addPost, isLoading: publishingPost } = useAddPost();
+  const { entry, setEntry } = useContext(ChatterContext);
+  // const { colorMode } = useColorMode();
+  // const mdParser = new MarkdownIt();
+  // const toast = useToast();
+  // const [publishLoading, setPublishLoading] = useState(false);
+  // const [draftLoading, setDraftLoading] = useState(false);
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  // const router = useRouter();
+  // const { addPost, isLoading: publishingPost } = useAddPost();
+  const { user, isLoading: authLoading } = useAuth();
+
+  const handleEditorChange = (newContent: string) => {
+    setContent(newContent);
+  };
+
+  async function handlePublish(
+    content: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) {
+    event.preventDefault();
+    addPost({
+      // uid: user?.id,
+      // title: entry.title,
+      // bannerImg: entry.bannerImg,
+      body: content,
+      // category: entry.category,
+      // postLength: entry.postLength,
+      // postedOn: Date.now(),
+      // intro: entry.intro,
+    });
+  }
+
+  console.log(content);
+
+  return (
+    <Box p={4}>
+      <Heading>Edit Post</Heading>
+      <PostEditor initialContent={content} onChange={handleEditorChange} />
+      <Heading size="md" mt={4}>
+        Preview
+      </Heading>
+      <Box border="1px" borderColor="gray.200" p={4}>
+        <PostPreview content={content} />
+      </Box>
+      <Button
+        type="submit"
+        bg="#543EE0"
+        _hover={{ bg: "#715fe3" }}
+        color={"white"}
+        onClick={(event) => handlePublish(content, event)}
+        isLoading={publishingPost}
+      >
+        Publish
+      </Button>
+    </Box>
+  );
+};
+
+export default PostPage;
+
+
+{isLoading ? (
+          "loading..."
+        ) : (
+          <>
+            {!user ? (
+              <Stack
+                flex={{ base: 1, md: 0 }}
+                justify={"flex-end"}
+                direction={"row"}
+                spacing={6}
+              >
+                <Button
+                  as={NextLink}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  variant={"link"}
+                  href={"/pages/signin"}
+                  px={"15px"}
+                  py={"7px"}
+                  color={"brand.600"}
+                  border={"1px solid"}
+                  borderColor={"brand.600"}
+                  _hover={{
+                    bg: "brand.700",
+                    color: "white",
+                  }}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  as={NextLink}
+                  display={{ base: "none", md: "inline-flex" }}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  color={"white"}
+                  bg={"brand.600"}
+                  href={"/pages/signup"}
+                  _hover={{
+                    bg: "brand.700",
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </Stack>
+            ) : (
+              <NavMenu />
+            )}
+          </>
+        )}

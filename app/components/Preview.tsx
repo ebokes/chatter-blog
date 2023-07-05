@@ -1,5 +1,6 @@
 "use client";
 
+import { ReactNode } from "react";
 import Comments from "@/app/components/Comments";
 import { ChatterContext } from "@/app/context/ChatterContext";
 import { auth } from "@/app/lib/firebase";
@@ -45,6 +46,29 @@ interface MarkdownProps {
 //   markdownText: string;
 // }
 
+interface FormattedArticleProps {
+  content: string;
+}
+
+const FormattedArticle: React.FC<FormattedArticleProps> = ({ content }) => {
+  return <div dangerouslySetInnerHTML={{ __html: content }} />;
+};
+
+// Usage example
+const htmlContent =
+  "<h1>Mastering the Art of Public Speaking: Key Tips for Success</h1> ..."; // Provide your HTML content here
+
+// const ArticlePage: React.FC = () => {
+//   return (
+//     <div>
+//       <h1>Article Page</h1>
+//       <FormattedArticle content={htmlContent} />
+//     </div>
+//   );
+// };
+
+// export default ArticlePage;
+
 const Preview = () => {
   const { colorMode } = useColorMode();
   const { entry } = useContext(ChatterContext);
@@ -59,6 +83,8 @@ const Preview = () => {
     const html = md.render(markdownText);
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   }
+
+  // console.log(entry.body);
 
   return (
     <>
@@ -121,8 +147,11 @@ const Preview = () => {
                 <Heading fontWeight={700} fontSize={"34px"} my={"30px"}>
                   {entry.title}
                 </Heading>
-
-                <Box>{renderMarkdownToHtml(entry.body)}</Box>
+                <Box>
+                  <FormattedArticle content={entry.body} />
+                </Box>
+                {/* <Box>{renderMarkdownToHtml(entry.body)}</Box> */}
+                {/* <Box>{entry.body}</Box> */}
               </Stack>
             </Box>
           </Box>

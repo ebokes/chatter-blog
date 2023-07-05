@@ -11,3 +11,23 @@
     border-radius: 3px;
   }
 }
+
+.form {
+  width: "100%";
+}
+
+.formatted-article {
+  /* Define your styles for the article here */
+  /* Example styles for different HTML tags */
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin-bottom: 12px;
+  }
+
+  /* Add more styles for other HTML tags as needed */
+}

@@ -1,10 +1,10 @@
 "use client";
 
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Center, Flex, calc } from "@chakra-ui/react";
 import React from "react";
 
 const page = () => {
-  return <>Drafts</>;
+  return <Center h={"88vh"}>Coming soon...</Center>;
 };
 
 export default page;

@@ -22,17 +22,6 @@ import { ChatterContext } from "../context/ChatterContext";
 import { db } from "../lib/firebase";
 import { useRouter } from "next/navigation";
 
-// interface Entry {
-//   uid: string;
-//   title: string;
-//   bannerImg: string;
-//   body: string;
-//   category: string;
-//   postedOn: number;
-//   postLength: number;
-//   intro: string;
-// }
-
 export interface PostProps {
   uid?: string;
   title?: string;
@@ -95,24 +84,37 @@ export function useAddPost() {
 }
 
 export function usePost(id: string) {
-  const q = doc(db, "posts", id);
+  const q = doc(db, "articles", id);
   const [post, isLoading] = useDocumentData(q);
 
   return { post, isLoading };
 }
 
-// export function usePosts(uid = null) {
+// export function usePosts(uid: string | null = null) {
 //   const q = uid
 //     ? query(
-//         collection(db, "posts"),
+//         collection(db, "articles"),
 //         orderBy("postedOn", "desc"),
 //         where("uid", "==", uid)
 //       )
-//     : query(collection(db, "posts"), orderBy("date", "desc"));
-//   const [posts, isLoading, error] = useCollectionData(q);
+//     : query(collection(db, "articles"), orderBy("date", "desc"));
+//   const [posts, isLoading, error] = useCollectionData<PostProps>(q);
 //   if (error) throw error;
 //   return { posts, isLoading };
 // }
+
+export function usePostsUid(uid: string | null = null) {
+  const q = query(
+    collection(db, "articles"),
+    orderBy("postedOn", "desc"),
+    where("uid", "==", uid)
+  );
+
+  const [posts, isLoading, error] = useCollectionData(q);
+  if (error) throw error;
+  return { posts, isLoading };
+}
+
 export function usePosts() {
   const q = query(collection(db, "articles"), orderBy("postedOn", "desc"));
   const [posts, isLoading, error] = useCollectionData(q);
@@ -153,7 +155,7 @@ export function useDeletePost(id: string) {
       setLoading(true);
 
       // Delete post document
-      await deleteDoc(doc(db, "posts", id));
+      await deleteDoc(doc(db, "articles", id));
 
       // Delete comments
       const q = query(collection(db, "comments"), where("postID", "==", id));

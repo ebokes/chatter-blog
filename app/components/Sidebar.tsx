@@ -50,7 +50,7 @@ import { useAuth, useLogout } from "../hooks/auth";
 import { auth } from "../lib/firebase";
 import Loading from "../loader/Loading";
 import DashboardWrapper from "./DashboardWrapper";
-// import Avatar from "./Avatar";
+import NavMenu from "./NavMenu";
 
 interface ItemProps {
   name: string;
@@ -156,7 +156,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="bold" color="#543EE0">
-          CHATTER
+          <NextLink href="/">CHATTER</NextLink>
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
@@ -352,63 +352,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               icon={colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
             />
           </HStack>
-          <HStack spacing={{ base: "0", md: "6" }}>
-            <IconButton
-              // size="lg"
-              variant="ghost"
-              aria-label="open menu"
-              icon={<FiBell />}
-            />
-            <Flex alignItems={"center"}>
-              <Menu>
-                <MenuButton
-                  py={2}
-                  transition="all 0.3s"
-                  _focus={{ boxShadow: "none" }}
-                >
-                  <HStack>
-                    <Avatar
-                      size={"sm"}
-                      name={user?.firstName + " " + user?.lastName}
-                      src={user?.avatar}
-                    />
-                    {/* {isLoading ? (
-                      <SkeletonCircle size="10" />
-                    ) : (
-                      <Avatar user={user} size="md" />
-                    )} */}
-                    {/* <Avatar user={user} size="md" /> */}
-                    {/* <Text>{session?.data?.user?.email}</Text> */}
-                    {/* <VStack
-                      display={{ base: "none", md: "flex" }}
-                      alignItems="flex-start"
-                      spacing="1px"
-                      ml="2"
-                    >
-                      <Text fontSize="sm">{user?.displayName}</Text>
-                    </VStack>
-                    <Box display={{ base: "none", md: "flex" }}>
-                      <FiChevronDown />
-                    </Box> */}
-                  </HStack>
-                </MenuButton>
-                <MenuList
-                  bg={colorMode === "light" ? "brand.300" : "brand.950"}
-
-                  // borderColor="gray.200"
-                >
-                  <MenuItem
-                    as={NextLink}
-                    href={`/pages/dashboard/profile/${user?.id}`}
-                  >
-                    {user?.displayName}
-                  </MenuItem>
-                  <MenuDivider />
-                  <MenuItem onClick={logout}>Sign out</MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
-          </HStack>
+          <NavMenu />
         </HStack>
       </Flex>
     </Box>

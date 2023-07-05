@@ -1,20 +1,8 @@
-// import React from "react";
-
-// const page = ({ user }) => {
-//   return <div>{id}</div>;
-// };
-
-// export default page;
-// import React from "react";
-
-// const Profile = () => {
-//   return <div>Profile</div>;
-// };
-
-// export default Profile;
 "use client";
 
-import { useAuth } from "@/app/hooks/auth";
+import { usePostsUid } from "@/app/hooks/post";
+import { useUser } from "@/app/hooks/user";
+import { formatDate } from "@/app/utils/funcns";
 import {
   Avatar,
   Box,
@@ -25,23 +13,18 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 import { FaRegCommentDots } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
-import { MdOutlineArticle } from "react-icons/md";
+import { MdOutlineArticle, MdOutlineCake } from "react-icons/md";
 import { TiGroup } from "react-icons/ti";
 
 const Profile = () => {
+  const params = useParams();
+  const { id } = params;
   const { colorMode } = useColorMode();
-  const { user, isLoading } = useAuth();
-
-  const formatDate = (date: Date) => {
-    const newDate = new Date(date);
-    return newDate.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  const { user, isLoading } = useUser(id);
+  const { posts, isLoading: postsLoading } = usePostsUid(id);
 
   if (isLoading || !user) return <div>Loading...</div>;
   return (
@@ -79,12 +62,16 @@ const Profile = () => {
               size={"2xl"}
               mt={"-90px"}
               border={"5px solid black"}
+              src={user?.avatar}
             />
             <Heading fontSize={{ base: "xl", md: "2xl" }}>
               {user?.displayName}
             </Heading>
             <Text>404 Bio not found</Text>
-            <Text>Joined on {formatDate(user?.date)}</Text>
+            <HStack>
+              <Icon as={MdOutlineCake} size="33px" />
+              <Text>Joined on {formatDate(user?.date ?? 0)}</Text>
+            </HStack>
           </Center>
           <Box
             mx={"auto"}
@@ -97,7 +84,7 @@ const Profile = () => {
           >
             <HStack>
               <Icon as={MdOutlineArticle} />
-              <Text>0 posts published</Text>
+              <Text>{posts?.length} posts published</Text>
             </HStack>
             <HStack>
               <Icon as={FaRegCommentDots} />

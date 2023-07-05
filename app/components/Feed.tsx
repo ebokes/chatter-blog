@@ -1,7 +1,5 @@
 "use client";
 import {
-  Box,
-  Button,
   Flex,
   Heading,
   Stack,
@@ -14,14 +12,19 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import Link from "next/link";
-import { ImPencil } from "react-icons/im";
-import { usePosts } from "../hooks/post";
-import PostCard from "./PostCard";
+import { useAuth } from "../hooks/auth";
+import { usePosts, usePostsUid } from "../hooks/post";
+import PostList from "./PostList";
 
 const Feed = () => {
-  const { posts, isLoading: postLoading } = usePosts();
+  const { posts, isLoading: postsLoading } = usePosts();
+  const { user: authUser, isLoading: authLoading } = useAuth();
+  const { posts: postsUid, isLoading: postsUidLoading } = usePostsUid(
+    authUser?.id
+  );
   const { colorMode } = useColorMode();
+
+  if (authLoading) return <div>Loading...</div>;
 
   return (
     <>
@@ -32,20 +35,6 @@ const Feed = () => {
           </Heading>
           <Text>Explore different content you’d love </Text>
         </Stack>
-
-        {/* <Button
-          as={Link}
-          href={"/pages/dashboard/write"}
-          bg={"brand.600"}
-          color={"white"}
-          _hover={{
-            bg: "brand.700",
-          }}
-          leftIcon={<ImPencil />}
-          // display={user ? "unset" : "none"}
-        >
-          Write
-        </Button> */}
       </Flex>
 
       <Tabs position="relative" variant="unstyled">
@@ -58,16 +47,17 @@ const Feed = () => {
           borderRadius={"10px"}
           display={"flex"}
           justifyContent={"space-between"}
+          textAlign={"center"}
           // px={{ base: "0rem", md: "1rem" }}
         >
           <Tab>
             <Heading fontWeight={500} fontSize={24} py={"16px"}>
-              For you
+              General
             </Heading>
           </Tab>
           <Tab>
             <Heading fontWeight={500} fontSize={24} py={"16px"}>
-              Featured
+              My Feed
             </Heading>
           </Tab>
           <Tab>
@@ -84,24 +74,18 @@ const Feed = () => {
         />
         <TabPanels>
           <TabPanel p="0">
-            <Box
-              // border={"1px solid"}
-              // borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-              borderRadius={"lg"}
-              // justify={"space-between"}
-              mt={"19px"}
-              // px={{ base: "24px", lg: "44px" }}
-              //  px={"51px"}
-            >
-              {posts?.length === 0 ? (
-                <Text>No posts yet</Text>
-              ) : (
-                posts?.map((post) => <PostCard key={post.id} post={post} />)
-              )}
-            </Box>
+            {postsLoading ? (
+              <Text>Posts are loading</Text>
+            ) : (
+              <PostList posts={posts} />
+            )}
           </TabPanel>
-          <TabPanel>
-            <p>Featured</p>
+          <TabPanel p={0}>
+            {postsUidLoading ? (
+              <Text>Posts are loading</Text>
+            ) : (
+              <PostList posts={postsUid} />
+            )}
           </TabPanel>
           <TabPanel>
             <p>Recent</p>

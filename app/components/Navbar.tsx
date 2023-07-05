@@ -29,10 +29,13 @@ import {
 import NextLink from "next/link";
 import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { usePathname } from "next/navigation";
+import { useAuth } from "../hooks/auth";
+import NavMenu from "./NavMenu";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { user, isLoading, error } = useAuth();
 
   return (
     <Box width="full" bg={colorMode === "light" ? "brand.300" : "brand.800"}>
@@ -88,45 +91,53 @@ export default function Navbar() {
         >
           {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
         </Button>
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Button
-            as={NextLink}
-            fontSize={"sm"}
-            fontWeight={600}
-            variant={"link"}
-            href={"/pages/signin"}
-            px={"15px"}
-            py={"7px"}
-            color={"brand.600"}
-            border={"1px solid"}
-            borderColor={"brand.600"}
-            _hover={{
-              bg: "brand.700",
-              color: "white",
-            }}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={NextLink}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"brand.600"}
-            href={"/pages/signup"}
-            _hover={{
-              bg: "brand.700",
-            }}
-          >
-            Sign Up
-          </Button>
-        </Stack>
+        {isLoading ? null : (
+          <>
+            {!user ? (
+              <Stack
+                flex={{ base: 1, md: 0 }}
+                justify={"flex-end"}
+                direction={"row"}
+                spacing={6}
+              >
+                <Button
+                  as={NextLink}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  variant={"link"}
+                  href={"/pages/signin"}
+                  px={"15px"}
+                  py={"7px"}
+                  color={"brand.600"}
+                  border={"1px solid"}
+                  borderColor={"brand.600"}
+                  _hover={{
+                    bg: "brand.700",
+                    color: "white",
+                  }}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  as={NextLink}
+                  display={{ base: "none", md: "inline-flex" }}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  color={"white"}
+                  bg={"brand.600"}
+                  href={"/pages/signup"}
+                  _hover={{
+                    bg: "brand.700",
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </Stack>
+            ) : (
+              <NavMenu />
+            )}
+          </>
+        )}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
