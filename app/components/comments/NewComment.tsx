@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 // import Avatar from "./Avatar";
 // import { useAddComment } from "../hooks/comments";
 import TextareaAutoSize from "react-textarea-autosize";
-import Avatar from "./Avatar";
+import Avatar from "../Avatar";
 // import Avatar from "../Avatar";
 
 interface NewCommentProps {

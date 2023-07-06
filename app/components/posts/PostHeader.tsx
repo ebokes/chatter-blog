@@ -1,17 +1,20 @@
 import React from "react";
 import {
+  // Avatar,
   Box,
   Flex,
   Heading,
   HStack,
+  SkeletonCircle,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
-import { useUser } from "../hooks/user";
-import Avatar from "./Avatar";
+import Avatar from "../Avatar";
 import Link from "next/link";
-import { formatDate } from "../utils/funcns";
+import { formatDate } from "@/app/utils/funcns";
+import { useUser } from "@/app/hooks/user";
+import PostHeaderLoader from "@/app/loader/PostHeader";
+// import { formatDate } from "../utils/funcns";
 
 interface PostHeaderProps {
   post: {
@@ -25,7 +28,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
   const { colorMode } = useColorMode();
   const { user, isLoading } = useUser(post.uid);
 
-  if (isLoading || !user) return <div>Loading...</div>;
+  if (isLoading || !user) return <PostHeaderLoader />;
 
   return (
     <HStack justify="space-between" w="full">

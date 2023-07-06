@@ -10,20 +10,20 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import Avatar from "./Avatar";
-import { formatDate } from "../utils/funcns";
-import { useUser } from "../hooks/user";
+import Avatar from "../Avatar";
+import { formatDate } from "../../utils/funcns";
+import { useUser } from "../../hooks/user";
 import Link from "next/link";
 import { FaTrash } from "react-icons/fa";
-import { useDeleteComment } from "../hooks/comments";
-import { useAuth } from "../hooks/auth";
+import { useDeleteComment } from "../../hooks/comments";
+import { useAuth } from "../../hooks/auth";
 
 const Comment = ({ comment }: any) => {
   const { text, date, uid, id } = comment;
   const { colorMode } = useColorMode();
   const { user, isLoading } = useUser(uid);
   const { user: userAuth, isLoading: authLoading } = useAuth();
-  const { deleteComment, isLoading: deleteLoading } = useDeleteComment(id);
+  // const { deleteComment, isLoading: deleteLoading } = useDeleteComment(id);
 
   if (isLoading || !user) return <div>Loading...</div>;
 
@@ -39,7 +39,7 @@ const Comment = ({ comment }: any) => {
               fontSize={"16px"}
               fontWeight={600}
             >
-              {user.displayName}
+              {user?.displayName}
             </Heading>
             <Box
               bg={colorMode === "light" ? "brand.800" : "brand.400"}
@@ -59,8 +59,8 @@ const Comment = ({ comment }: any) => {
             <IconButton
               ml="auto"
               aria-label="delete post"
-              onClick={deleteComment}
-              isLoading={deleteLoading}
+              // onClick={deleteComment}
+              // isLoading={deleteLoading}
               colorScheme="red"
               variant="ghost"
               icon={<FaTrash />}

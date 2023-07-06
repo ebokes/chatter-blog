@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import Comments from "@/app/components/Comments";
+// import Comments from "@/app/components/Comments";
 import { ChatterContext } from "@/app/context/ChatterContext";
 import { auth } from "@/app/lib/firebase";
 import Loading from "@/app/loader/Loading";

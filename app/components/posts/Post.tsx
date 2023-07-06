@@ -1,6 +1,6 @@
 "use client";
 
-import Comments from "@/app/components/Comments";
+// import Comments from "@/app/components/Comments";
 // import Comments from "@/app/components/comments/Comments";
 import { PostProps, usePost, usePosts } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
@@ -9,6 +9,8 @@ import { formatDate } from "@/app/utils/funcns";
 import {
   Avatar,
   Box,
+  Button,
+  Center,
   Flex,
   HStack,
   Heading,
@@ -25,6 +27,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
+import Comments from "../comments/CommentWrapper";
 // import Avatar from "../Avatar";
 
 const Post = () => {
@@ -62,7 +65,7 @@ const Post = () => {
         color={colorMode === "light" ? "brand.800" : "brand.400"}
         // border={"1px solid red"}
       >
-        <Stack mt={27} mx={{ base: "0px", lg: "44px" }}>
+        <Stack mt={27}>
           <Box>
             <Flex justify={"space-between"} w={"full"}>
               <Flex gap={2} mb={"15px"}>
@@ -75,15 +78,26 @@ const Post = () => {
                 />
                 {/* <Avatar user={user} /> */}
                 <Box>
-                  <Heading
-                    fontSize={"20px"}
-                    fontWeight={600}
-                    mb={1}
-                    as={Link}
-                    href={`/pages/profile/${user?.id}`}
-                  >
-                    {user?.displayName}
-                  </Heading>
+                  <Box>
+                    <Heading
+                      fontSize={"20px"}
+                      fontWeight={600}
+                      mb={1}
+                      as={Link}
+                      href={`/pages/profile/${user?.id}`}
+                    >
+                      {user?.displayName}
+                    </Heading>
+                    <Text
+                      color="green"
+                      variant={"ghost"}
+                      display={"inline"}
+                      ml={"20px"}
+                      cursor={"pointer"}
+                    >
+                      Follow
+                    </Text>
+                  </Box>
                   <HStack flexWrap={"wrap"}>
                     {user?.role ? (
                       <Text>{user?.role}</Text>
@@ -123,25 +137,29 @@ const Post = () => {
                 />
               </Box>
             </Flex>
-            <Flex flex={0.7}>
+            <Center flex={0.7}>
               {currentPost?.bannerImg && (
                 <Image
                   src={currentPost?.bannerImg}
                   width={612}
                   height={242}
-                  alt="img"
+                  alt="banner image"
                   style={{
-                    width: "812px",
+                    // width: "full",
                     objectFit: "cover",
-                    height: "442px",
+                    // height: "442px",
                     objectPosition: "center",
                   }}
                 />
               )}
-            </Flex>
+            </Center>
             <Box>
               <Stack flex={1}>
-                <Heading fontWeight={700} fontSize={"34px"} my={"30px"}>
+                <Heading
+                  my={"30px"}
+                  fontSize={{ base: "28px", md: "34px" }}
+                  fontWeight={700}
+                >
                   {currentPost?.title}
                 </Heading>
 

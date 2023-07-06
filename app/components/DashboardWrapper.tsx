@@ -11,7 +11,7 @@ export default function DashboardWrapper({ children }: FeedProps) {
   const { colorMode } = useColorMode();
   return (
     <Box
-      px={5}
+      px={{ base: 2, sm: 5 }}
       border="1px solid"
       borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
     >

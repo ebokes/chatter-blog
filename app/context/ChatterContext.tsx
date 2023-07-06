@@ -87,6 +87,8 @@ export const ChatterProvider = ({
       email: user.email,
       joiningAs: "writer",
       avatar: user.photoURL,
+      followMe: [],
+      iFollow: [],
       date: Date.now(),
     });
   };

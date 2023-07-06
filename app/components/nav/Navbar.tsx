@@ -29,8 +29,9 @@ import {
 import NextLink from "next/link";
 import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { usePathname } from "next/navigation";
-import { useAuth } from "../hooks/auth";
+// import { useAuth } from "../hooks/auth";
 import NavMenu from "./NavMenu";
+import { useAuth } from "@/app/hooks/auth";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -38,18 +39,23 @@ export default function Navbar() {
   const { user, isLoading, error } = useAuth();
 
   return (
-    <Box width="full" bg={colorMode === "light" ? "brand.300" : "brand.800"}>
+    <Box
+      width="full"
+      bg={colorMode === "light" ? "brand.300" : "brand.800"}
+      borderBottom={"1px solid"}
+      borderBottomColor={colorMode === "light" ? "brand.400" : "brand.450"}
+    >
       <Flex
         color={colorMode === "light" ? "brand.800" : "brand.300"}
         minH={"60px"}
         py={{ base: 2 }}
-        px={{ base: 4 }}
+        px={{ base: 2, sm: 6 }}
         align={"center"}
         maxW={"1200px"}
         mx={"auto"}
       >
         <Flex
-          flex={{ base: 1, md: "auto" }}
+          // flex={{ base: 1, md: "auto" }}
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >

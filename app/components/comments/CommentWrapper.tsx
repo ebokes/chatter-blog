@@ -5,7 +5,7 @@ import { PostProps } from "@/app/hooks/post";
 import CommentList from "./CommentList";
 import NewComment from "./NewComment";
 
-const Comments = ({ post }: { post: PostProps }) => {
+const CommentWrapper = ({ post }: { post: PostProps }) => {
   return (
     <>
       <Box my={"30px"}>
@@ -19,4 +19,4 @@ const Comments = ({ post }: { post: PostProps }) => {
   );
 };
 
-export default Comments;
+export default CommentWrapper;

@@ -12,10 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { useAuth, useLogout } from "../hooks/auth";
+// import { useAuth, useLogout } from "../hooks/auth";
 import NextLink from "next/link";
 import Link from "next/link";
-import Avatar from "./Avatar";
+import { useAuth, useLogout } from "@/app/hooks/auth";
+import Avatar from "../Avatar";
+// import Avatar from "./Avatar";
 
 const NavMenu = () => {
   const { colorMode } = useColorMode();

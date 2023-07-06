@@ -46,10 +46,10 @@ import {
   MdSearch,
 } from "react-icons/md";
 import { SlPeople } from "react-icons/sl";
-import { useAuth, useLogout } from "../hooks/auth";
-import { auth } from "../lib/firebase";
-import Loading from "../loader/Loading";
-import DashboardWrapper from "./DashboardWrapper";
+import { useAuth, useLogout } from "../../hooks/auth";
+import { auth } from "../../lib/firebase";
+import Loading from "../../loader/Loading";
+import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
 
 interface ItemProps {
@@ -118,7 +118,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
         <MobileNav onOpen={onOpen} />
         <Box
           ml={{ base: 0, md: "241px" }}
-          p="4"
+          p={{ base: "0", sm: "4" }}
           bg={colorMode === "light" ? "brand.300" : "brand.800"}
         >
           <DashboardWrapper>{children}</DashboardWrapper>
@@ -156,7 +156,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="bold" color="#543EE0">
-          <NextLink href="/">CHATTER</NextLink>
+          <NextLink href="/pages/feed">CHATTER</NextLink>
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>

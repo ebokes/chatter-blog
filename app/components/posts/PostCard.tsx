@@ -56,8 +56,9 @@ const PostCard = ({ post, link = "dashboard" }: any) => {
                   src={post?.bannerImg}
                   width={312}
                   height={242}
-                  alt="img"
+                  alt="banner image"
                   priority={false}
+                  quality={20}
                   style={{
                     borderRadius: "10px",
                     objectFit: "cover",

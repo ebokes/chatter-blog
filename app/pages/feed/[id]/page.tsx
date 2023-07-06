@@ -1,14 +1,14 @@
 "use client";
 
-import Post from "@/app/components/Post";
-import Recommendation from "@/app/components/Rightbar";
+import Post from "@/app/components/posts/Post";
+import Rightbar from "@/app/components/nav/Rightbar";
 
 const GenPostWrapper = () => {
   return (
     <>
-      <Recommendation>
+      <Rightbar>
         <Post />
-      </Recommendation>
+      </Rightbar>
     </>
   );
 };

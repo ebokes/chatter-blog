@@ -1,6 +1,6 @@
 "use client";
 
-import Post from "@/app/components/Post";
+import Post from "@/app/components/posts/Post";
 
 const ProtectedPostWrapper = () => {
   return <Post />;

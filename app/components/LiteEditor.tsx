@@ -5,6 +5,13 @@ import {
   Flex,
   HStack,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
   useColorMode,
   useDisclosure,
@@ -15,14 +22,10 @@ import React, { useContext, useEffect, useState } from "react";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import { ChatterContext } from "../context/ChatterContext";
-// import Modal from "./ModalWrap";
 import Preview from "./Preview";
-// import PreviewModal from "./ModalWrap";
 import { useRouter } from "next/navigation";
-// import { useAddPost } from "../hooks/post";
 import { useAuth } from "../hooks/auth";
 import { useAddPost } from "../hooks/post";
-import ModalWrap from "./ModalWrap";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -124,8 +127,6 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
-  // console.log(entry);
-
   return (
     <Box w={"full"}>
       <form>
@@ -133,24 +134,8 @@ const LiteEditor: React.FC = () => {
           <HStack justify={"space-between"} w={"100%"}>
             {/* <Box /> */}
             <Button onClick={onOpen}>Preview</Button>
-            <ModalWrap
-              isOpen={isOpen}
-              onClose={onClose}
-              title="Article Preview"
-            >
-              <Preview />
-            </ModalWrap>
+
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
-              {/* <Button
-                type="submit"
-                bg="#543EE0"
-                _hover={{ bg: "#715fe3" }}
-                color={"white"}
-                onClick={handleSaveToDraft}
-                isLoading={draftLoading}
-              >
-                Save to draft
-              </Button> */}
               <Button
                 type="submit"
                 bg="#543EE0"
@@ -239,6 +224,20 @@ const LiteEditor: React.FC = () => {
           // onImageUpload={onImageUpload}
         />
       </form>
+
+      <Modal onClose={onClose} isOpen={isOpen} isCentered size={"3xl"}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Article Preview</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Preview />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

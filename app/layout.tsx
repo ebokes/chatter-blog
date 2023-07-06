@@ -22,7 +22,7 @@ export default function RootLayout({
         {/* <CSSReset /> */}
         <ChatterProvider>
           <Providers>
-            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+            {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
             {children}
           </Providers>
         </ChatterProvider>

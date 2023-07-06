@@ -20,6 +20,8 @@ interface SignUpProps {
   lastName: string;
   joiningAs: string;
   redirectTo: string;
+  followMe: string[];
+  iFollow: string[];
 }
 interface SignInProps {
   email: string;
@@ -132,6 +134,8 @@ export function useRegister() {
           lastName,
           displayName: firstName + " " + lastName,
           email,
+          followMe: [],
+          iFollow: [],
           joiningAs,
           avatar: "",
           date: Date.now(),
@@ -185,6 +189,8 @@ export function useGoogleAuth() {
         email: user.email,
         joiningAs: "writer",
         avatar: user.photoURL,
+        followMe: [],
+        iFollow: [],
         date: Date.now(),
       });
     };

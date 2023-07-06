@@ -1,7 +1,7 @@
 "use client";
 
-import PostCard from "@/app/components/PostCard";
-import Recommendation from "@/app/components/Rightbar";
+import PostCard from "@/app/components/posts/PostCard";
+import Rightbar from "@/app/components/nav/Rightbar";
 import { usePosts } from "@/app/hooks/post";
 import { Box, useColorMode } from "@chakra-ui/react";
 
@@ -10,7 +10,7 @@ const Feed = () => {
   const { colorMode } = useColorMode();
   return (
     <>
-      <Recommendation>
+      <Rightbar>
         <Box my={10}>
           <Box>
             {posts?.map((post) => (
@@ -18,7 +18,7 @@ const Feed = () => {
             ))}
           </Box>
         </Box>
-      </Recommendation>
+      </Rightbar>
     </>
   );
 };

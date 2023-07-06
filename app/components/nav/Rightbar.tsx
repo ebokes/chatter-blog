@@ -1,39 +1,25 @@
 "use client";
 
-import { Box, Flex, Link, Text, useColorMode } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import {
+  Box,
+  Flex,
+  Link,
+  Skeleton,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
+import { ReactNode, useState } from "react";
 import Navbar from "./Navbar";
 import { px } from "framer-motion";
-
-interface CategoryProps {
-  categories: string[];
-}
+import { usePosts } from "@/app/hooks/post";
+import Card from "@/app/loader/RecentPosts";
 
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
-  const categories = [
-    "Science",
-    "Lifestyle",
-    "Travel",
-    "Food",
-    "Technology",
-    "Politics",
-  ];
+  const { posts, isLoading } = usePosts();
+  const sortedPosts = posts?.sort((a, b) => b.postedOn - a.postedOn);
+  const recentPosts = sortedPosts?.slice(0, 3);
 
-  const latestPosts = [
-    {
-      title: "Post 1",
-      date: "June 10, 2023",
-    },
-    {
-      title: "Post 2",
-      date: "June 10, 2023",
-    },
-    {
-      title: "Post 3",
-      date: "June 10, 2023",
-    },
-  ];
   return (
     <>
       <Navbar />
@@ -79,38 +65,45 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                   Categories
                 </Text>
                 <Flex gap={2} flexWrap={"wrap"}>
-                  {categories.map((category) => (
-                    <Link
-                      px={2}
-                      py={1}
-                      borderRadius={"2xl"}
-                      border={"1px solid"}
-                      key={category}
-                      href=""
-                      display="block"
-                      mb="2"
-                    >
-                      {category}
-                    </Link>
-                  ))}
+                  {Array.from(new Set(posts?.map((post) => post.category))).map(
+                    (category) => (
+                      <Link
+                        px={2}
+                        py={1}
+                        borderRadius={"2xl"}
+                        border={"1px solid"}
+                        key={category}
+                        href=""
+                        display="block"
+                        mb="2"
+                      >
+                        {category}
+                      </Link>
+                    )
+                  )}
                 </Flex>
               </Box>
               <Box mt="8">
                 <Text fontSize="md" fontWeight="bold" mb="4">
                   Recent Posts
                 </Text>
-                {latestPosts.map((post) => (
+                {recentPosts?.map((post) => (
                   <Box mb="2" key={post.title}>
-                    <Link display="block">{post.title}</Link>
+                    {/* <Skeleton isLoaded={!isLoading}> */}
+                    <Link display="block" href={`/pages/feed/${post.id}`}>
+                      {post.title}
+                    </Link>
+                    {/* </Skeleton> */}
                     <Text
                       fontSize="sm"
                       color={colorMode === "light" ? "brand.900" : "brand.350"}
                     >
-                      {post.date}
+                      {post.postedOn}
                     </Text>
                   </Box>
                 ))}
               </Box>
+              <Box>{/* <Card /> */}</Box>
             </Box>
           </Box>
         </Flex>

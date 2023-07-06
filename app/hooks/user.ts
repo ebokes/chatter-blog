@@ -1,4 +1,10 @@
-import { doc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  arrayRemove,
+  arrayUnion,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 import { useEffect, useState } from "react";
@@ -14,6 +20,8 @@ export interface UserData {
   bio?: string;
   likes?: string[];
   id?: string;
+  followMe?: string[];
+  iFollow?: string[];
 }
 
 interface UserHookResult {
@@ -49,6 +57,28 @@ export function useUser(id: string): UserHookResult {
   }, [id]);
 
   return { user, isLoading };
+}
+
+interface ToggleFollowProps {
+  id: string;
+  isFollowMe: boolean;
+  uid: string;
+}
+
+export function useToggleFollowMe({ id, isFollowMe, uid }: ToggleFollowProps) {
+  const [followMeLoading, setLoading] = useState(false);
+
+  async function toggleFollowMe() {
+    setLoading(true);
+
+    const docRef = doc(db, "users", id);
+    await updateDoc(docRef, {
+      follows: isFollowMe ? arrayRemove(uid) : arrayUnion(uid),
+    });
+    setLoading(false);
+  }
+
+  return { toggleFollowMe, followMeLoading };
 }
 
 // export function useUsers() {
