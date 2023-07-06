@@ -7,7 +7,7 @@ import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
 import Link from "next/link";
 import { useComments } from "../hooks/comments";
 
-const PostActions = ({ post }: any) => {
+const PostActions = ({ post, link = "dashboard" }: any) => {
   const { likes, id } = post;
   const { user, isLoading: userLoading } = useAuth();
   const isLiked = likes?.includes(user?.id);
@@ -32,7 +32,7 @@ const PostActions = ({ post }: any) => {
         <HStack spacing={"1px"}>
           <IconButton
             as={Link}
-            href={`/pages/dashboard/${id}`}
+            href={`/pages/${link}/${post.id}`}
             aria-label="comments"
             // isLoading={commentsLoading}
             size="md"

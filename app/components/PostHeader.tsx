@@ -32,7 +32,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
       <Flex gap={2} mb="10px">
         <Avatar user={user} />
         <Box>
-          <Link href={`/pages/dashboard/profile/${user?.id}`}>
+          <Link href={`/pages/profile/${user?.id}`}>
             <Heading fontSize="20px" fontWeight={600} mb={1}>
               {user?.displayName}
             </Heading>

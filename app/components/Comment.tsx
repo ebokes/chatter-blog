@@ -45,6 +45,8 @@ const Comment = ({ comment }: any) => {
               bg={colorMode === "light" ? "brand.800" : "brand.400"}
               borderRadius={"full"}
               mx={2}
+              w={"4px"}
+              h={"4px"}
             />
             <Text>{formatDate(date)}</Text>
           </Flex>

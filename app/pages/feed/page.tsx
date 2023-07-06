@@ -1,33 +1,22 @@
 "use client";
 
-import Post from "@/app/components/PostCard";
+import PostCard from "@/app/components/PostCard";
 import Recommendation from "@/app/components/Rightbar";
 import { usePosts } from "@/app/hooks/post";
-import { Box, Flex, useColorMode } from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, useColorMode } from "@chakra-ui/react";
 
 const Feed = () => {
-  // const { posts } = useContext(ChatterContext);
   const { posts, isLoading: postLoading } = usePosts();
   const { colorMode } = useColorMode();
-  // const { user, isLoading } = useAuth();
-  const [isBookmarked, setIsBookmarked] = useState(false);
-
-  const handleBookmark = () => {
-    setIsBookmarked((prev) => !prev);
-  };
   return (
     <>
       <Recommendation>
-        <Box>
-          <Flex align={"flex-end"} justify={"space-between"} my={5}></Flex>
-
+        <Box my={10}>
           <Box>
             {posts?.map((post) => (
-              <Post key={post.id} post={post} />
+              <PostCard key={post.id} post={post} link={"feed"} />
             ))}
           </Box>
-          {/* </Box> */}
         </Box>
       </Recommendation>
     </>

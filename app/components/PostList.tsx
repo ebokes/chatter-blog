@@ -3,7 +3,7 @@ import React from "react";
 import PostCard from "./PostCard";
 import { PostProps } from "../hooks/post";
 
-const PostList = ({ posts }: any) => {
+const PostList = ({ posts, link }: any) => {
   return (
     <Box
       // border={"1px solid"}
@@ -17,7 +17,9 @@ const PostList = ({ posts }: any) => {
       {posts?.length === 0 ? (
         <Text>No posts yet</Text>
       ) : (
-        posts?.map((post: PostProps) => <PostCard key={post.id} post={post} />)
+        posts?.map((post: PostProps) => (
+          <PostCard key={post.id} post={post} link={link} />
+        ))
       )}
     </Box>
   );

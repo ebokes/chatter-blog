@@ -42,37 +42,33 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
 
   return (
     <Flex gap={"10px"}>
-      {/* <Avatar name="Chibuokem Egbuchulam" /> */}
-      {/* <Flex flex={0.1}> */}
-      <Avatar user={user} />
-      {/* </Flex> */}
-      {/* <Flex flex={0.9}> */}
-      <form onSubmit={handleSubmit(handleAddComment)} className="form">
-        <Box>
-          <Textarea
-            as={TextareaAutoSize}
-            resize="none"
-            placeholder="Add to the discussion"
-            // flex={0.8}
-            w={"full"}
-            size={"xl"}
-            autoComplete="off"
-            minRows={3}
-            borderRadius={"md"}
-            px={3}
-            {...register("text", { required: true })}
-          />
-          <Button
-            mt={2}
-            justifySelf={"flex-end"}
-            isLoading={commentLoading || authLoading}
-            type="submit"
-          >
-            Submit
-          </Button>
-        </Box>
-      </form>
-      {/* </Flex> */}
+      <Avatar user={user} size="sm" />
+      <Box w={"full"}>
+        <form onSubmit={handleSubmit(handleAddComment)} className="form">
+          <Box>
+            <Textarea
+              as={TextareaAutoSize}
+              resize="none"
+              placeholder="Add to the discussion"
+              w={"full"}
+              size={"xl"}
+              autoComplete="off"
+              minRows={3}
+              borderRadius={"md"}
+              px={3}
+              {...register("text", { required: true })}
+            />
+            <Button
+              mt={2}
+              justifySelf={"flex-end"}
+              isLoading={commentLoading || authLoading}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Box>
+        </form>
+      </Box>
     </Flex>
   );
 };

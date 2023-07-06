@@ -1,19 +1,26 @@
 "use client";
 
+import ModalWrap from "@/app/components/ModalWrap";
+import Navbar from "@/app/components/Navbar";
 import { usePostsUid } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
 import { formatDate } from "@/app/utils/funcns";
 import {
   Avatar,
   Box,
+  Button,
   Center,
+  FormLabel,
   HStack,
   Heading,
   Icon,
+  Input,
   Text,
   useColorMode,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { FaRegCommentDots } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { MdOutlineArticle, MdOutlineCake } from "react-icons/md";
@@ -25,10 +32,17 @@ const Profile = () => {
   const { colorMode } = useColorMode();
   const { user, isLoading } = useUser(id);
   const { posts, isLoading: postsLoading } = usePostsUid(id);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>();
 
   if (isLoading || !user) return <div>Loading...</div>;
   return (
     <main>
+      <Navbar />
       <Box h={"100vh"}>
         <Box
           bgGradient={
@@ -71,6 +85,24 @@ const Profile = () => {
             <HStack>
               <Icon as={MdOutlineCake} size="33px" />
               <Text>Joined on {formatDate(user?.date ?? 0)}</Text>
+              <Button onClick={onOpen}>Edit</Button>
+              <ModalWrap
+                isOpen={isOpen}
+                onClose={onClose}
+                title="Article Preview"
+                size="xl"
+              >
+                <FormLabel>Avatar</FormLabel>
+                <Input type="file" />
+                <FormLabel>Full name</FormLabel>
+                <Input type="text" />
+                <FormLabel>Role</FormLabel>
+                <Input type="text" />
+                <FormLabel>Username</FormLabel>
+                <Input type="text" />
+                <FormLabel>Bio</FormLabel>
+                <Input type="text" />
+              </ModalWrap>
             </HStack>
           </Center>
           <Box

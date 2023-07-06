@@ -34,7 +34,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { IconType } from "react-icons";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
-import { useAuth, useGoogle } from "../hooks/auth";
+import { useAuth } from "../hooks/auth";
 import { formatDate } from "../utils/funcns";
 // import { formatDate } from "../utils/formatDate";
 

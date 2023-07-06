@@ -47,10 +47,7 @@ const NavMenu = () => {
             </HStack>
           </MenuButton>
           <MenuList bg={colorMode === "light" ? "brand.300" : "brand.950"}>
-            <MenuItem
-              as={NextLink}
-              href={`/pages/dashboard/profile/${user?.id}`}
-            >
+            <MenuItem as={NextLink} href={`/pages/profile/${user?.id}`}>
               {user?.displayName}
             </MenuItem>
 

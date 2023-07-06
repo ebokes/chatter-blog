@@ -227,6 +227,15 @@ const LiteEditor: React.FC = () => {
           renderHTML={(text) => mdParser.render(text)}
           onChange={handleEditorChange}
           view={{ menu: true, md: true, html: false }}
+          shortcuts={true}
+          canView={{
+            menu: true,
+            md: true,
+            html: false,
+            both: false,
+            fullScreen: false,
+            hideMenu: false,
+          }}
           // onImageUpload={onImageUpload}
         />
       </form>

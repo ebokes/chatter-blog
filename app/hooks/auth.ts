@@ -165,53 +165,61 @@ export function useRegister() {
   return { register, isLoading };
 }
 
-// export function useGoogleAuth() {
-//   const [isLoading, setLoading] = useState(false);
-//   const [googleUser, setGoogleUser] = useState<any>(null);
-//   const toast = useToast();
-//   const router = useRouter();
+export function useGoogleAuth() {
+  const [isLoading, setLoading] = useState(false);
+  const [googleUser, setGoogleUser] = useState<any>(null);
+  const toast = useToast();
+  const router = useRouter();
 
-//   setLoading(true)
-//     try {
-//       // const res = await signInWithPopup(auth, provider);
+  setLoading(true);
 
-//       await setDoc(doc(db, "users", user.uid), {
-//         id: user.uid,
-//         username: user.email.split("@")[0],
-//         firstName: user.displayName.split(" ")[0],
-//         lastName: user.displayName.split(" ")[1],
-//         displayName: user.displayName,
-//         email: user.email,
-//         joiningAs: "writer",
-//         avatar: user.photoURL,
-//         date: Date.now(),
-//       });
+  try {
+    // const res = await signInWithPopup(auth, provider);
+    const addUserToFirebase = async (user: any) => {
+      await setDoc(doc(db, "users", user.uid), {
+        id: user.uid,
+        username: user.email.split("@")[0],
+        firstName: user.displayName.split(" ")[0],
+        lastName: user.displayName.split(" ")[1],
+        displayName: user.displayName,
+        email: user.email,
+        joiningAs: "writer",
+        avatar: user.photoURL,
+        date: Date.now(),
+      });
+    };
 
-//       toast({
-//         title: "Login successful",
-//         status: "success",
-//         isClosable: true,
-//         position: "top-right",
-//         duration: 5000,
-//       });
+    const signInWithGoogle = async () => {
+      const res = await signInWithPopup(auth, provider);
+      const userData = res.user;
+      setGoogleUser(userData);
+      addUserToFirebase(userData);
+    };
 
-//       router.push("/pages/dashboard");
-//     } catch (error: any) {
-//       toast({
-//         title: "Signing in failed",
-//         description: error.message,
-//         status: "error",
-//         isClosable: true,
-//         position: "top-right",
-//         duration: 5000,
-//       });
-//     } finally {
-//       setLoading(false);
-//     }
-//   }
+    toast({
+      title: "Login successful",
+      status: "success",
+      isClosable: true,
+      position: "top-right",
+      duration: 5000,
+    });
+    router.push("/pages/dashboard");
+  } catch (error: any) {
+    toast({
+      title: "Signing in failed",
+      description: error.message,
+      status: "error",
+      isClosable: true,
+      position: "top-right",
+      duration: 5000,
+    });
+  } finally {
+    setLoading(false);
+  }
+  // }
 
-//   return { register, isLoading };
-// // }
+  return { googleUser, isLoading };
+}
 
 // export function useGoogleAuth() {
 //   const [signInWithGoogle, gUser, gLoading, gError] =

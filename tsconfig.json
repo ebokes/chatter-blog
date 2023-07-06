@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/pages/dashboard/profile/[id]"
+    "app/pages/profile/[id]"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { auth } from "@/app/lib/firebase";
 import {
   Box,
   Flex,
@@ -10,13 +9,9 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 const About = () => {
   const { colorMode } = useColorMode();
-  const [user, loading, error] = useAuthState(auth);
-  console.log(user);
   return (
     <Box
       bg={colorMode === "light" ? "brand.300" : "brand.800"}
@@ -52,13 +47,7 @@ const About = () => {
           </Stack>
         </Flex>
         <Flex>
-          <Image
-            alt="About Image"
-            src="/abt.jpg"
-            width={500}
-            height={404}
-            // style={{ objectFit: "cover" }}
-          />
+          <Image alt="About Image" src="/abt.jpg" width={500} height={404} />
         </Flex>
       </Stack>
     </Box>

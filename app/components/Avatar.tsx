@@ -20,7 +20,7 @@ const Avatar: React.FC<AvatarProps> = ({ user, size }) => {
     <ChakraAvatar
       name={user?.displayName}
       as={Link}
-      href={`/pages/dashboard/profile/${user?.id}`}
+      href={`/pages/profile/${user?.id}`}
       size={size}
       src={user?.avatar}
       _hover={{ cursor: "pointer", opacity: "0.8" }}
