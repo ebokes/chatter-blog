@@ -7,7 +7,7 @@ import { usePostsUid } from "@/app/hooks/post";
 import { useUpdateAvatar, useUser } from "@/app/hooks/user";
 import { db } from "@/app/lib/firebase";
 import Loading from "@/app/loader/Loading";
-import { formatDate } from "@/app/utils/funcns";
+import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
 import {
   Box,
   Button,
@@ -36,7 +36,6 @@ import {
 import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { FaRegCommentDots } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { MdOutlineArticle, MdOutlineCake } from "react-icons/md";
@@ -51,6 +50,7 @@ const Profile = () => {
   const toast = useToast();
   const { posts, isLoading: postsLoading } = usePostsUid(id);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isFollowMe, setIsFollowMe] = useState(false);
 
   const {
     setFile,
@@ -62,54 +62,57 @@ const Profile = () => {
   // const config = { id, isFollowMe, uid: userAuth?.id ?? "" };
   // const { toggleFollowMe, followMeLoading } = useToggleFollowMe(config);
   // const isFollowMe = followMe?.includes(userAuth?.id ?? "");
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<any>();
 
-  const capitalizedName = userAuth?.displayName?.replace(
-    /\b\w/g,
-    (letter: any) => letter.toUpperCase()
-  );
-
-  // const [inputedUserProfile, setInputedUserProfile] = useState<any>({
-  //   displayName: "",
-  //   bio: "",
-  //   occupation: "",
-  // });
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
   const [role, setRole] = useState("");
 
   const [initialProfile, updateInitialProfile] = useState(userAuth);
-  // console.log("Profile", userAuth);
+  console.log(fileURL);
+
+  // console.log(getCapitalizedName("emelder charles"));
+  const [followLoading, setFollowLoading] = useState(false);
+
+  const toggleFollowMe = () => {
+    setIsFollowMe(!isFollowMe);
+  };
+
+  // const handleFollowMe = async () => {
+  // setFollowLoading(true);
+  // try {
+  //   await toggleFollowMe();
+  //   setIsFollowMe(!isFollowMe);
+  //   toast({
+  //     title: "FollowMe updated!",
+  //     status: "success",
+  //     isClosable: true,
+  //     position: "top",
+  //     duration: 5000,
+  //   });
+  // } catch (error) {
+  //   toast({
+  //     title: "Error updating FollowMe!",
+  //     status: "error",
+  //     isClosable: true,
+  //     position: "top",
+  //     duration: 5000,
+  //   });
+  // }finally{
+  //   setFollowLoading(false);
+  // }
+  // }
 
   useEffect(() => {
     if (userAuth) {
-      setDisplayName(userAuth.displayName ?? "");
+      setDisplayName(getCapitalizedName(userAuth.displayName) ?? "");
       setBio(userAuth.bio ?? "");
       setRole(userAuth.role ?? "");
     }
-    // setInputedUserProfile({
-    //   displayName: capitalizedName ?? "",
-    //   bio: userAuth.bio ?? "",
-    //   occupation: userAuth.occupation ?? "",
-    // });
   }, [userAuth]);
 
   function handleChange(e: any) {
     setFile(e.target.files[0]);
   }
-  // function handleTextChange(e: any) {
-  //   setInputedUserProfile({
-  //     ...initialProfile,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // console.log("Value ==> ", e.target.value);
-  // console.log("Name ==> ", e.target.name);
-  // }
-  // console.log(inputedUserProfile);
 
   const handleUserEdit = async () => {
     try {
@@ -132,8 +135,7 @@ const Profile = () => {
         position: "top",
         duration: 5000,
       });
-      // onClose();
-      window.location.reload(); // Refresh the page
+      window.location.reload();
     } catch (error) {
       toast({
         title: "Error updating user profile",
@@ -150,10 +152,6 @@ const Profile = () => {
     onClose();
     handleUserEdit();
   };
-  // const handleSave = async (data: any) => {
-  //   await updateAvatar();
-  //   onClose();
-  // };
 
   if (isLoading || !user)
     return (
@@ -181,10 +179,6 @@ const Profile = () => {
             w="100%"
             h={"100vh"}
             py={"150px"}
-            // my={"30px"}
-            // borderRadius={"lg"}
-
-            // bg={colorMode === "light" ? "brand.300" : "brand.800"}
           >
             <Center
               mx={"auto"}
@@ -240,18 +234,18 @@ const Profile = () => {
                   >
                     Follow
                   </Button>
-                  // <>
-                  //   {isFollowing ? (
-                  //     <Button onClick={toggleFollow} ml={"20px"} color="green">
-                  //       Unfollow
-                  //     </Button>
-                  //   ) : (
-                  //     <Button onClick={toggleFollow} ml={"20px"} color="green">
-                  //       Follow
-                  //     </Button>
-                  //   )}
-                  // </>
                 )}
+                <>
+                  {isFollowMe ? (
+                    <Button onClick={toggleFollowMe} ml={"20px"} color="green">
+                      Unfollow
+                    </Button>
+                  ) : (
+                    <Button onClick={toggleFollowMe} ml={"20px"} color="green">
+                      Follow
+                    </Button>
+                  )}
+                </>
               </HStack>
             </Center>
             <Flex
@@ -287,7 +281,8 @@ const Profile = () => {
             </Flex>
             <Box maxW={"800px"} mx={"auto"} my={"100px"}>
               <Heading fontSize={"2xl"}>Articles</Heading>
-              <PostList posts={posts} />
+
+              {postsLoading ? <Loading /> : <PostList posts={posts} />}
             </Box>
           </Box>
         </Stack>

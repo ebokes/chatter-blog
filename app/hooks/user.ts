@@ -100,26 +100,27 @@ export function useUsers() {
 export function useUpdateAvatar(uid: string) {
   const [isLoading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const toast = useToast();
-  const router = useRouter();
-  // const navigate = useNavigate();
 
   async function updateAvatar() {
     if (!file) {
       return;
     }
 
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const fileRef = ref(storage, `avatars/${uid}`);
-    await uploadBytes(fileRef, file);
+      const fileRef = ref(storage, `avatars/${uid}`);
+      await uploadBytes(fileRef, file);
 
-    const avatarURL = await getDownloadURL(fileRef);
+      const avatarURL = await getDownloadURL(fileRef);
 
-    const docRef = doc(db, "users", uid);
-    await updateDoc(docRef, { avatar: avatarURL });
-
-    setLoading(false);
+      const docRef = doc(db, "users", uid);
+      await updateDoc(docRef, { avatar: avatarURL });
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
 
     window.location.reload();
   }

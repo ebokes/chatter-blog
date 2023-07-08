@@ -62,7 +62,7 @@ const NavMenu = () => {
               </Box>
             </MenuItem>
 
-            {/* <MenuDivider /> */}
+            <MenuDivider />
             <MenuItem as={Link} href={"/pages/dashboard"}>
               Dashboard
             </MenuItem>
