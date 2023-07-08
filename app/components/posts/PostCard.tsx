@@ -15,6 +15,7 @@ import Image from "next/image";
 import { VscBook } from "react-icons/vsc";
 import PostActions from "./PostActions";
 import PostHeader from "./PostHeader";
+import PostCardSkeleton from "@/app/loader/PostCard";
 
 const PostCard = ({ post, link = "dashboard" }: any) => {
   const { colorMode } = useColorMode();

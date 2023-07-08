@@ -20,6 +20,7 @@ const theme = extendTheme({
       350: "#94A3B8", //Texr ===> Dark mode
       400: "#d0d0d0",
       450: "#606477",
+      470: "#19202a",
       500: "#ffedcc7f",
       600: "#543EE0",
       650: "#543EE052",

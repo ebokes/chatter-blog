@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  // Avatar,
   Box,
   Flex,
   Heading,
   HStack,
-  SkeletonCircle,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -13,8 +11,7 @@ import Avatar from "../Avatar";
 import Link from "next/link";
 import { formatDate } from "@/app/utils/funcns";
 import { useUser } from "@/app/hooks/user";
-import PostHeaderLoader from "@/app/loader/PostHeader";
-// import { formatDate } from "../utils/funcns";
+import PostHeaderSkeleton from "@/app/loader/PostHeaderSkeleton";
 
 interface PostHeaderProps {
   post: {
@@ -28,7 +25,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
   const { colorMode } = useColorMode();
   const { user, isLoading } = useUser(post.uid);
 
-  if (isLoading || !user) return <PostHeaderLoader />;
+  if (isLoading || !user) return <PostHeaderSkeleton />;
 
   return (
     <HStack justify="space-between" w="full">
@@ -41,7 +38,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
             </Heading>
           </Link>
           <HStack flexWrap="wrap">
-            {user?.role ? (
+            {/* {user?.role ? (
               <>
                 <Text>{post?.role}</Text>
                 <Box
@@ -51,15 +48,15 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
                 />
               </>
             ) : (
-              <>
-                <Text>@{user?.email?.split("@")[0]}</Text>
-                <Box
-                  boxSize="4px"
-                  bg={colorMode === "light" ? "brand.800" : "brand.400"}
-                  borderRadius="full"
-                />
-              </>
-            )}
+              <> */}
+            <Text>@{user?.email?.split("@")[0]}</Text>
+            <Box
+              boxSize="4px"
+              bg={colorMode === "light" ? "brand.800" : "brand.400"}
+              borderRadius="full"
+            />
+            {/* </>
+            )} */}
             {/* <Text>{post?.postedOn}</Text> */}
             <Text>{formatDate(post?.postedOn)}</Text>
           </HStack>

@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
 import Comments from "../comments/CommentWrapper";
+import { useAuth } from "@/app/hooks/auth";
 // import Avatar from "../Avatar";
 
 const Post = () => {
@@ -37,6 +38,7 @@ const Post = () => {
   const { id } = params;
   const { posts, isLoading: postsLoading } = usePosts();
   const { user, isLoading: userLoading } = useUser(currentPost?.uid);
+  const { user: userAuth } = useAuth();
 
   useEffect(() => {
     if (posts?.length === 0) {
@@ -78,7 +80,7 @@ const Post = () => {
                 />
                 {/* <Avatar user={user} /> */}
                 <Box>
-                  <Box>
+                  <HStack>
                     <Heading
                       fontSize={"20px"}
                       fontWeight={600}
@@ -88,7 +90,7 @@ const Post = () => {
                     >
                       {user?.displayName}
                     </Heading>
-                    <Text
+                    {/* <Text
                       color="green"
                       variant={"ghost"}
                       display={"inline"}
@@ -96,8 +98,22 @@ const Post = () => {
                       cursor={"pointer"}
                     >
                       Follow
-                    </Text>
-                  </Box>
+                    </Text> */}
+                    {userAuth?.id !== user?.id && (
+                      <Button
+                        color="green"
+                        // variant={"ghost"}
+                        display={"inline"}
+                        ml={"10px"}
+                        cursor={"pointer"}
+                        px={2}
+                        h={"30px"}
+                        mb={1}
+                      >
+                        Follow
+                      </Button>
+                    )}
+                  </HStack>
                   <HStack flexWrap={"wrap"}>
                     {user?.role ? (
                       <Text>{user?.role}</Text>

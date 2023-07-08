@@ -38,12 +38,14 @@ import NextLink from "next/link";
 // import { auth } from "../lib/firebase";
 
 interface SignUpForm {
-  username: string;
+  // username: string;
   firstName: string;
   lastName: string;
   joiningAs: string;
   email: string;
   password: string;
+  followMe: string[];
+  iFollow: string[];
 }
 
 export default function Signup() {
@@ -59,7 +61,9 @@ export default function Signup() {
 
   async function handleRegister(data: SignUpForm) {
     signup({
-      username: data.username,
+      // username: data.username,
+      followMe: [],
+      iFollow: [],
       email: data.email,
       password: data.password,
       firstName: data.firstName,
@@ -156,7 +160,7 @@ export default function Signup() {
                             </FormErrorMessage>
                           </FormControl>
                         </HStack>
-                        <FormControl isInvalid={!!errors?.username}>
+                        {/* <FormControl isInvalid={!!errors?.username}>
                           <label>Username</label>
                           <Input
                             type="text"
@@ -172,7 +176,7 @@ export default function Signup() {
                           <FormErrorMessage>
                             {errors.username && errors.username?.message}
                           </FormErrorMessage>
-                        </FormControl>
+                        </FormControl> */}
                         <FormControl>
                           <label>You are joining as?</label>
                           <Select

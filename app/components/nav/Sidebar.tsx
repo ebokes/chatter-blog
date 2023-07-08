@@ -20,6 +20,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Skeleton,
   SkeletonCircle,
   Stack,
   Text,
@@ -51,6 +52,7 @@ import { auth } from "../../lib/firebase";
 import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
+import { usePosts } from "@/app/hooks/post";
 
 interface ItemProps {
   name: string;
@@ -72,14 +74,6 @@ const LinkItems: Array<ItemProps> = [
     icon: MdInsertChartOutlined,
     href: "/pages/dashboard/analytics",
   },
-];
-
-const Tags: Array<ItemProps> = [
-  { name: "Programming" },
-  { name: "Data science" },
-  { name: "Technology" },
-  { name: "Machine learning" },
-  { name: "Politics" },
 ];
 
 const Personal: Array<ItemProps> = [
@@ -135,6 +129,9 @@ interface SidebarProps extends BoxProps {
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { colorMode } = useColorMode();
   const { logout, isLoading } = useLogout();
+  const { posts, isLoading: postsLoading } = usePosts();
+  const categories = Array.from(new Set(posts?.map((post) => post.category)));
+  const recentCategories = categories?.slice(0, 5);
 
   return (
     // Top navbar
@@ -177,10 +174,20 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           <Text fontSize={"18px"}>
             Trending Tags <Icon as={MdOutlineShowChart} />
           </Text>
-          <Stack pl={"20px"} spacing={2}>
-            {Tags.map((item) => (
-              <Box key={item.name}>
-                <NavItem icon={item.icon}>{item.name}</NavItem>
+          <Stack pl={"20px"} spacing={"10px"}>
+            {postsLoading && (
+              <Stack spacing={3}>
+                <Skeleton height="15px" w={"100px"} />
+                <Skeleton height="15px" w={"100px"} />
+                <Skeleton height="15px" w={"100px"} />
+                <Skeleton height="15px" w={"100px"} />
+                <Skeleton height="15px" w={"100px"} />
+              </Stack>
+            )}
+            {recentCategories.map((item: any) => (
+              <Box key={item}>
+                {/* href={`/pages/categories/${posts?.id}`} */}
+                <NavItem>{item}</NavItem>
               </Box>
             ))}
           </Stack>
@@ -263,7 +270,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const showText = useBreakpointValue({ base: false, sm: true });
 
   const handleToggle = () => setShow(!show);
-  if (isLoading) return <div>Loading...</div>;
+  // if (isLoading) return <div>Loading...</div>;
   return (
     <Box
       w={"100vw"}
@@ -275,8 +282,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       <Flex
         ml={{ base: 0, md: 60 }}
         px={{ base: 4, md: 4 }}
-        height="20"
-        // h={"80px"}
+        // height="20"
+        h={"64px"}
         alignItems="center"
         // bg="white"
         bg={colorMode === "light" ? "white" : "dark"}

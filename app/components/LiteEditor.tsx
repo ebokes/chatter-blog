@@ -25,7 +25,8 @@ import { ChatterContext } from "../context/ChatterContext";
 import Preview from "./Preview";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks/auth";
-import { useAddPost } from "../hooks/post";
+import { useAddPost, useUploadBannerImg } from "../hooks/post";
+import { calculateReadTime } from "../utils/funcns";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -66,28 +67,62 @@ const LiteEditor: React.FC = () => {
   const { addPost, isLoading: publishingPost } = useAddPost();
   const { user, isLoading: authLoading } = useAuth();
 
-  async function handlePublish(
+  const {
+    setFile,
+    uploadBannerImg,
+    isLoading: fileLoading,
+    fileURL,
+  } = useUploadBannerImg();
+
+  // async function handlePublish(
+  //   entry: Entry,
+  //   event: React.MouseEvent<HTMLButtonElement>
+  // ) {
+  //   event.preventDefault();
+  //   addPost({
+  //     uid: user?.id,
+  //     title: entry.title,
+  //     bannerImg: entry.bannerImg,
+  //     body: entry.body,
+  //     category: entry.category,
+  //     postLength: entry.postLength,
+  //     postedOn: Date.now(),
+  //     intro: entry.intro,
+  //   });
+  // }
+
+  function handlePublish(
     entry: Entry,
     event: React.MouseEvent<HTMLButtonElement>
   ) {
     event.preventDefault();
-    addPost({
-      uid: user?.id,
-      title: entry.title,
-      bannerImg: entry.bannerImg,
-      body: entry.body,
-      category: entry.category,
-      postLength: entry.postLength,
-      postedOn: Date.now(),
-      intro: entry.intro,
-    });
-  }
-
-  function calculateReadTime(content: string) {
-    const wordCount = content.trim().split(/\s+/).length;
-    const averageReadingSpeed = 100;
-    const readTime = Math.ceil(wordCount / averageReadingSpeed);
-    return readTime;
+    if (
+      entry.title === "" ||
+      entry.body === "" ||
+      entry.category === "" ||
+      entry.intro === "" ||
+      entry.bannerImg === ""
+    ) {
+      toast({
+        title: "Error",
+        description: "Please fill all the fields",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } else {
+      addPost({
+        uid: user?.id,
+        title: entry.title,
+        bannerImg: entry.bannerImg,
+        body: entry.body,
+        category: entry.category,
+        postLength: entry.postLength,
+        postedOn: Date.now(),
+        intro: entry.intro,
+      });
+      uploadBannerImg();
+    }
   }
 
   const handleEditorChange = ({
@@ -127,6 +162,11 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
+  function handleBannerImgChange(e: any) {
+    setFile(e.target.files[0]);
+  }
+  // You were going to figure out how to upload images firebase storage url to the post in firebase storage
+
   return (
     <Box w={"full"}>
       <form>
@@ -164,7 +204,7 @@ const LiteEditor: React.FC = () => {
             //   borderBottom: "1px solid brand.400",
             // }}
           />
-          <Input
+          {/* <Input
             required
             placeholder="Cover Image URL"
             type="text"
@@ -173,6 +213,17 @@ const LiteEditor: React.FC = () => {
             value={entry.bannerImg}
             autoComplete="off"
             variant={"flushed"}
+          /> */}
+          <Input
+            required
+            placeholder="Cover Image URL"
+            type="file"
+            name="bannerImg"
+            onChange={handleBannerImgChange}
+            value={entry.bannerImg}
+            autoComplete="off"
+            variant={"flushed"}
+            accept="image/*"
           />
 
           {/* <label>You are joining as?</label> */}

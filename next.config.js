@@ -8,6 +8,7 @@ const nextConfig = {
       "assets.whichcar.com.au",
       "149520306.v2.pressablecdn.com",
       "lh3.googleusercontent.com",
+      "img.freepik.com",
     ],
   },
 };

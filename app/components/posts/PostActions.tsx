@@ -8,17 +8,21 @@ import Link from "next/link";
 import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
 import { useToggleLike, useDeletePost } from "@/app/hooks/post";
+import Confirm from "../Confirm";
+import { usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 // import { useComments } from "../hooks/comments";
 
 const PostActions = ({ post, link = "dashboard" }: any) => {
-  const { likes, id } = post;
+  const { likes, id, uid } = post;
   const { user, isLoading: userLoading } = useAuth();
+  // const { user, isLoading: userLoading } = useUser();
   const isLiked = likes?.includes(user?.id);
   const config = { id, isLiked, uid: user?.id };
   const { toggleLike, isLoading: likeLoading } = useToggleLike(config);
   const { deletePost, isLoading: deleteLoading } = useDeletePost(id);
   const { comments, isLoading: commentsLoading } = useComments(id);
-
+  const path = usePathname();
   return (
     <Flex justify={"flex-end"}>
       <HStack gap={"20px"} w={"full"} justify={"flex-end"}>
@@ -47,19 +51,23 @@ const PostActions = ({ post, link = "dashboard" }: any) => {
           <Text>{comments?.length}</Text>
         </HStack>
         <HStack spacing={"1px"}>
-          {/* {!userLoading && user.id === uid && ( */}
-          <IconButton
-            ml="auto"
-            aria-label="delete post"
-            // onClick={deletePost}
-            // isLoading={deleteLoading}
-            size="md"
-            colorScheme="red"
-            variant="ghost"
-            icon={<FaTrash />}
-            isRound
-          />
-          {/* )} */}
+          {!userLoading &&
+            user?.id === uid &&
+            path.includes("/pages/profile/") && (
+              // <Confirm>
+              <IconButton
+                ml="auto"
+                aria-label="delete post"
+                onClick={deletePost}
+                isLoading={deleteLoading}
+                size="md"
+                colorScheme="red"
+                variant="ghost"
+                icon={<FaTrash />}
+                isRound
+              />
+              // </Confirm>
+            )}
         </HStack>
       </HStack>
     </Flex>

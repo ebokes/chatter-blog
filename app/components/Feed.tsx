@@ -1,6 +1,8 @@
 "use client";
 import {
+  Box,
   Flex,
+  HStack,
   Heading,
   Stack,
   Tab,
@@ -15,6 +17,7 @@ import {
 import { useAuth } from "../hooks/auth";
 import { usePosts, usePostsUid } from "../hooks/post";
 import PostList from "./posts/PostList";
+import Loading from "../loader/Loading";
 // import PostList from "./PostList";
 
 const Feed = () => {
@@ -27,7 +30,7 @@ const Feed = () => {
 
   // console.log(posts?.category);
 
-  if (authLoading) return <div>Loading...</div>;
+  if (authLoading) return <Loading />;
 
   return (
     <>
@@ -52,22 +55,36 @@ const Feed = () => {
           justifyContent={"space-between"}
           textAlign={"center"}
           // px={{ base: "0rem", md: "1rem" }}
+          overflow={"scroll"}
         >
-          <Tab>
-            <Heading fontWeight={500} fontSize={24} py={"16px"}>
-              General
-            </Heading>
-          </Tab>
-          <Tab>
-            <Heading fontWeight={500} fontSize={24} py={"16px"}>
-              My Feed
-            </Heading>
-          </Tab>
-          <Tab>
-            <Heading fontWeight={500} fontSize={24} py={"16px"}>
-              Recent
-            </Heading>
-          </Tab>
+          <HStack
+            minW={"300px"}
+            justify={"space-between"}
+            w={"100%"}
+            spacing={"40px"}
+          >
+            <Tab>
+              <Heading fontWeight={500} fontSize={24} py={"16px"}>
+                General
+              </Heading>
+            </Tab>
+            <Tab w={"109px"}>
+              <Heading
+                fontWeight={500}
+                fontSize={24}
+                py={"16px"}
+                minW={"100px"}
+                // border={"1px solid red"}
+              >
+                My Feed
+              </Heading>
+            </Tab>
+            <Tab>
+              <Heading fontWeight={500} fontSize={24} py={"16px"}>
+                Recent
+              </Heading>
+            </Tab>
+          </HStack>
         </TabList>
         <TabIndicator
           mt="-1.5px"
@@ -77,18 +94,10 @@ const Feed = () => {
         />
         <TabPanels>
           <TabPanel p="0">
-            {postsLoading ? (
-              <Text>Posts are loading</Text>
-            ) : (
-              <PostList posts={posts} />
-            )}
+            <PostList posts={posts} isLoading={postsLoading} />
           </TabPanel>
           <TabPanel p={0}>
-            {postsUidLoading ? (
-              <Text>Posts are loading</Text>
-            ) : (
-              <PostList posts={postsUid} />
-            )}
+            <PostList posts={postsUid} isLoading={postsUidLoading} />
           </TabPanel>
           <TabPanel>
             <p>Recent</p>

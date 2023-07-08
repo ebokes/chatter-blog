@@ -6,3 +6,10 @@ export const formatDate = (date: number) => {
     year: "numeric",
   });
 };
+
+export const calculateReadTime = (content: string) => {
+  const wordCount = content.trim().split(/\s+/).length;
+  const averageReadingSpeed = 100;
+  const readTime = Math.ceil(wordCount / averageReadingSpeed);
+  return readTime;
+};

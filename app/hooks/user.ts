@@ -4,10 +4,21 @@ import {
   arrayRemove,
   arrayUnion,
   updateDoc,
+  collection,
 } from "firebase/firestore";
-import { db } from "../lib/firebase";
-
+import { db, storage } from "../lib/firebase";
 import { useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  // getDatabase,
+  // onValue,
+  // set,
+} from "@firebase/storage";
+import { useRouter } from "next/navigation";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export interface UserData {
   displayName?: string;
@@ -65,73 +76,60 @@ interface ToggleFollowProps {
   uid: string;
 }
 
-export function useToggleFollowMe({ id, isFollowMe, uid }: ToggleFollowProps) {
-  const [followMeLoading, setLoading] = useState(false);
+// export function useToggleFollowMe({ id, isFollowMe, uid }: ToggleFollowProps) {
+//   const [followMeLoading, setLoading] = useState(false);
 
-  async function toggleFollowMe() {
-    setLoading(true);
-
-    const docRef = doc(db, "users", id);
-    await updateDoc(docRef, {
-      follows: isFollowMe ? arrayRemove(uid) : arrayUnion(uid),
-    });
-    setLoading(false);
-  }
-
-  return { toggleFollowMe, followMeLoading };
-}
-
-// export function useUsers() {
-//   const [users, isLoading] = useCollectionData(collection(db, "users"));
-//   return { users, isLoading };
-// }
-
-// export function useUpdateAvatar(uid) {
-//   const [isLoading, setLoading] = useState(false);
-//   const [file, setFile] = useState(null);
-//   const toast = useToast();
-//   const navigate = useNavigate();
-
-//   async function updateAvatar() {
-//     if (!file) {
-//       toast({
-//         title: "No file selected",
-//         description: "Please select a file to upload",
-//         status: "error",
-//         duration: 5000,
-//         isClosable: true,
-//         position: "top",
-//       });
-
-//       return;
-//     }
-
+//   async function toggleFollowMe() {
 //     setLoading(true);
 
-//     const fileRef = ref(storage, "avatars/" + uid);
-//     await uploadBytes(fileRef, file);
-
-//     const avatarURL = await getDownloadURL(fileRef);
-
-//     const docRef = doc(db, "users", uid);
-//     await updateDoc(docRef, { avatar: avatarURL });
-
-//     toast({
-//       title: "Profile updated!",
-//       status: "success",
-//       isClosable: true,
-//       position: "top",
-//       duration: 5000,
+//     const docRef = doc(db, "users", id);
+//     await updateDoc(docRef, {
+//       followMe: isFollowMe ? arrayRemove(uid) : arrayUnion(uid),
 //     });
 //     setLoading(false);
-
-//     navigate(0);
 //   }
 
-//   return {
-//     setFile,
-//     updateAvatar,
-//     isLoading,
-//     fileURL: file && URL.createObjectURL(file),
-//   };
+//   return { toggleFollowMe, followMeLoading };
 // }
+
+export function useUsers() {
+  const [users, isLoading] = useCollectionData(collection(db, "users"));
+  return { users, isLoading };
+}
+
+export function useUpdateAvatar(uid: string) {
+  const [isLoading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const toast = useToast();
+  const router = useRouter();
+  // const navigate = useNavigate();
+
+  async function updateAvatar() {
+    if (!file) {
+      return;
+    }
+
+    setLoading(true);
+
+    const fileRef = ref(storage, `avatars/${uid}`);
+    await uploadBytes(fileRef, file);
+
+    const avatarURL = await getDownloadURL(fileRef);
+
+    const docRef = doc(db, "users", uid);
+    await updateDoc(docRef, { avatar: avatarURL });
+
+    setLoading(false);
+
+    window.location.reload();
+  }
+
+  return {
+    setFile,
+    updateAvatar,
+    isLoading,
+    fileURL: file && URL.createObjectURL(file),
+  };
+}
+
+// export function useUpdateProfile(uid: string) {}

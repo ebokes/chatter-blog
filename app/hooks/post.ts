@@ -19,8 +19,9 @@ import {
   useDocumentData,
 } from "react-firebase-hooks/firestore";
 import { ChatterContext } from "../context/ChatterContext";
-import { db } from "../lib/firebase";
+import { db, storage } from "../lib/firebase";
 import { useRouter } from "next/navigation";
+import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
 
 export interface PostProps {
   uid?: string;
@@ -57,6 +58,7 @@ export function useAddPost() {
         duration: 5000,
       });
       router.push("/pages/dashboard");
+      window.location.reload();
       // setEntry({
       //   title: "",
       //   bannerImg: "",
@@ -89,19 +91,6 @@ export function usePost(id: string) {
 
   return { post, isLoading };
 }
-
-// export function usePosts(uid: string | null = null) {
-//   const q = uid
-//     ? query(
-//         collection(db, "articles"),
-//         orderBy("postedOn", "desc"),
-//         where("uid", "==", uid)
-//       )
-//     : query(collection(db, "articles"), orderBy("date", "desc"));
-//   const [posts, isLoading, error] = useCollectionData<PostProps>(q);
-//   if (error) throw error;
-//   return { posts, isLoading };
-// }
 
 export function usePostsUid(uid: string | null = null) {
   const q = query(
@@ -175,4 +164,66 @@ export function useDeletePost(id: string) {
   }
 
   return { deletePost, isLoading };
+}
+
+export function usePostCategory(category: string) {
+  const q = query(
+    collection(db, "articles"),
+    orderBy("postedOn", "desc"),
+    where("category", "==", category)
+  );
+  const [postCategory, isLoading, error] = useCollectionData(q);
+  if (error) throw error;
+  return { postCategory, isLoading };
+}
+
+export function useUploadBannerImg(id: string) {
+  const [isLoading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const toast = useToast();
+  const router = useRouter();
+  // const navigate = useNavigate();
+
+  async function uploadBannerImg() {
+    if (!file) {
+      toast({
+        title: "No file selected",
+        description: "Please select a file to upload",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+
+      return;
+    }
+
+    setLoading(true);
+
+    const fileRef = ref(storage, "bannerImg/" + id);
+    await uploadBytes(fileRef, file);
+
+    const bannerURL = await getDownloadURL(fileRef);
+
+    const docRef = doc(db, "articles", id);
+    await updateDoc(docRef, { bannerImg: bannerURL });
+
+    // toast({
+    //   title: "Profile updated!",
+    //   status: "success",
+    //   isClosable: true,
+    //   position: "top",
+    //   duration: 5000,
+    // });
+    setLoading(false);
+
+    window.location.reload();
+  }
+
+  return {
+    setFile,
+    uploadBannerImg,
+    isLoading,
+    fileURL: file && URL.createObjectURL(file),
+  };
 }

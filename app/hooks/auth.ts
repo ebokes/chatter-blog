@@ -13,7 +13,7 @@ import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { signInWithPopup } from "firebase/auth";
 
 interface SignUpProps {
-  username: string;
+  // username: string;
   email: string;
   password: string;
   firstName: string;
@@ -101,69 +101,46 @@ export function useRegister() {
   const toast = useToast();
   const router = useRouter();
 
-  async function register({
-    firstName,
-    lastName,
-    joiningAs,
-    username,
-    email,
-    password,
-    redirectTo = "/pages/dashboard",
-  }: SignUpProps) {
+  async function register(details: SignUpProps) {
     setLoading(true);
+    try {
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        details.email,
+        details.password
+      );
 
-    const usernameExists = await isUsernameExists(username);
+      await setDoc(doc(db, "users", res.user.uid), {
+        id: res.user.uid,
+        ...details,
+        displayName: details.firstName + " " + details.lastName,
+        avatar: "",
+        date: Date.now(),
+      });
 
-    if (usernameExists) {
       toast({
-        title: "Username already exists",
+        title: "Account created successfully",
+        description: "We've created your account for you.",
+        status: "success",
+        isClosable: true,
+        position: "top-right",
+        duration: 5000,
+      });
+
+      router.push(details.redirectTo);
+    } catch (error: any) {
+      toast({
+        title: "Signing Up failed",
+        description: error.message,
         status: "error",
         isClosable: true,
         position: "top-right",
         duration: 5000,
       });
+    } finally {
       setLoading(false);
-    } else {
-      try {
-        const res = await createUserWithEmailAndPassword(auth, email, password);
-
-        await setDoc(doc(db, "users", res.user.uid), {
-          id: res.user.uid,
-          username: username?.toLowerCase(),
-          firstName,
-          lastName,
-          displayName: firstName + " " + lastName,
-          email,
-          followMe: [],
-          iFollow: [],
-          joiningAs,
-          avatar: "",
-          date: Date.now(),
-        });
-
-        toast({
-          title: "Account created successfully",
-          description: "We've created your account for you.",
-          status: "success",
-          isClosable: true,
-          position: "top-right",
-          duration: 5000,
-        });
-
-        router.push(redirectTo);
-      } catch (error: any) {
-        toast({
-          title: "Signing Up failed",
-          description: error.message,
-          status: "error",
-          isClosable: true,
-          position: "top-right",
-          duration: 5000,
-        });
-      } finally {
-        setLoading(false);
-      }
     }
+    // }
   }
 
   return { register, isLoading };
@@ -182,7 +159,7 @@ export function useGoogleAuth() {
     const addUserToFirebase = async (user: any) => {
       await setDoc(doc(db, "users", user.uid), {
         id: user.uid,
-        username: user.email.split("@")[0],
+        // username: user.email.split("@")[0],
         firstName: user.displayName.split(" ")[0],
         lastName: user.displayName.split(" ")[1],
         displayName: user.displayName,
