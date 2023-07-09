@@ -9,7 +9,7 @@ import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
 import { useToggleLike, useDeletePost } from "@/app/hooks/post";
 import Confirm from "../Confirm";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 // import { useComments } from "../hooks/comments";
 
@@ -23,16 +23,27 @@ const PostActions = ({ post, link }: any) => {
   const { deletePost, isLoading: deleteLoading } = useDeletePost(id);
   const { comments, isLoading: commentsLoading } = useComments(id);
   const path = usePathname();
+  const router = useRouter();
+
+  const handleToggleLike = () => {
+    if (!user) {
+      router.push("/pages/signin");
+    } else {
+      toggleLike();
+    }
+  };
+
   return (
     <Flex justify={"flex-end"}>
       <HStack gap={"20px"} w={"full"} justify={"flex-end"}>
         <HStack spacing={"1px"}>
           <IconButton
-            onClick={toggleLike}
+            onClick={handleToggleLike}
             isLoading={likeLoading || userLoading}
             icon={isLiked ? <AiFillLike /> : <AiOutlineLike />}
             variant={"ghost"}
             aria-label={"like"}
+            isRound
           />
           <Text>{likes?.length}</Text>
         </HStack>

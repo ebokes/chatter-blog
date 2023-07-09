@@ -37,6 +37,7 @@ export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, isLoading, error } = useAuth();
+  const path = usePathname();
 
   return (
     <Box
@@ -68,21 +69,25 @@ export default function Navbar() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Link href="/">
-            <Text
-              textAlign={useBreakpointValue({ base: "center", md: "left" })}
-              fontFamily={"heading"}
-              color="brand.600"
-              fontWeight={600}
-            >
-              CHATTER
-            </Text>
+        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "flex-start" }}>
+          <Link
+            as={NextLink}
+            href="/"
+            textAlign={useBreakpointValue({ base: "center", md: "left" })}
+            fontFamily={"heading"}
+            color="brand.600"
+            fontWeight={"bold"}
+            _hover={{ textDecoration: "none" }}
+          >
+            CHATTER
           </Link>
 
+          {/* {!path.includes("signup") ||
+            (!path.includes("signup") && ( */}
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>
+          {/* ))} */}
         </Flex>
 
         <Button
@@ -97,6 +102,9 @@ export default function Navbar() {
         >
           {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
         </Button>
+        {/* {!path.includes("signup") ||
+          (!path.includes("signup") && (
+            <> */}
         {isLoading ? null : (
           <>
             {!user ? (
@@ -144,6 +152,8 @@ export default function Navbar() {
             )}
           </>
         )}
+        {/* </>
+          ))} */}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

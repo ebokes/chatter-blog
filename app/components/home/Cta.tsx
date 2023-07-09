@@ -39,7 +39,7 @@ export default function Cta() {
             <VStack gap={{ base: 6, md: 16 }}>
               <Image
                 alt="Cta Image"
-                src="/alex.webp"
+                src="/images/alex.webp"
                 width={154}
                 height={154}
                 style={{

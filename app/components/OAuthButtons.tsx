@@ -47,6 +47,8 @@ const OAuthButtons = () => {
       flexDir={"column"}
       spacing={0}
       color={colorMode === "light" ? "brand.300" : "brand.850"}
+      mx={{ base: "15px", md: "25px" }}
+      // maxW={"520px"}
     >
       <Button
         border="1px solid"

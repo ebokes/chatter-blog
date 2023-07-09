@@ -11,9 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import Navbar from "./Navbar";
-import { px } from "framer-motion";
 import { usePosts } from "@/app/hooks/post";
 import Card from "@/app/loader/RecentPosts";
+import { formatDate } from "@/app/utils/funcns";
 
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
@@ -106,7 +106,7 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                       fontSize="sm"
                       color={colorMode === "light" ? "brand.900" : "brand.350"}
                     >
-                      {post.postedOn}
+                      {formatDate(post.postedOn)}
                     </Text>
                   </Box>
                 ))}

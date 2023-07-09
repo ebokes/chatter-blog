@@ -3,7 +3,16 @@
 import { useAuth } from "@/app/hooks/auth";
 import { useAddComment } from "@/app/hooks/comments";
 import { PostProps } from "@/app/hooks/post";
-import { Box, Button, Flex, Input, Textarea, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Link,
+  Text,
+  Textarea,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 // import { useAuth } from "../hooks/auth";
@@ -12,7 +21,8 @@ import { useForm } from "react-hook-form";
 // import { useAddComment } from "../hooks/comments";
 import TextareaAutoSize from "react-textarea-autosize";
 import Avatar from "../Avatar";
-// import Avatar from "../Avatar";
+import { useRouter } from "next/navigation";
+import NextLink from "next/link";
 
 interface NewCommentProps {
   post: PostProps;
@@ -31,14 +41,34 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
     reset,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
 
   const handleAddComment = (data: any) => {
-    addComment(data.text);
-    reset();
+    if (!user) {
+      router.push("/pages/signin");
+    } else {
+      addComment(data.text);
+      reset();
+    }
   };
   // console.log(data);
 
-  if (authLoading || !user) return <div>Loading...</div>;
+  if (authLoading || !user)
+    return (
+      <Text>
+        You must&nbsp;
+        <Link
+          as={NextLink}
+          href="/pages/signin"
+          color={"brand.600"}
+          fontWeight={"bold"}
+          _hover={{ textDecoration: "none" }}
+        >
+          Signin
+        </Link>
+        &nbsp;to comment
+      </Text>
+    );
 
   return (
     <Flex gap={"10px"}>

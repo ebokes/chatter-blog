@@ -30,6 +30,7 @@ import { auth } from "@/app/lib/firebase";
 import { emailValidate, passwordValidate } from "@/app/utils/form-validate";
 import NextLink from "next/link";
 import OAuthButtons from "@/app/components/OAuthButtons";
+import Navbar from "@/app/components/nav/Navbar";
 
 interface SignInForm {
   email: string;
@@ -70,139 +71,152 @@ export default function AuthNav() {
   }, [user, router]);
 
   return (
-    <Stack mx="auto">
-      <HStack align={"stretch"}>
-        <Stack
-          flex={0.9}
-          textAlign="center"
-          backgroundImage="/writer.webp"
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          backgroundSize="cover"
-          h="100vh"
-          display={{ base: "none", md: "flex" }}
-        >
-          <Center
-            bgGradient="linear(to-l, #0000007f, #0000007f)"
-            h="100%"
-            color="white"
-            flexDir="column"
+    <>
+      <Navbar />
+      <Stack mx="auto">
+        <HStack align={"stretch"}>
+          <Stack
+            flex={0.9}
+            textAlign="center"
+            backgroundImage="/images/writer.webp"
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
+            backgroundSize="cover"
+            h="100vh"
+            display={{ base: "none", md: "flex" }}
           >
-            <Heading>CHATTER</Heading>
-            <Text>
-              Unleash the Power of Words, Connect with Like-minded Readers and
-              Writers
-            </Text>
-          </Center>
-        </Stack>
-        <Center mx="auto" flex={1}>
-          <Stack alignSelf={"flex-start"} maxW={"520px"} w={"full"} py={"35px"}>
-            <Stack>
-              <HStack align={"stretch"}>
-                <Center mx="auto" flex={1}>
-                  <Stack
-                    alignSelf={"flex-start"}
-                    maxW={"520px"}
-                    w={"full"}
-                    py={"35px"}
-                  >
-                    <Heading
-                      textAlign="center"
-                      mb="26px"
-                      mt={"30px"}
-                      color={colorMode === "light" ? "brand.850" : "brand.300"}
+            <Center
+              bgGradient="linear(to-l, #0000007f, #0000007f)"
+              h="100%"
+              color="white"
+              flexDir="column"
+            >
+              <Heading>CHATTER</Heading>
+              <Text>
+                Unleash the Power of Words, Connect with Like-minded Readers and
+                Writers
+              </Text>
+            </Center>
+          </Stack>
+          <Center mx="auto" flex={1}>
+            <Stack
+              alignSelf={"flex-start"}
+              maxW={"520px"}
+              w={"full"}
+              py={"35px"}
+              px={{ base: "15px", md: "25px" }}
+            >
+              <Stack>
+                <HStack align={"stretch"}>
+                  <Center mx="auto" flex={1}>
+                    <Stack
+                      alignSelf={"flex-start"}
                       maxW={"520px"}
                       w={"full"}
+                      py={"35px"}
                     >
-                      Sign In
-                    </Heading>
-                    <form onSubmit={handleSubmit(handleLogin)}>
-                      <Flex flexDir="column" gap={6}>
-                        <FormControl isInvalid={!!errors?.email}>
-                          <label>Email</label>
-                          <Input
-                            type="text"
-                            placeholder="Enter email"
-                            border="1px  solid"
-                            borderColor={
-                              colorMode === "light" ? "brand.400" : "brand.450"
-                            }
-                            {...register("email", emailValidate)}
-                          />
-                          <FormErrorMessage>
-                            {errors.email && errors.email?.message}
-                          </FormErrorMessage>
-                        </FormControl>
-                        <FormControl isInvalid={!!errors?.password}>
-                          <label>Password</label>
-                          <InputGroup size="md">
+                      <Heading
+                        textAlign="center"
+                        mb="26px"
+                        mt={"30px"}
+                        color={
+                          colorMode === "light" ? "brand.850" : "brand.300"
+                        }
+                        maxW={"520px"}
+                        w={"full"}
+                      >
+                        Sign In
+                      </Heading>
+                      <form onSubmit={handleSubmit(handleLogin)}>
+                        <Flex flexDir="column" gap={6}>
+                          <FormControl isInvalid={!!errors?.email}>
+                            <label>Email</label>
                             <Input
-                              pr="4.5rem"
-                              type={showPassword ? "text" : "password"}
-                              placeholder="Enter password"
+                              type="text"
+                              placeholder="Enter email"
                               border="1px  solid"
                               borderColor={
                                 colorMode === "light"
                                   ? "brand.400"
                                   : "brand.450"
                               }
-                              {...register("password", passwordValidate)}
+                              {...register("email", emailValidate)}
                             />
-                            <InputRightElement width="4.5rem">
-                              <Button
-                                h="1.75rem"
-                                size="sm"
-                                onClick={handleClick}
-                                mr="-15.5px"
-                                variant="ghost"
-                                _hover={{ variant: "ghost" }}
-                                _active={{ variant: "ghost" }}
-                                opacity={0.7}
-                              >
-                                {showPassword ? (
-                                  <FiEye size={"20px"} />
-                                ) : (
-                                  <RxEyeClosed size={"20px"} />
-                                )}
-                              </Button>
-                            </InputRightElement>
-                          </InputGroup>
-                          <FormErrorMessage>
-                            {errors.password && errors.password.message}
-                          </FormErrorMessage>
-                        </FormControl>
-                        <Button
-                          w="100%"
-                          bg="brand.600"
-                          color="white"
-                          type="submit"
-                          isLoading={isLoading}
-                          _hover={{ bg: "brand.700" }}
+                            <FormErrorMessage>
+                              {errors.email && errors.email?.message}
+                            </FormErrorMessage>
+                          </FormControl>
+                          <FormControl isInvalid={!!errors?.password}>
+                            <label>Password</label>
+                            <InputGroup size="md">
+                              <Input
+                                pr="4.5rem"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter password"
+                                border="1px  solid"
+                                borderColor={
+                                  colorMode === "light"
+                                    ? "brand.400"
+                                    : "brand.450"
+                                }
+                                {...register("password", passwordValidate)}
+                              />
+                              <InputRightElement width="4.5rem">
+                                <Button
+                                  h="1.75rem"
+                                  size="sm"
+                                  onClick={handleClick}
+                                  mr="-15.5px"
+                                  variant="ghost"
+                                  _hover={{ variant: "ghost" }}
+                                  _active={{ variant: "ghost" }}
+                                  opacity={0.7}
+                                >
+                                  {showPassword ? (
+                                    <FiEye size={"20px"} />
+                                  ) : (
+                                    <RxEyeClosed size={"20px"} />
+                                  )}
+                                </Button>
+                              </InputRightElement>
+                            </InputGroup>
+                            <FormErrorMessage>
+                              {errors.password && errors.password.message}
+                            </FormErrorMessage>
+                          </FormControl>
+                          <Button
+                            w="100%"
+                            bg="brand.600"
+                            color="white"
+                            type="submit"
+                            isLoading={isLoading}
+                            _hover={{ bg: "brand.700" }}
+                          >
+                            Login
+                          </Button>
+                        </Flex>
+                      </form>
+                      <Flex fontSize="14px" justifyContent="center">
+                        <Text mr={1}>Don&apos;t have an account?</Text>
+                        <Link
+                          as={NextLink}
+                          href="/pages/signup"
+                          color="blue.500"
+                          fontWeight={700}
+                          cursor="pointer"
                         >
-                          Login
-                        </Button>
+                          SIGN UP
+                        </Link>
                       </Flex>
-                    </form>
-                    <Flex fontSize="14px" justifyContent="center">
-                      <Text mr={1}>Don&apos;t have an account?</Text>
-                      <Link
-                        as={NextLink}
-                        href="/pages/signup"
-                        color="blue.500"
-                        fontWeight={700}
-                        cursor="pointer"
-                      >
-                        SIGN UP
-                      </Link>
-                    </Flex>
-                  </Stack>
-                </Center>
-              </HStack>
-              <OAuthButtons />
+                    </Stack>
+                  </Center>
+                </HStack>
+                <OAuthButtons />
+              </Stack>
             </Stack>
-          </Stack>
-        </Center>
-      </HStack>
-    </Stack>
+          </Center>
+        </HStack>
+      </Stack>
+    </>
   );
 }
