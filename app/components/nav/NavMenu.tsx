@@ -6,11 +6,10 @@ import {
   MenuButton,
   MenuDivider,
   MenuItem,
-  //   Avatar,
   MenuList,
   SkeletonCircle,
   Text,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/react";
 // import { useAuth, useLogout } from "../hooks/auth";
 import { useAuth, useLogout } from "@/app/hooks/auth";
@@ -49,16 +48,18 @@ const NavMenu = () => {
             </HStack>
           </MenuButton>
           <MenuList bg={colorMode === "light" ? "brand.300" : "brand.950"}>
-            <MenuItem as={NextLink} href={`/pages/profile/${user?.id}`}>
-              <Box>
-                <Text fontWeight={"bold"}>{user?.displayName}</Text>
-                <Text>{user?.email}</Text>
-              </Box>
+            <MenuItem>
+              <Link href={`/pages/profile/${user?.id}`}>
+                <Box>
+                  <Text fontWeight={"bold"}>{user?.displayName}</Text>
+                  <Text>{user?.email}</Text>
+                </Box>
+              </Link>
             </MenuItem>
 
             <MenuDivider />
-            <MenuItem as={Link} href={"/pages/dashboard"}>
-              Dashboard
+            <MenuItem>
+              <Link href={"/pages/dashboard"}>Dashboard</Link>
             </MenuItem>
             <MenuDivider />
             <MenuItem onClick={logout}>Sign out</MenuItem>

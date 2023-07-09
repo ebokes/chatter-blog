@@ -93,7 +93,11 @@ const Feed = () => {
         />
         <TabPanels>
           <TabPanel p="0">
-            <PostList posts={posts} isLoading={postsLoading} />
+            <PostList
+              posts={posts}
+              isLoading={postsLoading}
+              link={"dashboard"}
+            />
           </TabPanel>
           <TabPanel p={0}>
             <PostList

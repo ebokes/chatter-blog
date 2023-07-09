@@ -22,13 +22,12 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Select,
   Stack,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
+import Link from "next/link";
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
@@ -281,15 +280,9 @@ export default function Signup() {
                       </form>
                       <Flex fontSize="14px" justifyContent="center">
                         <Text mr={1}>Have an account?</Text>
-                        <Link
-                          as={NextLink}
-                          href="/pages/signin"
-                          color="blue.500"
-                          fontWeight={700}
-                          cursor="pointer"
-                        >
-                          SIGN IN
-                        </Link>
+                        <Center color="blue.500" fontWeight={700}>
+                          <Link href="/pages/signin">SIGN IN</Link>
+                        </Center>
                       </Flex>
                     </Stack>
                   </Center>

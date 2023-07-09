@@ -6,7 +6,6 @@ import {
   HStack,
   Heading,
   Icon,
-  Link,
   Stack,
   Text,
   useColorMode,
@@ -15,9 +14,10 @@ import Image from "next/image";
 import { VscBook } from "react-icons/vsc";
 import PostActions from "./PostActions";
 import PostHeader from "./PostHeader";
+import Link from "next/link";
 // import PostCardSkeleton from "@/app/loader/PostCard";
 
-const PostCard = ({ post, link = "dashboard" }: any) => {
+const PostCard = ({ post, link }: any) => {
   const { colorMode } = useColorMode();
 
   return (
@@ -31,14 +31,13 @@ const PostCard = ({ post, link = "dashboard" }: any) => {
     >
       <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
         <PostHeader post={post} />
-        <Box>
-          <Link
-            href={`/pages/${link}/${post.id}`}
-            _hover={{
-              textDecoration: "none",
-            }}
-            w={"full"}
-          >
+        <Box
+          w={"full"}
+          _hover={{
+            textDecoration: "none",
+          }}
+        >
+          <Link href={`/pages/${link}/${post.id}`}>
             <Flex flexDir={{ base: "column-reverse", lg: "row" }}>
               <Stack flex={1} mr={{ base: "0", lg: "22px" }}>
                 <Heading fontWeight={500} fontSize={"24px"} mt={"10px"}>

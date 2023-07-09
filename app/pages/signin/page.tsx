@@ -16,12 +16,11 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Stack,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
@@ -37,7 +36,7 @@ interface SignInForm {
   password: string;
 }
 
-export default function AuthNav() {
+export default function Signin() {
   const { colorMode } = useColorMode();
   const [showPassword, setShowPassword] = useState(false);
   const handleClick = () => setShowPassword(!showPassword);
@@ -61,7 +60,7 @@ export default function AuthNav() {
       redirectTo: "/pages/dashboard",
     });
     // if (succeeded) reset();
-    if (succeeded) console.log("SignIn successfull");
+    // if (succeeded) console.log("SignIn successfull");
   }
 
   useEffect(() => {
@@ -198,15 +197,9 @@ export default function AuthNav() {
                       </form>
                       <Flex fontSize="14px" justifyContent="center">
                         <Text mr={1}>Don&apos;t have an account?</Text>
-                        <Link
-                          as={NextLink}
-                          href="/pages/signup"
-                          color="blue.500"
-                          fontWeight={700}
-                          cursor="pointer"
-                        >
-                          SIGN UP
-                        </Link>
+                        <Center color="blue.500" fontWeight={700}>
+                          <Link href="/pages/signup">SIGN UP</Link>
+                        </Center>
                       </Flex>
                     </Stack>
                   </Center>

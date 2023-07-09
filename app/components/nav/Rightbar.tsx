@@ -5,13 +5,14 @@ import { formatDate } from "@/app/utils/funcns";
 import {
   Box,
   Button,
+  Center,
   Flex,
-  Link,
   Text,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
+import Link from "next/link";
 
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
@@ -66,25 +67,23 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                 <Flex gap={2} flexWrap={"wrap"}>
                   {Array.from(new Set(posts?.map((post) => post.category))).map(
                     (category) => (
-                      <Link
-                        as={Button}
+                      <Center
                         px={3}
-                        // py={"4px"}
-                        h={"30px"}
+                        py={"4px"}
+                        h={"full"}
                         borderRadius={"3xl"}
                         // border={"1px solid"}
                         key={category}
-                        href=""
                         display="block"
                         mb="2"
-                        variant={"solid"}
+                        // variant={"solid"}
                         bg="blue.500"
                         color="white"
                         fontSize={"sm"}
                         _hover={{ textDecoration: "none", bg: "blue.400" }}
                       >
-                        {category}
-                      </Link>
+                        <Link href="/pages/feed">{category}</Link>
+                      </Center>
                     )
                   )}
                 </Flex>
@@ -96,9 +95,7 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                 {recentPosts?.map((post) => (
                   <Box mb="2" key={post.title}>
                     {/* <Skeleton isLoaded={!isLoading}> */}
-                    <Link display="block" href={`/pages/feed/${post.id}`}>
-                      {post.title}
-                    </Link>
+                    <Link href={`/pages/feed/${post.id}`}>{post.title}</Link>
                     {/* </Skeleton> */}
                     <Text
                       fontSize="sm"

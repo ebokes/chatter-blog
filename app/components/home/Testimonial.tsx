@@ -2,7 +2,7 @@
 
 import {
   Box,
-  Button,
+  Center,
   Flex,
   Heading,
   Stack,
@@ -11,7 +11,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import NextLink from "next/link";
+import Link from "next/link";
 
 export default function Testimonial() {
   const { colorMode } = useColorMode();
@@ -83,21 +83,18 @@ export default function Testimonial() {
                 Software developer at Apple
               </Text>
             </Flex>
-            <Box>
-              <Button
-                as={NextLink}
-                href={"/pages/signup"}
-                rounded={"md"}
-                bg={"brand.600"}
-                color={"brand.100"}
-                _hover={{
-                  bg: "brand.700",
-                }}
-                w={"150px"}
-              >
-                Join chatter
-              </Button>
-            </Box>
+            <Center
+              rounded={"md"}
+              bg={"brand.600"}
+              color={"brand.100"}
+              _hover={{
+                bg: "brand.700",
+              }}
+              w={"150px"}
+              py={2}
+            >
+              <Link href={"/pages/signup"}>Join chatter</Link>
+            </Center>
           </Stack>
         </Flex>
       </Stack>

@@ -2,7 +2,7 @@
 
 import {
   Box,
-  Button,
+  Center,
   Flex,
   HStack,
   Heading,
@@ -13,7 +13,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import NextLink from "next/link";
+import Link from "next/link";
 
 export default function Cta() {
   const { colorMode } = useColorMode();
@@ -101,21 +101,18 @@ export default function Cta() {
               your interests. connect with people of same interests and goals{" "}
             </Text>
 
-            <Box>
-              <Button
-                as={NextLink}
-                href={"/pages/signup"}
-                rounded={"md"}
-                bg={"brand.600"}
-                color={"white"}
-                _hover={{
-                  bg: "brand.700",
-                }}
-                w={"150px"}
-              >
-                Get started
-              </Button>
-            </Box>
+            <Center
+              rounded={"md"}
+              bg={"brand.600"}
+              color={"white"}
+              _hover={{
+                bg: "brand.700",
+              }}
+              w={"150px"}
+              py={2}
+            >
+              <Link href={"/pages/signup"}>Get started</Link>
+            </Center>
           </Stack>
         </Flex>
       </Stack>

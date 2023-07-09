@@ -5,11 +5,10 @@ import {
   Center,
   Flex,
   Heading,
-  Link,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
+import Link from "next/link";
 import React from "react";
 
 const Hero = () => {
@@ -41,9 +40,7 @@ const Hero = () => {
             Writers
           </Text>
           <Flex gap={5}>
-            <Link
-              as={NextLink}
-              href="/pages/signin"
+            <Center
               maxW="400px"
               bg="brand.600"
               color="white"
@@ -53,11 +50,9 @@ const Hero = () => {
               borderRadius="md"
               fontWeight={600}
             >
-              Get Started
-            </Link>
-            <Link
-              as={NextLink}
-              href="/pages/feed"
+              <Link href="/pages/signin">Get Started</Link>
+            </Center>
+            <Center
               maxW="400px"
               bg="brand.600"
               color="white"
@@ -67,8 +62,8 @@ const Hero = () => {
               borderRadius="md"
               fontWeight={600}
             >
-              Feed
-            </Link>
+              <Link href="/pages/feed">Feed</Link>
+            </Center>
           </Flex>
         </Box>
       </Center>

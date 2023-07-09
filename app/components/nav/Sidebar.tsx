@@ -5,6 +5,7 @@ import {
   Box,
   BoxProps,
   Button,
+  Center,
   CloseButton,
   Drawer,
   DrawerContent,
@@ -14,12 +15,11 @@ import {
   Icon,
   IconButton,
   Input,
-  Link,
   Skeleton,
   Stack,
   Text,
   useColorMode,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ReactNode, useState } from "react";
@@ -43,6 +43,7 @@ import { auth } from "../../lib/firebase";
 import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
+import Link from "next/link";
 
 interface ItemProps {
   name: string;
@@ -142,24 +143,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       overflow={"auto"}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        {/* <Box
+        <Center
           fontSize="2xl"
           fontWeight="bold"
-          color="#543EE0"
-          sx={{ textDecoration: "none" }}
-        > */}
-        <Link
-          as={NextLink}
-          href="/pages/feed"
-          fontSize="2xl"
-          fontWeight="bold"
-          // color="#543EE0"
           color={"brand.700"}
           _hover={{ textDecor: "none" }}
         >
-          CHATTER
-        </Link>
-        {/* </Box> */}
+          <Link href="/pages/feed">CHATTER</Link>
+        </Center>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       <Stack ml={"35px"} spacing={6}>
@@ -232,24 +223,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 const NavItem = ({ icon, href, key, children, ...rest }: any) => {
   return (
-    <Link
-      as={NextLink}
-      href={href || "#"}
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
-      <Flex
-        align="center"
-        // mx="4px"
-        // borderRadius="lg"
-        role="group"
-        // cursor="pointer"
-        {...rest}
-      >
-        {icon && <Icon mr="4" fontSize="16" boxSize={5} as={icon} />}
-        {children}
-      </Flex>
-    </Link>
+    <Flex style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
+      <Link href={href || "#"}>
+        <Flex align="center" role="group" {...rest}>
+          {icon && <Icon mr="4" fontSize="16" boxSize={5} as={icon} />}
+          {children}
+        </Flex>
+      </Link>
+    </Flex>
   );
 };
 
@@ -263,20 +244,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const handleToggle = () => setShow(!show);
   // if (isLoading) return <div>Loading...</div>;
   return (
-    <Box
-      w={"100vw"}
-      // ml={"auto"}
-      // mx={"auto"}
-      // border={"1px solid red"}
-      // zIndex={"5"}
-    >
+    <Box w={"100vw"}>
       <Flex
         ml={{ base: 0, md: 60 }}
         px={{ base: 4, md: 4 }}
-        // height="20"
         h={"64px"}
         alignItems="center"
-        // bg="white"
         bg={colorMode === "light" ? "white" : "dark"}
         color={colorMode === "light" ? "brand.800" : "brand.300"}
         borderBottomWidth="1px"
@@ -295,14 +268,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         <HStack justify={"flex-end"} w={"90%"} pos={"relative"}>
           {show && (
             <>
-              {/* <Icon
-                as={MdSearch}
-                pos={"absolute"}
-                boxSize={"26px"}
-                left={"5px"}
-                opacity={0.7}
-              /> */}
-
               <Input
                 maxW="20rem"
                 placeholder="Search Chatter..."
@@ -314,10 +279,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               />
             </>
           )}
-
           <HStack
-            as={Link}
-            href={"/pages/dashboard/write"}
             borderRadius={"30px"}
             pr={"10px"}
             bg={"brand.600"}
@@ -330,8 +292,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               textDecoration: "none",
             }}
           >
-            <Icon as={CiEdit} boxSize={"20px"} />
-            <Text display={{ base: "none", md: "inline" }}>Write</Text>
+            <Link href={"/pages/dashboard/write"}>
+              <Icon as={CiEdit} boxSize={"20px"} />
+              <Text display={{ base: "none", md: "inline" }}>Write</Text>
+            </Link>
           </HStack>
           <HStack>
             <IconButton

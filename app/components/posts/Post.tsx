@@ -1,7 +1,5 @@
 "use client";
 
-// import Comments from "@/app/components/Comments";
-// import Comments from "@/app/components/comments/Comments";
 import { PostProps, usePost, usePosts } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
 import Loading from "@/app/loader/Loading";
@@ -29,7 +27,6 @@ import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
 import Comments from "../comments/CommentWrapper";
 import { useAuth } from "@/app/hooks/auth";
-// import Avatar from "../Avatar";
 
 const Post = () => {
   const { colorMode } = useColorMode();
@@ -71,11 +68,7 @@ const Post = () => {
           <Box>
             <Flex justify={"space-between"} w={"full"}>
               <Flex gap={2} mb={"15px"}>
-                <Link
-                  rel="preload"
-                  as="script"
-                  href={`/pages/profile/${user?.id}`}
-                >
+                <Link href={`/pages/profile/${user?.id}`}>
                   <Avatar
                     size="md"
                     name={user?.displayName}
@@ -84,11 +77,7 @@ const Post = () => {
                 </Link>
                 <Box>
                   <HStack>
-                    <Link
-                      rel="preload"
-                      as="script"
-                      href={`/pages/profile/${user?.id}`}
-                    >
+                    <Link href={`/pages/profile/${user?.id}`}>
                       <Heading fontSize={"20px"} fontWeight={600} mb={1}>
                         {user?.displayName}
                       </Heading>

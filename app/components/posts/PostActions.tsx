@@ -1,7 +1,5 @@
 import { Flex, HStack, IconButton, Text } from "@chakra-ui/react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
-// import { useAuth } from "../hooks/auth";
-// import { useDeletePost, useToggleLike } from "../hooks/post";
 import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
 import { useDeletePost, useToggleLike } from "@/app/hooks/post";
@@ -45,24 +43,23 @@ const PostActions = ({ post, link }: any) => {
           <Text>{likes?.length}</Text>
         </HStack>
         <HStack spacing={"1px"}>
-          <IconButton
-            as={Link}
-            href={`/pages/${link}/${post.id}`}
-            aria-label="comments"
-            // isLoading={commentsLoading}
-            size="md"
-            colorScheme="blue"
-            variant="ghost"
-            icon={comments?.length === 0 ? <FaRegComment /> : <FaComment />}
-            isRound
-          />
+          <Link href={`/pages/${link}/${post.id}`}>
+            <IconButton
+              aria-label="comments"
+              // isLoading={commentsLoading}
+              size="md"
+              colorScheme="blue"
+              variant="ghost"
+              icon={comments?.length === 0 ? <FaRegComment /> : <FaComment />}
+              isRound
+            />
+          </Link>
           <Text>{comments?.length}</Text>
         </HStack>
         <HStack spacing={"1px"}>
           {!userLoading &&
             user?.id === uid &&
             path.includes("/pages/profile/") && (
-              // <Confirm>
               <IconButton
                 ml="auto"
                 aria-label="delete post"
@@ -74,7 +71,6 @@ const PostActions = ({ post, link }: any) => {
                 icon={<FaTrash />}
                 isRound
               />
-              // </Confirm>
             )}
         </HStack>
       </HStack>

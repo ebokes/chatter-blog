@@ -3,14 +3,13 @@
 import { useAuth } from "@/app/hooks/auth";
 import { useAddComment } from "@/app/hooks/comments";
 import { PostProps } from "@/app/hooks/post";
-import { Box, Button, Flex, Link, Text, Textarea } from "@chakra-ui/react";
-import NextLink from "next/link";
+import { Box, Button, Flex, Textarea } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutoSize from "react-textarea-autosize";
 import Avatar from "../Avatar";
-// import Link from "next/link";
+import Link from "next/link";
 
 interface NewCommentProps {
   post: PostProps;
@@ -45,17 +44,9 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
     return (
       <Box>
         You must&nbsp;
-        <Link
-          rel="preload"
-          as="script"
-          href="/pages/signin"
-          style={{ display: "inline", fontWeight: "bold", color: "brand.600" }}
-          className="hover"
-        >
-          {/* <Text color="brand.600" display="inline" fontWeight="bold"> */}
-          Signin
-          {/* </Text> */}
-        </Link>
+        <Box fontWeight={"bold"} color={"brand.600"}>
+          <Link href="/pages/signin">Signin</Link>
+        </Box>
         &nbsp;to comment
       </Box>
     );

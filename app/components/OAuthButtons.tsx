@@ -39,7 +39,6 @@ const OAuthButtons = () => {
       });
     }
   }, [googleUser, toast, router]);
-  console.log("googleUser ==> ", googleUser?.user);
 
   return (
     <ButtonGroup

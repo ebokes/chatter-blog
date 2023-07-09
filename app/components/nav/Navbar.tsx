@@ -9,11 +9,11 @@ import {
 import {
   Box,
   Button,
+  Center,
   Collapse,
   Flex,
   Icon,
   IconButton,
-  Link,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -23,7 +23,7 @@ import {
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { useAuth } from "@/app/hooks/auth";
@@ -33,7 +33,7 @@ export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, isLoading, error } = useAuth();
-  const path = usePathname();
+  // const path = usePathname();
 
   return (
     <Box
@@ -66,17 +66,15 @@ export default function Navbar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "flex-start" }}>
-          <Link
-            as={NextLink}
-            href="/"
+          <Center
             textAlign={useBreakpointValue({ base: "center", md: "left" })}
             fontFamily={"heading"}
             color="brand.600"
             fontWeight={"bold"}
             _hover={{ textDecoration: "none" }}
           >
-            CHATTER
-          </Link>
+            <Link href="/">CHATTER</Link>
+          </Center>
 
           {/* {!path.includes("signup") ||
             (!path.includes("signup") && ( */}
@@ -110,14 +108,10 @@ export default function Navbar() {
                 direction={"row"}
                 spacing={6}
               >
-                <Button
-                  as={NextLink}
+                <Center
                   fontSize={"sm"}
                   fontWeight={600}
-                  variant={"link"}
-                  href={"/pages/signin"}
-                  px={"15px"}
-                  py={"7px"}
+                  py={2}
                   color={"brand.600"}
                   border={"1px solid"}
                   borderColor={"brand.600"}
@@ -125,23 +119,26 @@ export default function Navbar() {
                     bg: "brand.700",
                     color: "white",
                   }}
+                  borderRadius={"lg"}
+                  w={"90px"}
                 >
-                  Sign In
-                </Button>
-                <Button
-                  as={NextLink}
+                  <Link href={"/pages/signin"}>Sign In</Link>
+                </Center>
+                <Center
                   display={{ base: "none", md: "inline-flex" }}
                   fontSize={"sm"}
                   fontWeight={600}
+                  py={2}
                   color={"white"}
                   bg={"brand.600"}
-                  href={"/pages/signup"}
                   _hover={{
                     bg: "brand.700",
                   }}
+                  w={"90px"}
+                  borderRadius={"lg"}
                 >
-                  Sign Up
-                </Button>
+                  <Link href={"/pages/signup"}>Sign Up</Link>
+                </Center>
               </Stack>
             ) : (
               <NavMenu />
@@ -168,11 +165,9 @@ const DesktopNav = () => {
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
-              <Link
+              <Center
                 p={2}
-                href={navItem.href ?? "#"}
                 borderRadius={"xl"}
-                // border={"2px solid"}
                 border={
                   currentRoute === navItem.href ? "2px solid" : "0px solid"
                 }
@@ -183,16 +178,10 @@ const DesktopNav = () => {
                 _active={{ color: "brand.600" }}
                 fontSize={"sm"}
                 fontWeight={500}
-                // color={"gray.600"}
                 color={colorMode === "light" ? "brand.800" : "gray.400"}
-                // _hover={{
-                //   textDecoration: "none",
-                //   // color: "gray.800",
-                //   color: colorMode === "light" ? "brand.800" : "gray.200",
-                // }}
               >
-                {navItem.label}
-              </Link>
+                <Link href={navItem.href ?? "#"}>{navItem.label}</Link>
+              </Center>
             </PopoverTrigger>
 
             {navItem.children && (
@@ -220,39 +209,43 @@ const DesktopNav = () => {
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
-    <Link
-      as={NextLink}
-      href={href}
-      role={"group"}
-      display={"block"}
-      p={2}
+    <Center
+      px={2}
+      py={1}
       rounded={"md"}
       _hover={{ bg: "brand.700" }}
+      // border={"1px solide red"}
     >
-      <Stack direction={"row"} align={"center"}>
-        <Box>
-          <Text
+      <Link
+        href={href ?? "#"}
+        // role={"group"}
+        // display={"block"}
+      >
+        <Stack direction={"row"} align={"center"}>
+          <Box>
+            <Text
+              transition={"all .3s ease"}
+              _groupHover={{ color: "brand.700" }}
+              fontWeight={500}
+            >
+              {label}
+            </Text>
+            <Text fontSize={"sm"}>{subLabel}</Text>
+          </Box>
+          <Flex
             transition={"all .3s ease"}
-            _groupHover={{ color: "brand.700" }}
-            fontWeight={500}
+            transform={"translateX(-10px)"}
+            opacity={0}
+            _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
+            justify={"flex-end"}
+            align={"center"}
+            flex={1}
           >
-            {label}
-          </Text>
-          <Text fontSize={"sm"}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={"all .3s ease"}
-          transform={"translateX(-10px)"}
-          opacity={0}
-          _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
-          justify={"flex-end"}
-          align={"center"}
-          flex={1}
-        >
-          <Icon color={"brand.600"} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Link>
+            <Icon color={"brand.600"} w={5} h={5} as={ChevronRightIcon} />
+          </Flex>
+        </Stack>
+      </Link>
+    </Center>
   );
 };
 
@@ -279,32 +272,18 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
     <Stack spacing={4} onClick={children && onToggle}>
       <Flex
         py={2}
-        as={Link}
-        href={href ?? "#"}
         justify={"space-between"}
         align={"center"}
         _hover={{
           textDecoration: "none",
         }}
+        fontWeight={600}
+        color={colorMode === "light" ? "brand.800" : "gray.400"}
       >
-        <Text
-          fontWeight={600}
-          color={colorMode === "light" ? "brand.800" : "gray.400"}
-        >
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={"all .25s ease-in-out"}
-            transform={isOpen ? "rotate(180deg)" : ""}
-            w={6}
-            h={6}
-          />
-        )}
+        <Link href={href ?? "#"}>{label}</Link>
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
+      {/* <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
         <Stack
           mt={2}
           pl={4}
@@ -320,7 +299,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
               </Link>
             ))}
         </Stack>
-      </Collapse>
+      </Collapse> */}
     </Stack>
   );
 };
@@ -336,41 +315,17 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Feed",
     href: "/pages/feed",
-    // children: [
-    //   {
-    //     label: "Explore Design Work",
-    //     subLabel: "Trending Design to inspire you",
-    //     href: "#",
-    //   },
-    //   {
-    //     label: "New & Noteworthy",
-    //     subLabel: "Up-and-coming Designers",
-    //     href: "#",
-    //   },
-    // ],
   },
-  {
-    label: "About us",
-    href: "/pages/about-us",
-    // children: [
-    //   {
-    //     label: "Job Board",
-    //     subLabel: "Find your dream design job",
-    //     href: "#",
-    //   },
-    //   {
-    //     label: "Freelance Projects",
-    //     subLabel: "An exclusive list for contract work",
-    //     href: "#",
-    //   },
-    // ],
-  },
+  // {
+  //   label: "About us",
+  //   href: "/pages/about-us",
+  // },
   {
     label: "Contact",
     href: "#",
   },
-  {
-    label: "Blog",
-    href: "#",
-  },
+  // {
+  //   label: "Blog",
+  //   href: "#",
+  // },
 ];
