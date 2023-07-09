@@ -67,63 +67,63 @@ const LiteEditor: React.FC = () => {
   const { addPost, isLoading: publishingPost } = useAddPost();
   const { user, isLoading: authLoading } = useAuth();
 
-  const {
-    setFile,
-    uploadBannerImg,
-    isLoading: fileLoading,
-    fileURL,
-  } = useUploadBannerImg();
+  // const {
+  //   setFile,
+  //   uploadBannerImg,
+  //   isLoading: fileLoading,
+  //   fileURL,
+  // } = useUploadBannerImg();
 
-  // async function handlePublish(
-  //   entry: Entry,
-  //   event: React.MouseEvent<HTMLButtonElement>
-  // ) {
-  //   event.preventDefault();
-  //   addPost({
-  //     uid: user?.id,
-  //     title: entry.title,
-  //     bannerImg: entry.bannerImg,
-  //     body: entry.body,
-  //     category: entry.category,
-  //     postLength: entry.postLength,
-  //     postedOn: Date.now(),
-  //     intro: entry.intro,
-  //   });
-  // }
-
-  function handlePublish(
+  async function handlePublish(
     entry: Entry,
     event: React.MouseEvent<HTMLButtonElement>
   ) {
     event.preventDefault();
-    if (
-      entry.title === "" ||
-      entry.body === "" ||
-      entry.category === "" ||
-      entry.intro === "" ||
-      entry.bannerImg === ""
-    ) {
-      toast({
-        title: "Error",
-        description: "Please fill all the fields",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    } else {
-      addPost({
-        uid: user?.id,
-        title: entry.title,
-        bannerImg: entry.bannerImg,
-        body: entry.body,
-        category: entry.category,
-        postLength: entry.postLength,
-        postedOn: Date.now(),
-        intro: entry.intro,
-      });
-      uploadBannerImg();
-    }
+    addPost({
+      uid: user?.id,
+      title: entry.title,
+      bannerImg: entry.bannerImg,
+      body: entry.body,
+      category: entry.category,
+      postLength: entry.postLength,
+      postedOn: Date.now(),
+      intro: entry.intro,
+    });
   }
+
+  // function handlePublish(
+  //   entry: Entry,
+  //   event: React.MouseEvent<HTMLButtonElement>
+  // ) {
+  //   event.preventDefault();
+  //   if (
+  //     entry.title === "" ||
+  //     entry.body === "" ||
+  //     entry.category === "" ||
+  //     entry.intro === "" ||
+  //     entry.bannerImg === ""
+  //   ) {
+  //     toast({
+  //       title: "Error",
+  //       description: "Please fill all the fields",
+  //       status: "error",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
+  //   } else {
+  //     addPost({
+  //       uid: user?.id,
+  //       title: entry.title,
+  //       bannerImg: entry.bannerImg,
+  //       body: entry.body,
+  //       category: entry.category,
+  //       postLength: entry.postLength,
+  //       postedOn: Date.now(),
+  //       intro: entry.intro,
+  //     });
+  //     uploadBannerImg();
+  //   }
+  // }
 
   const handleEditorChange = ({
     html,
@@ -162,9 +162,9 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
-  function handleBannerImgChange(e: any) {
-    setFile(e.target.files[0]);
-  }
+  // function handleBannerImgChange(e: any) {
+  //   setFile(e.target.files[0]);
+  // }
   // You were going to figure out how to upload images firebase storage url to the post in firebase storage
 
   return (
@@ -178,8 +178,9 @@ const LiteEditor: React.FC = () => {
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
               <Button
                 type="submit"
-                bg="#543EE0"
-                _hover={{ bg: "#715fe3" }}
+                // bg="#543EE0"
+                // _hover={{ bg: "#715fe3" }}
+                colorScheme="blue"
                 color={"white"}
                 onClick={(event) => handlePublish(entry, event)}
                 isLoading={publishingPost}
@@ -204,7 +205,7 @@ const LiteEditor: React.FC = () => {
             //   borderBottom: "1px solid brand.400",
             // }}
           />
-          {/* <Input
+          <Input
             required
             placeholder="Cover Image URL"
             type="text"
@@ -213,8 +214,8 @@ const LiteEditor: React.FC = () => {
             value={entry.bannerImg}
             autoComplete="off"
             variant={"flushed"}
-          /> */}
-          <Input
+          />
+          {/* <Input
             required
             placeholder="Cover Image URL"
             type="file"
@@ -224,7 +225,7 @@ const LiteEditor: React.FC = () => {
             autoComplete="off"
             variant={"flushed"}
             accept="image/*"
-          />
+          /> */}
 
           {/* <label>You are joining as?</label> */}
           <Select

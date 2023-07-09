@@ -3,6 +3,7 @@
 import {
   Box,
   Center,
+  Flex,
   Heading,
   Link,
   Text,
@@ -16,7 +17,7 @@ const Hero = () => {
   return (
     <Center
       h="764px"
-      backgroundImage="/writer.webp"
+      backgroundImage="/images/writer.webp"
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       backgroundSize="cover"
@@ -39,19 +40,36 @@ const Hero = () => {
             Unleash the Power of Words, Connect with Like-minded Readers and
             Writers
           </Text>
-          <Link
-            as={NextLink}
-            href="/pages/signin"
-            maxW="400px"
-            bg="brand.600"
-            color="white"
-            _hover={{ bg: "brand.700" }}
-            py="15px"
-            px="45px"
-            borderRadius="md"
-          >
-            Get Started
-          </Link>
+          <Flex gap={5}>
+            <Link
+              as={NextLink}
+              href="/pages/signin"
+              maxW="400px"
+              bg="brand.600"
+              color="white"
+              _hover={{ bg: "brand.700" }}
+              py="10px"
+              px="25px"
+              borderRadius="md"
+              fontWeight={600}
+            >
+              Get Started
+            </Link>
+            <Link
+              as={NextLink}
+              href="/pages/feed"
+              maxW="400px"
+              bg="brand.600"
+              color="white"
+              _hover={{ bg: "brand.700" }}
+              py="10px"
+              px="35px"
+              borderRadius="md"
+              fontWeight={600}
+            >
+              Feed
+            </Link>
+          </Flex>
         </Box>
       </Center>
     </Center>

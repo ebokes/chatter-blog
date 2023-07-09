@@ -97,7 +97,11 @@ const Feed = () => {
             <PostList posts={posts} isLoading={postsLoading} />
           </TabPanel>
           <TabPanel p={0}>
-            <PostList posts={postsUid} isLoading={postsUidLoading} />
+            <PostList
+              posts={postsUid}
+              isLoading={postsUidLoading}
+              link="dashboard"
+            />
           </TabPanel>
           <TabPanel>
             <p>Recent</p>

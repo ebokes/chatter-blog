@@ -225,27 +225,35 @@ const Profile = () => {
                   </Button>
                 )}
                 {userAuth?.id !== user?.id && (
-                  <Button
-                    color="green"
-                    // variant={"ghost"}
-                    display={"inline"}
-                    ml={"20px"}
-                    // cursor={"pointer"}
-                  >
-                    Follow
-                  </Button>
+                  //   <Button
+                  //     color="green"
+                  //     // variant={"ghost"}
+                  //     display={"inline"}
+                  //     ml={"20px"}
+                  //     // cursor={"pointer"}
+                  //   >
+                  //     Follow
+                  //   </Button>
+                  <>
+                    {isFollowMe ? (
+                      <Button
+                        onClick={toggleFollowMe}
+                        ml={"20px"}
+                        color="green"
+                      >
+                        Unfollow
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={toggleFollowMe}
+                        ml={"20px"}
+                        color="green"
+                      >
+                        Follow
+                      </Button>
+                    )}
+                  </>
                 )}
-                <>
-                  {isFollowMe ? (
-                    <Button onClick={toggleFollowMe} ml={"20px"} color="green">
-                      Unfollow
-                    </Button>
-                  ) : (
-                    <Button onClick={toggleFollowMe} ml={"20px"} color="green">
-                      Follow
-                    </Button>
-                  )}
-                </>
               </HStack>
             </Center>
             <Flex

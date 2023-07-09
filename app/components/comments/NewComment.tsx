@@ -63,6 +63,7 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
               justifySelf={"flex-end"}
               isLoading={commentLoading || authLoading}
               type="submit"
+              colorScheme="blue"
             >
               Submit
             </Button>

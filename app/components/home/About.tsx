@@ -47,7 +47,15 @@ const About = () => {
           </Stack>
         </Flex>
         <Flex>
-          <Image alt="About Image" src="/abt.jpg" width={500} height={404} />
+          <Image
+            alt="About Image"
+            src="/images/research.webp"
+            width={500}
+            height={404}
+            style={{
+              borderRadius: "30px",
+            }}
+          />
         </Flex>
       </Stack>
     </Box>

@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
   VStack,
+  useBreakpointValue,
   useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
@@ -16,6 +17,9 @@ import NextLink from "next/link";
 
 export default function Cta() {
   const { colorMode } = useColorMode();
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const imageWidth = isMobile ? "100px" : "150px";
+  const imageHeight = isMobile ? "100px" : "150px";
   return (
     <Box bg={colorMode === "light" ? "light" : "brand.800"}>
       <Stack
@@ -26,41 +30,69 @@ export default function Cta() {
         mx={"auto"}
         px={"32px"}
         py={{ base: "55px", md: "72px" }}
-        gap={77}
+        columnGap={77}
+        rowGap={12}
         color={colorMode === "light" ? "brand.800" : "gray.400"}
       >
         <Flex>
           <HStack>
-            <VStack gap={16}>
+            <VStack gap={{ base: 6, md: 16 }}>
               <Image
-                alt="Login Image"
+                alt="Cta Image"
                 src="/alex.webp"
                 width={154}
                 height={154}
-                style={{ borderRadius: "50%", objectFit: "cover" }}
+                style={{
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  width: imageWidth,
+                  height: imageHeight,
+                }}
               />
               <Image
-                alt="Login Image"
-                src="/alex.webp"
+                alt="Cta Image"
+                src="/images/businesswoman.webp"
                 width={154}
                 height={154}
-                style={{ borderRadius: "50%" }}
+                style={{
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  width: imageWidth,
+                  height: imageHeight,
+                }}
               />
             </VStack>
             <VStack>
               <Image
-                alt="Login Image"
-                src="/alex.webp"
+                alt="Cta Image"
+                src="/images/man.webp"
                 width={154}
                 height={154}
-                style={{ borderRadius: "50%" }}
+                style={{
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  width: imageWidth,
+                  height: imageHeight,
+                }}
               />
             </VStack>
           </HStack>
         </Flex>
-        <Flex py={8} flex={1} align={"center"} justify={"center"}>
-          <Stack spacing={6} w={"full"}>
-            <Heading color={colorMode === "light" ? "brand.850" : "brand.300"}>
+        <Flex flex={1} align={"center"} justify={"center"}>
+          <Stack
+            spacing={6}
+            w={"full"}
+            justify={{ base: "center", md: "flex-start" }}
+            textAlign={{ base: "center", md: "left" }}
+          >
+            <Heading
+              color={colorMode === "light" ? "brand.850" : "brand.300"}
+              fontSize={{ base: "2xl", md: "4xl" }}
+              mb={{ base: 0, md: 2 }}
+            >
               Write, read and connect with great minds on chatter
             </Heading>
 
@@ -69,7 +101,7 @@ export default function Cta() {
               your interests. connect with people of same interests and goals{" "}
             </Text>
 
-            <Stack direction={{ base: "column", md: "row" }} spacing={4}>
+            <Box>
               <Button
                 as={NextLink}
                 href={"/pages/signup"}
@@ -83,7 +115,7 @@ export default function Cta() {
               >
                 Get started
               </Button>
-            </Stack>
+            </Box>
           </Stack>
         </Flex>
       </Stack>

@@ -1,10 +1,14 @@
 "use client";
 
-import { Box, Center, Flex, calc } from "@chakra-ui/react";
+import PostList from "@/app/components/posts/PostList";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 
 const page = () => {
-  return <Center h={"88vh"}>Coming soon...</Center>;
+  //   const { posts, isLoading: postLoading } = usePosts();
+  //   return <Box h={"88vh"}>
+  // <PostList post={} />
+  //   </Box>;
 };
 
 export default page;

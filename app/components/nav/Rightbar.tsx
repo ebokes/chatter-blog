@@ -2,6 +2,7 @@
 
 import {
   Box,
+  Button,
   Flex,
   Link,
   Skeleton,
@@ -18,7 +19,7 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
   const { posts, isLoading } = usePosts();
   const sortedPosts = posts?.sort((a, b) => b.postedOn - a.postedOn);
-  const recentPosts = sortedPosts?.slice(0, 3);
+  const recentPosts = sortedPosts?.slice(0, 5);
 
   return (
     <>
@@ -62,20 +63,27 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
               </Flex>
               <Box>
                 <Text fontSize="md" fontWeight="bold" mb="4">
-                  Categories
+                  Top Categories
                 </Text>
                 <Flex gap={2} flexWrap={"wrap"}>
                   {Array.from(new Set(posts?.map((post) => post.category))).map(
                     (category) => (
                       <Link
-                        px={2}
-                        py={1}
-                        borderRadius={"2xl"}
-                        border={"1px solid"}
+                        as={Button}
+                        px={3}
+                        // py={"4px"}
+                        h={"30px"}
+                        borderRadius={"3xl"}
+                        // border={"1px solid"}
                         key={category}
                         href=""
                         display="block"
                         mb="2"
+                        variant={"solid"}
+                        bg="blue.500"
+                        color="white"
+                        fontSize={"sm"}
+                        _hover={{ textDecoration: "none", bg: "blue.400" }}
                       >
                         {category}
                       </Link>

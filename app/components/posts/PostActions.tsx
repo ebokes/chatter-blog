@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 // import { useComments } from "../hooks/comments";
 
-const PostActions = ({ post, link = "dashboard" }: any) => {
+const PostActions = ({ post, link }: any) => {
   const { likes, id, uid } = post;
   const { user, isLoading: userLoading } = useAuth();
   // const { user, isLoading: userLoading } = useUser();
@@ -43,7 +43,7 @@ const PostActions = ({ post, link = "dashboard" }: any) => {
             aria-label="comments"
             // isLoading={commentsLoading}
             size="md"
-            colorScheme="teal"
+            colorScheme="blue"
             variant="ghost"
             icon={comments?.length === 0 ? <FaRegComment /> : <FaComment />}
             isRound

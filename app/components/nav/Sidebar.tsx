@@ -152,9 +152,24 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       overflow={"auto"}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontWeight="bold" color="#543EE0">
-          <NextLink href="/pages/feed">CHATTER</NextLink>
-        </Text>
+        {/* <Box
+          fontSize="2xl"
+          fontWeight="bold"
+          color="#543EE0"
+          sx={{ textDecoration: "none" }}
+        > */}
+        <Link
+          as={NextLink}
+          href="/pages/feed"
+          fontSize="2xl"
+          fontWeight="bold"
+          // color="#543EE0"
+          color={"brand.700"}
+          _hover={{ textDecor: "none" }}
+        >
+          CHATTER
+        </Link>
+        {/* </Box> */}
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       <Stack ml={"35px"} spacing={6}>
@@ -252,22 +267,8 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  // const { data: session } = useSession();
-  // const session = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const [show, setShow] = useState(false);
-  const router = useRouter();
-  const { user, isLoading } = useAuth();
-  const { logout } = useLogout();
-
-  // console.log("Profile", user);
-
-  // const Logout = () => {
-  //   signOut();
-  //   router.push("/");
-  // };
-
-  const showText = useBreakpointValue({ base: false, sm: true });
 
   const handleToggle = () => setShow(!show);
   // if (isLoading) return <div>Loading...</div>;
