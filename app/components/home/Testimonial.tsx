@@ -84,7 +84,7 @@ export default function Testimonial() {
                 Software developer at Apple
               </Text>
             </Flex>
-            <Center>
+            <Flex justify={{ base: "center", md: "flex-start" }}>
               <Box
                 rounded={"md"}
                 bg={"brand.600"}
@@ -94,10 +94,11 @@ export default function Testimonial() {
                 }}
                 w={"150px"}
                 py={2}
+                textAlign={"center"}
               >
                 <Link href={"/pages/signup"}>Join chatter</Link>
               </Box>
-            </Center>
+            </Flex>
           </Flex>
         </Flex>
       </Stack>

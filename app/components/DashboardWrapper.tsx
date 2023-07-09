@@ -12,7 +12,7 @@ export default function DashboardWrapper({ children }: FeedProps) {
   return (
     <Box
       px={{ base: 2, sm: 5 }}
-      border="1px solid"
+      border={{ base: "0px solid", sm: "1px solid" }}
       borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
     >
       <Box maxW={"854px"} mx={"auto"}>

@@ -58,9 +58,9 @@ const NavMenu = () => {
             </MenuItem>
 
             <MenuDivider />
-            <MenuItem>
-              <Link href={"/pages/dashboard"}>Dashboard</Link>
-            </MenuItem>
+            <Link href={"/pages/dashboard"}>
+              <MenuItem>Dashboard</MenuItem>
+            </Link>
             <MenuDivider />
             <MenuItem onClick={logout}>Sign out</MenuItem>
           </MenuList>

@@ -1,32 +1,28 @@
 "use client";
 
-import { PostProps, usePost, usePosts } from "@/app/hooks/post";
+import { useAuth } from "@/app/hooks/auth";
+import { PostProps, usePosts } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
 import Loading from "@/app/loader/Loading";
 import { formatDate } from "@/app/utils/funcns";
 import {
   Avatar,
   Box,
-  Button,
   Center,
   Flex,
   HStack,
   Heading,
   Icon,
-  IconButton,
   Stack,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import MarkdownIt from "markdown-it";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import { VscBook } from "react-icons/vsc";
 import Comments from "../comments/CommentWrapper";
-import { useAuth } from "@/app/hooks/auth";
 
 const Post = () => {
   const { colorMode } = useColorMode();
@@ -62,7 +58,6 @@ const Post = () => {
         borderRadius={"lg"}
         mb={6}
         color={colorMode === "light" ? "brand.800" : "brand.400"}
-        // border={"1px solid red"}
       >
         <Stack mt={27}>
           <Box>
@@ -82,29 +77,6 @@ const Post = () => {
                         {user?.displayName}
                       </Heading>
                     </Link>
-                    {/* <Text
-                      color="green"
-                      variant={"ghost"}
-                      display={"inline"}
-                      ml={"20px"}
-                      cursor={"pointer"}
-                    >
-                      Follow
-                    </Text> */}
-                    {/* {userAuth?.id !== user?.id && (
-                      <Button
-                        color="green"
-                        // variant={"ghost"}
-                        display={"inline"}
-                        ml={"10px"}
-                        cursor={"pointer"}
-                        px={2}
-                        h={"30px"}
-                        mb={1}
-                      >
-                        Follow
-                      </Button>
-                    )} */}
                   </HStack>
                   <HStack flexWrap={"wrap"}>
                     {user?.role ? (
@@ -130,20 +102,6 @@ const Post = () => {
                   </HStack>
                 </Box>
               </Flex>
-              <Box mr={"-11px"}>
-                <IconButton
-                  variant={"ghost"}
-                  //   onClick={handleBookmark}
-                  aria-label="Bookmark"
-                  icon={
-                    currentPost?.bookmarked ? (
-                      <BsBookmarkCheckFill size={"20px"} />
-                    ) : (
-                      <BsBookmarkPlus size={"20px"} />
-                    )
-                  }
-                />
-              </Box>
             </Flex>
             <Center flex={0.7}>
               {currentPost?.bannerImg && (
@@ -153,9 +111,7 @@ const Post = () => {
                   height={242}
                   alt="banner image"
                   style={{
-                    // width: "full",
                     objectFit: "cover",
-                    // height: "442px",
                     objectPosition: "center",
                   }}
                 />

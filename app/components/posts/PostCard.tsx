@@ -28,7 +28,7 @@ const PostCard = ({ post, link }: any) => {
     <Box
       border={"1px solid "}
       borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-      borderRadius={"lg"}
+      borderRadius={"5px"}
       mb={6}
       color={colorMode === "light" ? "brand.800" : "brand.400"}
       pb={"20px"}
@@ -56,20 +56,22 @@ const PostCard = ({ post, link }: any) => {
                 </Text>
               </Stack>
               <Flex flex={0.7}>
-                <Image
-                  src={post?.bannerImg}
-                  width={312}
-                  height={242}
-                  alt="banner image"
-                  priority={false}
-                  quality={20}
-                  style={{
-                    // borderRadius: "10px",
-                    objectFit: "contain",
-                    // width: imageWidth,
-                    // height: imageHeight,
-                  }}
-                />
+                {post?.bannerImg && (
+                  <Image
+                    src={post?.bannerImg}
+                    width={312}
+                    height={242}
+                    alt="banner image"
+                    priority={false}
+                    quality={20}
+                    style={{
+                      // borderRadius: "10px",
+                      objectFit: "contain",
+                      // width: imageWidth,
+                      // height: imageHeight,
+                    }}
+                  />
+                )}
               </Flex>
             </Flex>
           </Link>

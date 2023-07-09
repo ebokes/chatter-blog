@@ -77,31 +77,6 @@ const Profile = () => {
     setIsFollowMe(!isFollowMe);
   };
 
-  // const handleFollowMe = async () => {
-  // setFollowLoading(true);
-  // try {
-  //   await toggleFollowMe();
-  //   setIsFollowMe(!isFollowMe);
-  //   toast({
-  //     title: "FollowMe updated!",
-  //     status: "success",
-  //     isClosable: true,
-  //     position: "top",
-  //     duration: 5000,
-  //   });
-  // } catch (error) {
-  //   toast({
-  //     title: "Error updating FollowMe!",
-  //     status: "error",
-  //     isClosable: true,
-  //     position: "top",
-  //     duration: 5000,
-  //   });
-  // }finally{
-  //   setFollowLoading(false);
-  // }
-  // }
-
   useEffect(() => {
     if (userAuth) {
       setDisplayName(getCapitalizedName(userAuth.displayName) ?? "");

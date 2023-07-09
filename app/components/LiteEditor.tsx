@@ -60,8 +60,6 @@ const LiteEditor: React.FC = () => {
   const { colorMode } = useColorMode();
   const mdParser = new MarkdownIt();
   const toast = useToast();
-  // const [publishLoading, setPublishLoading] = useState(false);
-  const [draftLoading, setDraftLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const { addPost, isLoading: publishingPost } = useAddPost();
@@ -79,16 +77,32 @@ const LiteEditor: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ) {
     event.preventDefault();
-    addPost({
-      uid: user?.id,
-      title: entry.title,
-      bannerImg: entry.bannerImg,
-      body: entry.body,
-      category: entry.category,
-      postLength: entry.postLength,
-      postedOn: Date.now(),
-      intro: entry.intro,
-    });
+    if (
+      entry.title === "" ||
+      entry.body === "" ||
+      entry.category === "" ||
+      entry.intro === "" ||
+      entry.bannerImg === ""
+    ) {
+      toast({
+        title: "Error",
+        description: "Please fill all the fields",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } else {
+      addPost({
+        uid: user?.id,
+        title: entry.title,
+        bannerImg: entry.bannerImg,
+        body: entry.body,
+        category: entry.category,
+        postLength: entry.postLength,
+        postedOn: Date.now(),
+        intro: entry.intro,
+      });
+    }
   }
 
   // function handlePublish(

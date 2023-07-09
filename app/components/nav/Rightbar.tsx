@@ -23,7 +23,7 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Navbar />
-      <Box maxW={"1200px"} mx={"auto"}>
+      <Box maxW={"1200px"} mx={"auto"} mb={"30px"} className={"hide-scrollbar"}>
         <Flex
           px={"20px"}
           justify={"space-between"}

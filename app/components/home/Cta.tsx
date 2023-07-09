@@ -100,7 +100,7 @@ export default function Cta() {
               Share people your great ideas, and also read write-ups based on
               your interests. connect with people of same interests and goals{" "}
             </Text>
-            <Center>
+            <Flex justify={{ base: "center", md: "flex-start" }}>
               <Box
                 rounded={"md"}
                 bg={"brand.600"}
@@ -110,10 +110,11 @@ export default function Cta() {
                 }}
                 w={"150px"}
                 py={2}
+                textAlign={"center"}
               >
                 <Link href={"/pages/signup"}>Get started</Link>
               </Box>
-            </Center>
+            </Flex>
           </Stack>
         </Flex>
       </Stack>

@@ -35,21 +35,22 @@ const Feed = () => {
     <>
       <Flex align={"flex-end"} justify={"space-between"} my={5}>
         <Stack>
-          <Heading fontWeight={500} fontSize={28}>
+          <Heading fontWeight={500} fontSize={{ base: 24, md: 28 }}>
             FEED
           </Heading>
           <Text>Explore different content you’d love </Text>
         </Stack>
       </Flex>
 
-      <Tabs position="relative" variant="unstyled">
+      <Tabs position="relative" variant="unstyled" mb={"30px"}>
         <TabList
           minW={"full"}
           border={`1px solid ${
             colorMode === "dark" ? "rgb(255, 255, 255, .2)" : "#d0d0d0"
           }`}
+          h={{ base: "60px", md: "80px" }}
           // py=".5rem"
-          borderRadius={"10px"}
+          borderRadius={"5px"}
           display={"flex"}
           justifyContent={"space-between"}
           textAlign={"center"}
@@ -57,20 +58,24 @@ const Feed = () => {
           overflow={"scroll"}
         >
           <HStack
-            minW={"300px"}
+            // minW={"300px"}
             justify={"space-between"}
             w={"100%"}
-            spacing={"40px"}
+            spacing={"5px"}
           >
             <Tab>
-              <Heading fontWeight={500} fontSize={24} py={"16px"}>
+              <Heading
+                fontWeight={500}
+                fontSize={{ base: 18, md: 24 }}
+                py={"16px"}
+              >
                 General
               </Heading>
             </Tab>
             <Tab w={"109px"}>
               <Heading
                 fontWeight={500}
-                fontSize={24}
+                fontSize={{ base: 18, md: 24 }}
                 py={"16px"}
                 minW={"100px"}
                 // border={"1px solid red"}
@@ -79,7 +84,11 @@ const Feed = () => {
               </Heading>
             </Tab>
             <Tab>
-              <Heading fontWeight={500} fontSize={24} py={"16px"}>
+              <Heading
+                fontWeight={500}
+                fontSize={{ base: 18, md: 24 }}
+                py={"16px"}
+              >
                 Recent
               </Heading>
             </Tab>
