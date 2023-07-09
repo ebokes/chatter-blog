@@ -293,8 +293,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             }}
           >
             <Link href={"/pages/dashboard/write"}>
-              <Icon as={CiEdit} boxSize={"20px"} />
-              <Text display={{ base: "none", md: "inline" }}>Write</Text>
+              <HStack>
+                <Icon as={CiEdit} boxSize={"20px"} />
+                <Text display={{ base: "none", md: "inline" }}>Write</Text>
+              </HStack>
             </Link>
           </HStack>
           <HStack>

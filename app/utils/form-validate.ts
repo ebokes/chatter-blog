@@ -26,20 +26,6 @@ export const lastNameValidate = {
     message: "last name must not be alphanumeric",
   },
 };
-export const userNameValidate = {
-  required: {
-    value: true,
-    message: "Please enter your username",
-  },
-  minLength: {
-    value: 3,
-    message: "username must be at least 3 characters long",
-  },
-  pattern: {
-    value: /^[a-zA-Z0-9]+$/,
-    message: "username can only contain letters and numbers",
-  },
-};
 
 export const emailValidate = {
   required: {

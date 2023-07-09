@@ -91,7 +91,7 @@ const Post = () => {
                     >
                       Follow
                     </Text> */}
-                    {userAuth?.id !== user?.id && (
+                    {/* {userAuth?.id !== user?.id && (
                       <Button
                         color="green"
                         // variant={"ghost"}
@@ -104,7 +104,7 @@ const Post = () => {
                       >
                         Follow
                       </Button>
-                    )}
+                    )} */}
                   </HStack>
                   <HStack flexWrap={"wrap"}>
                     {user?.role ? (

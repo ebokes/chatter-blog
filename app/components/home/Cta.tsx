@@ -100,18 +100,19 @@ export default function Cta() {
               Share people your great ideas, and also read write-ups based on
               your interests. connect with people of same interests and goals{" "}
             </Text>
-
-            <Center
-              rounded={"md"}
-              bg={"brand.600"}
-              color={"white"}
-              _hover={{
-                bg: "brand.700",
-              }}
-              w={"150px"}
-              py={2}
-            >
-              <Link href={"/pages/signup"}>Get started</Link>
+            <Center>
+              <Box
+                rounded={"md"}
+                bg={"brand.600"}
+                color={"white"}
+                _hover={{
+                  bg: "brand.700",
+                }}
+                w={"150px"}
+                py={2}
+              >
+                <Link href={"/pages/signup"}>Get started</Link>
+              </Box>
             </Center>
           </Stack>
         </Flex>

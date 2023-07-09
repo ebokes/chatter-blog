@@ -170,12 +170,12 @@ export function useGoogleAuth() {
       });
     };
 
-    const signInWithGoogle = async () => {
-      const res = await signInWithPopup(auth, provider);
-      const userData = res.user;
-      setGoogleUser(userData);
-      addUserToFirebase(userData);
-    };
+    // const signInWithGoogle = async () => {
+    //   const res = await signInWithPopup(auth, provider);
+    //   const userData = res.user;
+    //   setGoogleUser(userData);
+    //   addUserToFirebase(userData);
+    // };
 
     toast({
       title: "Login successful",

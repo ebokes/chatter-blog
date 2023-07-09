@@ -23,10 +23,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  useAuthState,
-  useSignInWithEmailAndPassword,
-} from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FiEye } from "react-icons/fi";
 import { RxEyeClosed } from "react-icons/rx";
@@ -40,12 +37,8 @@ export default function Signin() {
   const { colorMode } = useColorMode();
   const [showPassword, setShowPassword] = useState(false);
   const handleClick = () => setShowPassword(!showPassword);
-  const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
-    useSignInWithEmailAndPassword(auth);
   const [user, loading, error] = useAuthState(auth);
   const { login, isLoading } = useLogin();
-  console.log("SignIn", signInUser?.user);
-  console.log("UseAuthState", user);
   const {
     register,
     handleSubmit,

@@ -10,6 +10,7 @@ import {
   lastNameValidate,
   passwordValidate,
 } from "@/app/utils/form-validate";
+import { getCapitalizedName, removeSpaces } from "@/app/utils/funcns";
 import {
   Box,
   Button,
@@ -59,13 +60,12 @@ export default function Signup() {
 
   async function handleRegister(data: SignUpForm) {
     signup({
-      // username: data.username,
       followMe: [],
       iFollow: [],
-      email: data.email,
+      email: removeSpaces(data.email.toLowerCase()),
       password: data.password,
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: getCapitalizedName(data.firstName),
+      lastName: getCapitalizedName(data.lastName),
       joiningAs: data.joiningAs,
       redirectTo: "/pages/dashboard",
     });
@@ -171,23 +171,6 @@ export default function Signup() {
                               </FormErrorMessage>
                             </FormControl>
                           </HStack>
-                          {/* <FormControl isInvalid={!!errors?.username}>
-                          <label>Username</label>
-                          <Input
-                            type="text"
-                            placeholder="Enter username"
-                            border="1px  solid"
-                            borderColor={
-                              colorMode === "light" ? "brand.400" : "brand.450"
-                            }
-                            // required
-                            {...register("username", userNameValidate)}
-                          />
-
-                          <FormErrorMessage>
-                            {errors.username && errors.username?.message}
-                          </FormErrorMessage>
-                        </FormControl> */}
                           <FormControl>
                             <label>You are joining as?</label>
                             <Select

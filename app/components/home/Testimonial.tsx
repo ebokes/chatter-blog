@@ -33,7 +33,7 @@ export default function Testimonial() {
         <Flex>
           <Image
             alt="Login Image"
-            src="/images/stylish-black-girl.webp "
+            src="/images/stylish-black-girl.webp"
             width={300}
             height={300}
             style={{
@@ -51,10 +51,11 @@ export default function Testimonial() {
           justify={"center"}
           flexDir={{ base: "column", md: "row" }}
         >
-          <Stack
-            spacing={6}
+          <Flex
+            gap={6}
             w={"full"}
             textAlign={{ base: "center", md: "left" }}
+            flexDirection={"column"}
           >
             <Text
               fontSize={{ base: "md", lg: "lg" }}
@@ -83,19 +84,21 @@ export default function Testimonial() {
                 Software developer at Apple
               </Text>
             </Flex>
-            <Center
-              rounded={"md"}
-              bg={"brand.600"}
-              color={"brand.100"}
-              _hover={{
-                bg: "brand.700",
-              }}
-              w={"150px"}
-              py={2}
-            >
-              <Link href={"/pages/signup"}>Join chatter</Link>
+            <Center>
+              <Box
+                rounded={"md"}
+                bg={"brand.600"}
+                color={"brand.100"}
+                _hover={{
+                  bg: "brand.700",
+                }}
+                w={"150px"}
+                py={2}
+              >
+                <Link href={"/pages/signup"}>Join chatter</Link>
+              </Box>
             </Center>
-          </Stack>
+          </Flex>
         </Flex>
       </Stack>
     </Box>

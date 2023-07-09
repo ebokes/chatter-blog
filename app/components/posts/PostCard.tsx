@@ -8,6 +8,7 @@ import {
   Icon,
   Stack,
   Text,
+  useBreakpointValue,
   useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
@@ -19,6 +20,9 @@ import Link from "next/link";
 
 const PostCard = ({ post, link }: any) => {
   const { colorMode } = useColorMode();
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const imageWidth = isMobile ? "3000px" : "500px";
+  const imageHeight = isMobile ? "300px" : "400px";
 
   return (
     <Box
@@ -38,7 +42,7 @@ const PostCard = ({ post, link }: any) => {
           }}
         >
           <Link href={`/pages/${link}/${post.id}`}>
-            <Flex flexDir={{ base: "column-reverse", lg: "row" }}>
+            <Flex flexDir={{ base: "column-reverse", lg: "row" }} gap={4}>
               <Stack flex={1} mr={{ base: "0", lg: "22px" }}>
                 <Heading fontWeight={500} fontSize={"24px"} mt={"10px"}>
                   {post?.title}
@@ -60,9 +64,10 @@ const PostCard = ({ post, link }: any) => {
                   priority={false}
                   quality={20}
                   style={{
-                    borderRadius: "10px",
-                    objectFit: "cover",
-                    height: "200px",
+                    // borderRadius: "10px",
+                    objectFit: "contain",
+                    // width: imageWidth,
+                    // height: imageHeight,
                   }}
                 />
               </Flex>
