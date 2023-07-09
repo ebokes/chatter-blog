@@ -49,11 +49,11 @@ const Post = () => {
     setCurrentPost(selectedPost);
   }, [posts, id, params]);
 
-  function renderMarkdownToHtml(markdownText: string): React.ReactNode {
-    const md = new MarkdownIt();
-    const html = md.render(markdownText);
-    return <div dangerouslySetInnerHTML={{ __html: html }} />;
-  }
+  // function renderMarkdownToHtml(markdownText: string): React.ReactNode {
+  //   const md = new MarkdownIt();
+  //   const html = md.render(markdownText);
+  //   return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  // }
 
   if (postsLoading || userLoading || !user) {
     return <Loading />;
@@ -71,25 +71,28 @@ const Post = () => {
           <Box>
             <Flex justify={"space-between"} w={"full"}>
               <Flex gap={2} mb={"15px"}>
-                <Avatar
-                  size="md"
-                  name={user?.displayName}
-                  as={Link}
+                <Link
+                  rel="preload"
+                  as="script"
                   href={`/pages/profile/${user?.id}`}
-                  _hover={{ cursor: "pointer", opacity: "0.8" }}
-                />
-                {/* <Avatar user={user} /> */}
+                >
+                  <Avatar
+                    size="md"
+                    name={user?.displayName}
+                    _hover={{ cursor: "pointer", opacity: "0.8" }}
+                  />
+                </Link>
                 <Box>
                   <HStack>
-                    <Heading
-                      fontSize={"20px"}
-                      fontWeight={600}
-                      mb={1}
-                      as={Link}
+                    <Link
+                      rel="preload"
+                      as="script"
                       href={`/pages/profile/${user?.id}`}
                     >
-                      {user?.displayName}
-                    </Heading>
+                      <Heading fontSize={"20px"} fontWeight={600} mb={1}>
+                        {user?.displayName}
+                      </Heading>
+                    </Link>
                     {/* <Text
                       color="green"
                       variant={"ghost"}

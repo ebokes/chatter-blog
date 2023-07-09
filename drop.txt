@@ -379,3 +379,24 @@ export default PostPage;
             )}
           </>
         )}
+
+
+        rel="preload" as="script"
+
+        //Example 1: Preload a script
+        <link rel="preload" href="/public/home.js" as="script">
+
+               // _hover={{ textDecoration: "none" }}
+
+                <Text>
+        You must&nbsp;
+        <Link
+          rel="preload"
+          as="script"
+          href="/pages/signin"
+          style={{ display: "inline", fontWeight: "bold", color: "brand.600" }}
+        >
+          Signin
+        </Link>
+        &nbsp;to comment
+      </Text>

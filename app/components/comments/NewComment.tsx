@@ -10,6 +10,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutoSize from "react-textarea-autosize";
 import Avatar from "../Avatar";
+// import Link from "next/link";
 
 interface NewCommentProps {
   post: PostProps;
@@ -42,19 +43,21 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
 
   if (authLoading || !user)
     return (
-      <Text>
+      <Box>
         You must&nbsp;
         <Link
-          as={NextLink}
+          rel="preload"
+          as="script"
           href="/pages/signin"
-          color={"brand.600"}
-          fontWeight={"bold"}
-          _hover={{ textDecoration: "none" }}
+          style={{ display: "inline", fontWeight: "bold", color: "brand.600" }}
+          className="hover"
         >
+          {/* <Text color="brand.600" display="inline" fontWeight="bold"> */}
           Signin
+          {/* </Text> */}
         </Link>
         &nbsp;to comment
-      </Text>
+      </Box>
     );
 
   return (

@@ -23,8 +23,16 @@
 
   p {
     margin-bottom: 12px;
-    color: #2c5382b7;
+    /* color: #2c5382b7; */
   }
 
   /* Add more styles for other HTML tags as needed */
+}
+
+.hover {
+  color: #3182ce;
+  &:hover {
+    text-decoration: none;
+    color: #3182ce;
+  }
 }

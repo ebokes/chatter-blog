@@ -31,14 +31,15 @@ const Comment = ({ comment }: any) => {
       <Flex justify={"space-between"} w={"full"}>
         <Box>
           <Flex align={"center"}>
-            <Heading
-              as={Link}
+            <Link
+              rel="preload"
+              as="script"
               href={`/dashboard/profile/${user?.id}`}
-              fontSize={"16px"}
-              fontWeight={600}
             >
-              {user?.displayName}
-            </Heading>
+              <Heading fontSize={"16px"} fontWeight={600}>
+                {user?.displayName}
+              </Heading>
+            </Link>
             <Box
               bg={colorMode === "light" ? "brand.800" : "brand.400"}
               borderRadius={"full"}
