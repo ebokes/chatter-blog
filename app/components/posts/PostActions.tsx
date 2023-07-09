@@ -1,16 +1,13 @@
-import { Flex, HStack, Button, Icon, Text, IconButton } from "@chakra-ui/react";
-import React from "react";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { Flex, HStack, IconButton, Text } from "@chakra-ui/react";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 // import { useAuth } from "../hooks/auth";
 // import { useDeletePost, useToggleLike } from "../hooks/post";
-import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
-import Link from "next/link";
 import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
-import { useToggleLike, useDeletePost } from "@/app/hooks/post";
-import Confirm from "../Confirm";
+import { useDeletePost, useToggleLike } from "@/app/hooks/post";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
 // import { useComments } from "../hooks/comments";
 
 const PostActions = ({ post, link }: any) => {

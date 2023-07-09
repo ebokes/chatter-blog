@@ -2,15 +2,13 @@ import { useToast } from "@chakra-ui/react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { auth, db, provider } from "../lib/firebase";
+import { DocumentData, doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { setDoc, doc, getDoc, DocumentData } from "firebase/firestore";
-import isUsernameExists from "../utils/isUsernameExists";
+import { useEffect, useState } from "react";
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { signInWithPopup } from "firebase/auth";
+import { auth, db, provider } from "../lib/firebase";
 
 interface SignUpProps {
   // username: string;

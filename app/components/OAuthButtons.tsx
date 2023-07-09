@@ -1,9 +1,9 @@
 import { Button, ButtonGroup, useColorMode, useToast } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 // import { useGoogle } from "../hooks/auth";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { ChatterContext } from "../context/ChatterContext";
-import { useRouter } from "next/navigation";
 
 const OAuthButtons = () => {
   const { colorMode } = useColorMode();

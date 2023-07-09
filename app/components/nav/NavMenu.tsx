@@ -1,28 +1,22 @@
 import {
-  HStack,
+  Box,
   Flex,
+  HStack,
   Menu,
   MenuButton,
+  MenuDivider,
+  MenuItem,
   //   Avatar,
   MenuList,
-  MenuItem,
-  MenuDivider,
-  useColorMode,
   SkeletonCircle,
-  Icon,
-  Box,
   Text,
+  useColorMode
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
 // import { useAuth, useLogout } from "../hooks/auth";
-import NextLink from "next/link";
-import Link from "next/link";
 import { useAuth, useLogout } from "@/app/hooks/auth";
-import Avatar from "../Avatar";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { default as Link, default as NextLink } from "next/link";
 import { FiChevronDown } from "react-icons/fi";
-// import Avatar from "./Avatar";
+import Avatar from "../Avatar";
 
 const NavMenu = () => {
   const { colorMode } = useColorMode();

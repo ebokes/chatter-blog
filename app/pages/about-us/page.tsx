@@ -1,16 +1,14 @@
 "use client";
 
-import React from "react";
+import Navbar from "@/app/components/nav/Navbar";
 import {
   Box,
-  Heading,
-  Text,
-  VStack,
-  useColorMode,
-  Image,
   HStack,
+  Heading,
+  Image,
+  Text,
+  useColorMode,
 } from "@chakra-ui/react";
-import Navbar from "@/app/components/nav/Navbar";
 
 const AboutUs = () => {
   const { colorMode } = useColorMode();

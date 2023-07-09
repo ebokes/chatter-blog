@@ -1,38 +1,21 @@
 "use client";
 
-import { ReactNode } from "react";
 // import Comments from "@/app/components/Comments";
 import { ChatterContext } from "@/app/context/ChatterContext";
-import { auth } from "@/app/lib/firebase";
-import Loading from "@/app/loader/Loading";
 import {
   Avatar,
   Box,
-  Button,
   Flex,
   HStack,
   Heading,
   Icon,
-  IconButton,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Stack,
   Text,
   useColorMode,
-  useDisclosure,
 } from "@chakra-ui/react";
 import MarkdownIt from "markdown-it";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { IconType } from "react-icons";
-import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
+import { useContext } from "react";
 import { VscBook } from "react-icons/vsc";
 import { useAuth } from "../hooks/auth";
 import { formatDate } from "../utils/funcns";

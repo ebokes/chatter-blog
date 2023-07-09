@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import {
   Box,
   Flex,
@@ -10,13 +9,12 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import Avatar from "../Avatar";
-import { formatDate } from "../../utils/funcns";
-import { useUser } from "../../hooks/user";
 import Link from "next/link";
 import { FaTrash } from "react-icons/fa";
-import { useDeleteComment } from "../../hooks/comments";
 import { useAuth } from "../../hooks/auth";
+import { useUser } from "../../hooks/user";
+import { formatDate } from "../../utils/funcns";
+import Avatar from "../Avatar";
 
 const Comment = ({ comment }: any) => {
   const { text, date, uid, id } = comment;

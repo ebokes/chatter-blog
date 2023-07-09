@@ -1,30 +1,19 @@
 "use client";
 
 import {
-  Avatar,
   Box,
-  Button,
   Center,
-  Flex,
   Grid,
   GridItem,
   HStack,
   Heading,
-  Icon,
-  Link,
-  Spacer,
   Stack,
   Text,
-  WrapItem,
 } from "@chakra-ui/react";
-import Image from "next/image";
-import React from "react";
-import { VscBook } from "react-icons/vsc";
-import { IoChatbubblesOutline } from "react-icons/io5";
-import { SlLike } from "react-icons/sl";
-import { MdInsertChartOutlined } from "react-icons/md";
 import { IconType } from "react-icons";
-import { start } from "repl";
+import { IoChatbubblesOutline } from "react-icons/io5";
+import { MdInsertChartOutlined } from "react-icons/md";
+import { SlLike } from "react-icons/sl";
 
 interface PostHighlightsProps {
   title: string;

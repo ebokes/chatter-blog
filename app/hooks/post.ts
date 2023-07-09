@@ -1,5 +1,6 @@
-import { uuidv4 } from "@firebase/util";
 import { useToast } from "@chakra-ui/react";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+import { uuidv4 } from "@firebase/util";
 import {
   arrayRemove,
   arrayUnion,
@@ -13,15 +14,13 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
-import { ChatterContext } from "../context/ChatterContext";
 import { db, storage } from "../lib/firebase";
-import { useRouter } from "next/navigation";
-import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
 
 export interface PostProps {
   uid?: string;

@@ -18,15 +18,15 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import MarkdownIt from "markdown-it";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import { ChatterContext } from "../context/ChatterContext";
-import Preview from "./Preview";
-import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks/auth";
-import { useAddPost, useUploadBannerImg } from "../hooks/post";
+import { useAddPost } from "../hooks/post";
 import { calculateReadTime } from "../utils/funcns";
+import Preview from "./Preview";
 
 const categories = [
   { value: "technology", label: "Technology" },

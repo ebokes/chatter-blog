@@ -1,24 +1,8 @@
-import {
-  doc,
-  getDoc,
-  arrayRemove,
-  arrayUnion,
-  updateDoc,
-  collection,
-} from "firebase/firestore";
-import { db, storage } from "../lib/firebase";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useToast } from "@chakra-ui/react";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  // getDatabase,
-  // onValue,
-  // set,
-} from "@firebase/storage";
-import { useRouter } from "next/navigation";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { db, storage } from "../lib/firebase";
 
 export interface UserData {
   displayName?: string;

@@ -9,14 +9,13 @@ import {
   Stack,
   Text,
   useColorMode,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { ReactElement } from "react";
 
-import { AiOutlineLineChart } from "react-icons/ai";
-import { HiUserGroup } from "react-icons/hi";
-import { BsLayoutTextWindowReverse } from "react-icons/bs";
 import { IconType } from "react-icons";
+import { AiOutlineLineChart } from "react-icons/ai";
+import { BsLayoutTextWindowReverse } from "react-icons/bs";
+import { HiUserGroup } from "react-icons/hi";
 
 interface CardProps {
   heading: string;

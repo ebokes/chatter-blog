@@ -1,18 +1,8 @@
 "use client";
 
 import AnalyticsPost from "@/app/components/AnalyticsPost";
-import DashboardWrapper from "@/app/components/DashboardWrapper";
 import PostSummary from "@/app/components/PostSummary";
-import {
-  Box,
-  Divider,
-  Flex,
-  HStack,
-  Heading,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import React from "react";
+import { Divider, Flex, HStack, Heading, Stack, Text } from "@chakra-ui/react";
 
 interface AnalyticsProps {}
 

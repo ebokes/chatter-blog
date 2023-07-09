@@ -1,7 +1,7 @@
 "use client";
 
+import { usePosts } from "@/app/hooks/post";
 import {
-  Avatar,
   Box,
   BoxProps,
   Button,
@@ -15,28 +15,19 @@ import {
   IconButton,
   Input,
   Link,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
   Skeleton,
-  SkeletonCircle,
   Stack,
   Text,
-  VStack,
-  useBreakpointValue,
   useColorMode,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
-import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { IconType } from "react-icons";
 import { BsLayoutWtf, BsMoonStarsFill, BsSun } from "react-icons/bs";
-import { FiBell, FiChevronDown, FiLogOut, FiMenu } from "react-icons/fi";
 import { CiEdit } from "react-icons/ci";
+import { FiLogOut, FiMenu } from "react-icons/fi";
 import {
   MdInsertChartOutlined,
   MdNotificationsNone,
@@ -47,12 +38,11 @@ import {
   MdSearch,
 } from "react-icons/md";
 import { SlPeople } from "react-icons/sl";
-import { useAuth, useLogout } from "../../hooks/auth";
+import { useLogout } from "../../hooks/auth";
 import { auth } from "../../lib/firebase";
 import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
-import { usePosts } from "@/app/hooks/post";
 
 interface ItemProps {
   name: string;

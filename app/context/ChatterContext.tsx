@@ -1,8 +1,8 @@
 "use client";
-import React, { createContext, useState } from "react";
-import { setDoc, doc, getDoc, DocumentData } from "firebase/firestore";
-import { auth, db, provider } from "../lib/firebase";
 import { signInWithPopup } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import React, { createContext, useState } from "react";
+import { auth, db, provider } from "../lib/firebase";
 
 export const ChatterContext = createContext<{
   entry: Entry;

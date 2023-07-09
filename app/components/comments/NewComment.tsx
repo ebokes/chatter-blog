@@ -3,26 +3,13 @@
 import { useAuth } from "@/app/hooks/auth";
 import { useAddComment } from "@/app/hooks/comments";
 import { PostProps } from "@/app/hooks/post";
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Link,
-  Text,
-  Textarea,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Text, Textarea } from "@chakra-ui/react";
+import NextLink from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-// import { useAuth } from "../hooks/auth";
-// import { PostProps } from "../hooks/post";
-// import Avatar from "./Avatar";
-// import { useAddComment } from "../hooks/comments";
 import TextareaAutoSize from "react-textarea-autosize";
 import Avatar from "../Avatar";
-import { useRouter } from "next/navigation";
-import NextLink from "next/link";
 
 interface NewCommentProps {
   post: PostProps;

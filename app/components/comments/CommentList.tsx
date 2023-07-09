@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-// import { PostProps } from "../hooks/post";
-// import { useComments } from "../hooks/comments";
 import Comment from "./Comment";
 import { Stack } from "@chakra-ui/react";
 import { PostProps } from "@/app/hooks/post";

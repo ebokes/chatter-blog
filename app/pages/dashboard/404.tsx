@@ -1,4 +1,4 @@
-import { Box, Text, Link } from "@chakra-ui/react";
+import { Box, Link, Text } from "@chakra-ui/react";
 // import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 

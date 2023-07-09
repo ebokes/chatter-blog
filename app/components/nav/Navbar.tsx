@@ -1,37 +1,33 @@
 "use client";
 
 import {
-  Box,
-  Flex,
-  Text,
-  IconButton,
-  Button,
-  Stack,
-  Collapse,
-  Icon,
-  Link,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  useBreakpointValue,
-  useDisclosure,
-  useColorMode,
-  FormControl,
-  FormLabel,
-  Switch,
-} from "@chakra-ui/react";
-import {
-  HamburgerIcon,
-  CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  CloseIcon,
+  HamburgerIcon,
 } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  Collapse,
+  Flex,
+  Icon,
+  IconButton,
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Stack,
+  Text,
+  useBreakpointValue,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
-import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { usePathname } from "next/navigation";
-// import { useAuth } from "../hooks/auth";
-import NavMenu from "./NavMenu";
+import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { useAuth } from "@/app/hooks/auth";
+import NavMenu from "./NavMenu";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();

@@ -1,19 +1,17 @@
 "use client";
 
+import { usePosts } from "@/app/hooks/post";
+import { formatDate } from "@/app/utils/funcns";
 import {
   Box,
   Button,
   Flex,
   Link,
-  Skeleton,
   Text,
-  useColorMode,
+  useColorMode
 } from "@chakra-ui/react";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import Navbar from "./Navbar";
-import { usePosts } from "@/app/hooks/post";
-import Card from "@/app/loader/RecentPosts";
-import { formatDate } from "@/app/utils/funcns";
 
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();

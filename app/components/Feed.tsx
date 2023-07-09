@@ -1,6 +1,5 @@
 "use client";
 import {
-  Box,
   Flex,
   HStack,
   Heading,
@@ -16,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { useAuth } from "../hooks/auth";
 import { usePosts, usePostsUid } from "../hooks/post";
-import PostList from "./posts/PostList";
 import Loading from "../loader/Loading";
+import PostList from "./posts/PostList";
 // import PostList from "./PostList";
 
 const Feed = () => {

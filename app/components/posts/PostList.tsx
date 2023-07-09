@@ -6,15 +6,7 @@ import { PostProps } from "@/app/hooks/post";
 
 const PostList = ({ posts, link }: any) => {
   return (
-    <Box
-      borderRadius={"lg"}
-      mt={"19px"}
-      // border={"1px solid"}
-      // borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-      // justify={"space-between"}
-      // px={{ base: "24px", lg: "44px" }}
-      //  px={"51px"}
-    >
+    <Box borderRadius={"lg"} mt={"19px"}>
       {posts?.length === 0 ? (
         <Text>No posts yet</Text>
       ) : (

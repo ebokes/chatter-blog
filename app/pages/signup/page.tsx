@@ -1,5 +1,15 @@
 "use client";
 
+import OAuthButtons from "@/app/components/OAuthButtons";
+import Navbar from "@/app/components/nav/Navbar";
+import { useRegister } from "@/app/hooks/auth";
+import { auth } from "@/app/lib/firebase";
+import {
+  emailValidate,
+  firstNameValidate,
+  lastNameValidate,
+  passwordValidate,
+} from "@/app/utils/form-validate";
 import {
   Box,
   Button,
@@ -16,26 +26,14 @@ import {
   Select,
   Stack,
   Text,
-  VStack,
   useColorMode,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import { useState } from "react";
-import { FiEye } from "react-icons/fi";
-import { RxEyeClosed } from "react-icons/rx";
-import { useRegister } from "@/app/hooks/auth";
-import { auth } from "@/app/lib/firebase";
-import {
-  emailValidate,
-  firstNameValidate,
-  lastNameValidate,
-  passwordValidate,
-  userNameValidate,
-} from "@/app/utils/form-validate";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import OAuthButtons from "@/app/components/OAuthButtons";
-import NextLink from "next/link";
-import Navbar from "@/app/components/nav/Navbar";
+import { FiEye } from "react-icons/fi";
+import { RxEyeClosed } from "react-icons/rx";
 // import { auth } from "../lib/firebase";
 
 interface SignUpForm {

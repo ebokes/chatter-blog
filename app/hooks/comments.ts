@@ -1,4 +1,5 @@
 import { useToast } from "@chakra-ui/react";
+import { uuidv4 } from "@firebase/util";
 import {
   collection,
   deleteDoc,
@@ -9,9 +10,8 @@ import {
   where,
 } from "firebase/firestore";
 import { useState } from "react";
-import { uuidv4 } from "@firebase/util";
-import { db } from "../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { db } from "../lib/firebase";
 
 export interface Comment {
   id?: string;

@@ -1,5 +1,6 @@
-import { Box, Flex, HStack, Skeleton, SkeletonCircle } from "@chakra-ui/react";
-import React from "react";
+"use client";
+
+import { Flex, HStack, Skeleton, SkeletonCircle } from "@chakra-ui/react";
 
 const PostHeaderLoader = () => {
   return (
