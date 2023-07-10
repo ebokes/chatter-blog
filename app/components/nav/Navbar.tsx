@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  CloseIcon,
-  HamburgerIcon,
-} from "@chakra-ui/icons";
+import { ChevronRightIcon, CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -33,7 +28,6 @@ export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, isLoading, error } = useAuth();
-  // const path = usePathname();
 
   return (
     <Box
@@ -51,11 +45,7 @@ export default function Navbar() {
         maxW={"1200px"}
         mx={"auto"}
       >
-        <Flex
-          // flex={{ base: 1, md: "auto" }}
-          ml={{ base: -2 }}
-          display={{ base: "flex", md: "none" }}
-        >
+        <Flex ml={{ base: -2 }} display={{ base: "flex", md: "none" }}>
           <IconButton
             onClick={onToggle}
             icon={
@@ -76,12 +66,9 @@ export default function Navbar() {
             <Link href="/">CHATTER</Link>
           </Center>
 
-          {/* {!path.includes("signup") ||
-            (!path.includes("signup") && ( */}
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>
-          {/* ))} */}
         </Flex>
 
         <Button
@@ -96,9 +83,6 @@ export default function Navbar() {
         >
           {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
         </Button>
-        {/* {!path.includes("signup") ||
-          (!path.includes("signup") && (
-            <> */}
         {isLoading ? null : (
           <>
             {!user ? (
@@ -145,8 +129,6 @@ export default function Navbar() {
             )}
           </>
         )}
-        {/* </>
-          ))} */}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -209,18 +191,8 @@ const DesktopNav = () => {
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
-    <Center
-      px={2}
-      py={1}
-      rounded={"md"}
-      _hover={{ bg: "brand.700" }}
-      // border={"1px solide red"}
-    >
-      <Link
-        href={href ?? "#"}
-        // role={"group"}
-        // display={"block"}
-      >
+    <Center px={2} py={1} rounded={"md"} _hover={{ bg: "brand.700" }}>
+      <Link href={href ?? "#"}>
         <Stack direction={"row"} align={"center"}>
           <Box>
             <Text
@@ -265,7 +237,7 @@ const MobileNav = () => {
 };
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure();
+  const { onToggle } = useDisclosure();
   const { colorMode } = useColorMode();
 
   return (
@@ -282,24 +254,6 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
       >
         <Link href={href ?? "#"}>{label}</Link>
       </Flex>
-
-      {/* <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={"solid"}
-          borderColor="gray.200"
-          align={"start"}
-        >
-          {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
-            ))}
-        </Stack>
-      </Collapse> */}
     </Stack>
   );
 };
@@ -316,16 +270,4 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "Feed",
     href: "/pages/feed",
   },
-  // {
-  //   label: "About us",
-  //   href: "/pages/about-us",
-  // },
-  {
-    label: "Contact",
-    href: "#",
-  },
-  // {
-  //   label: "Blog",
-  //   href: "#",
-  // },
 ];

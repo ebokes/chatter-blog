@@ -8,7 +8,6 @@ import {
   Icon,
   Stack,
   Text,
-  useBreakpointValue,
   useColorMode,
 } from "@chakra-ui/react";
 import Image from "next/image";
@@ -16,13 +15,9 @@ import { VscBook } from "react-icons/vsc";
 import PostActions from "./PostActions";
 import PostHeader from "./PostHeader";
 import Link from "next/link";
-// import PostCardSkeleton from "@/app/loader/PostCard";
 
 const PostCard = ({ post, link }: any) => {
   const { colorMode } = useColorMode();
-  const isMobile = useBreakpointValue({ base: true, md: false });
-  const imageWidth = isMobile ? "3000px" : "500px";
-  const imageHeight = isMobile ? "300px" : "400px";
 
   return (
     <Box
@@ -32,6 +27,7 @@ const PostCard = ({ post, link }: any) => {
       mb={6}
       color={colorMode === "light" ? "brand.800" : "brand.400"}
       pb={"20px"}
+      bg={colorMode === "light" ? "brand.200" : "brand.800"}
     >
       <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
         <PostHeader post={post} />
@@ -65,10 +61,7 @@ const PostCard = ({ post, link }: any) => {
                     priority={false}
                     quality={20}
                     style={{
-                      // borderRadius: "10px",
                       objectFit: "contain",
-                      // width: imageWidth,
-                      // height: imageHeight,
                     }}
                   />
                 )}

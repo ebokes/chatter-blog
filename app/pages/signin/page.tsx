@@ -76,12 +76,14 @@ export default function Signin() {
             backgroundSize="cover"
             h="100vh"
             display={{ base: "none", md: "flex" }}
+            mx={"25px"}
           >
             <Center
-              bgGradient="linear(to-l, #0000007f, #0000007f)"
+              bgGradient="linear(to-l, #00000094, #00000094)"
               h="100%"
               color="white"
               flexDir="column"
+              px={"25px"}
             >
               <Heading>CHATTER</Heading>
               <Text>
@@ -140,38 +142,18 @@ export default function Signin() {
                           </FormControl>
                           <FormControl isInvalid={!!errors?.password}>
                             <label>Password</label>
-                            <InputGroup size="md">
-                              <Input
-                                pr="4.5rem"
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Enter password"
-                                border="1px  solid"
-                                borderColor={
-                                  colorMode === "light"
-                                    ? "brand.400"
-                                    : "brand.450"
-                                }
-                                {...register("password", passwordValidate)}
-                              />
-                              <InputRightElement width="4.5rem">
-                                <Button
-                                  h="1.75rem"
-                                  size="sm"
-                                  onClick={handleClick}
-                                  mr="-15.5px"
-                                  variant="ghost"
-                                  _hover={{ variant: "ghost" }}
-                                  _active={{ variant: "ghost" }}
-                                  opacity={0.7}
-                                >
-                                  {showPassword ? (
-                                    <FiEye size={"20px"} />
-                                  ) : (
-                                    <RxEyeClosed size={"20px"} />
-                                  )}
-                                </Button>
-                              </InputRightElement>
-                            </InputGroup>
+                            <Input
+                              pr="4.5rem"
+                              type="password"
+                              placeholder="Enter password"
+                              border="1px  solid"
+                              borderColor={
+                                colorMode === "light"
+                                  ? "brand.400"
+                                  : "brand.450"
+                              }
+                              {...register("password", passwordValidate)}
+                            />
                             <FormErrorMessage>
                               {errors.password && errors.password.message}
                             </FormErrorMessage>

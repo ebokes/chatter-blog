@@ -11,22 +11,7 @@ const OAuthButtons = () => {
   // const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const toast = useToast();
   const router = useRouter();
-  // const {
-  //   signInWithGoogle,
-  //   googleUser,
-  //   googleLoading,
-  //   error: gError,
-  // } = useGoogle();
-  // console.log("OauthButtonsGOO", gUser?.user);
 
-  // useEffect(() => {
-  //   if (gUser) {
-  //     router.push("/pages/dashboard");
-  //   }
-  // }, [gUser, router]);
-
-  // if (googleLoading) return <p>Loading...</p>;
-  // console.log(googleUser?.user);
   useEffect(() => {
     if (googleUser) {
       router.push("/pages/dashboard");
@@ -46,7 +31,8 @@ const OAuthButtons = () => {
       flexDir={"column"}
       spacing={0}
       color={colorMode === "light" ? "brand.300" : "brand.850"}
-      mx={{ base: "15px", md: "25px" }}
+      // mx={{ base: "15px", md: "25px" }}
+      // w={"full"}
       // maxW={"520px"}
     >
       <Button

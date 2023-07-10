@@ -34,7 +34,6 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FiEye } from "react-icons/fi";
 import { RxEyeClosed } from "react-icons/rx";
-// import { auth } from "../lib/firebase";
 
 interface SignUpForm {
   // username: string;
@@ -49,7 +48,6 @@ interface SignUpForm {
 
 export default function Signup() {
   const { colorMode } = useColorMode();
-  const [showPassword, setShowPassword] = useState(false);
   useCreateUserWithEmailAndPassword(auth);
   const { register: signup, isLoading } = useRegister();
   const {
@@ -71,8 +69,6 @@ export default function Signup() {
     });
   }
 
-  const handleClick = () => setShowPassword(!showPassword);
-
   return (
     <>
       <Navbar />
@@ -85,8 +81,9 @@ export default function Signup() {
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
-            h="100vh"
+            // h="100vh"
             display={{ base: "none", md: "flex" }}
+            mx={"25px"}
           >
             <Center
               bgGradient="linear(to-l, #0000007f, #0000007f)"
@@ -209,44 +206,21 @@ export default function Signup() {
                           </FormControl>
                           <FormControl isInvalid={!!errors?.password}>
                             <label>Password</label>
-                            <InputGroup size="md">
-                              <Box w={"full"}>
-                                <Input
-                                  pr="4.5rem"
-                                  type={showPassword ? "text" : "password"}
-                                  placeholder="Enter password"
-                                  // required
-                                  border="1px  solid"
-                                  borderColor={
-                                    colorMode === "light"
-                                      ? "brand.400"
-                                      : "brand.450"
-                                  }
-                                  {...register("password", passwordValidate)}
-                                />
-                                <FormErrorMessage>
-                                  {errors.password && errors.password.message}
-                                </FormErrorMessage>
-                              </Box>
-                              <InputRightElement width="4.5rem">
-                                <Button
-                                  h="1.75rem"
-                                  size="sm"
-                                  onClick={handleClick}
-                                  mr="-15.5px"
-                                  variant="ghost"
-                                  _hover={{ variant: "ghost" }}
-                                  _active={{ variant: "ghost" }}
-                                  opacity={0.7}
-                                >
-                                  {showPassword ? (
-                                    <FiEye size={"20px"} />
-                                  ) : (
-                                    <RxEyeClosed size={"20px"} />
-                                  )}
-                                </Button>
-                              </InputRightElement>
-                            </InputGroup>
+                            <Input
+                              pr="4.5rem"
+                              type="password"
+                              placeholder="Enter password"
+                              border="1px  solid"
+                              borderColor={
+                                colorMode === "light"
+                                  ? "brand.400"
+                                  : "brand.450"
+                              }
+                              {...register("password", passwordValidate)}
+                            />
+                            <FormErrorMessage>
+                              {errors.password && errors.password.message}
+                            </FormErrorMessage>
                           </FormControl>
 
                           <Button
@@ -261,16 +235,16 @@ export default function Signup() {
                           </Button>
                         </Flex>
                       </form>
-                      <Flex fontSize="14px" justifyContent="center">
+                      <Flex fontSize="14px" justifyContent="center" mb={"35px"}>
                         <Text mr={1}>Have an account?</Text>
                         <Center color="blue.500" fontWeight={700}>
                           <Link href="/pages/signin">SIGN IN</Link>
                         </Center>
                       </Flex>
+                      <OAuthButtons />
                     </Stack>
                   </Center>
                 </HStack>
-                <OAuthButtons />
               </Stack>
             </Stack>
           </Center>

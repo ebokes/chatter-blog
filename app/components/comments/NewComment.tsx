@@ -38,17 +38,16 @@ const NewComment: React.FC<NewCommentProps> = ({ post }) => {
       reset();
     }
   };
-  // console.log(data);
 
   if (authLoading || !user)
     return (
-      <Box>
+      <Flex>
         You must&nbsp;
         <Box fontWeight={"bold"} color={"brand.600"}>
           <Link href="/pages/signin">Signin</Link>
         </Box>
         &nbsp;to comment
-      </Box>
+      </Flex>
     );
 
   return (

@@ -50,7 +50,6 @@ const Profile = () => {
   const toast = useToast();
   const { posts, isLoading: postsLoading } = usePostsUid(id);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isFollowMe, setIsFollowMe] = useState(false);
 
   const {
     setFile,
@@ -58,10 +57,6 @@ const Profile = () => {
     isLoading: fileLoading,
     fileURL,
   } = useUpdateAvatar(userAuth?.id);
-  // const { followMe, id } = userAuth;
-  // const config = { id, isFollowMe, uid: userAuth?.id ?? "" };
-  // const { toggleFollowMe, followMeLoading } = useToggleFollowMe(config);
-  // const isFollowMe = followMe?.includes(userAuth?.id ?? "");
 
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
@@ -69,13 +64,6 @@ const Profile = () => {
 
   const [initialProfile, updateInitialProfile] = useState(userAuth);
   console.log(fileURL);
-
-  // console.log(getCapitalizedName("emelder charles"));
-  const [followLoading, setFollowLoading] = useState(false);
-
-  const toggleFollowMe = () => {
-    setIsFollowMe(!isFollowMe);
-  };
 
   useEffect(() => {
     if (userAuth) {
@@ -140,10 +128,8 @@ const Profile = () => {
     <>
       <Navbar />
       <main>
-        <Stack
-          bg={colorMode === "light" ? "brand.470" : "brand.800"}
-          h={"fit-content"}
-        >
+        {/* <Box> */}
+        <Stack bg={colorMode === "light" ? "#eeeded" : "#19202a"}>
           <Box
             bgGradient={
               colorMode === "light"
@@ -152,7 +138,7 @@ const Profile = () => {
             }
             // bgGradient="linear(to bottom,  black 30%, #eeeded 30%, )"
             w="100%"
-            h={"100vh"}
+            h={"80vh"}
             py={"150px"}
           >
             <Center
@@ -199,36 +185,6 @@ const Profile = () => {
                     Edit
                   </Button>
                 )}
-                {userAuth?.id !== user?.id && (
-                  //   <Button
-                  //     color="green"
-                  //     // variant={"ghost"}
-                  //     display={"inline"}
-                  //     ml={"20px"}
-                  //     // cursor={"pointer"}
-                  //   >
-                  //     Follow
-                  //   </Button>
-                  <>
-                    {isFollowMe ? (
-                      <Button
-                        onClick={toggleFollowMe}
-                        ml={"20px"}
-                        color="green"
-                      >
-                        Unfollow
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={toggleFollowMe}
-                        ml={"20px"}
-                        color="green"
-                      >
-                        Follow
-                      </Button>
-                    )}
-                  </>
-                )}
               </HStack>
             </Center>
             <Flex
@@ -248,10 +204,6 @@ const Profile = () => {
                   <Text>{posts?.length} posts published</Text>
                 </HStack>
                 <HStack>
-                  <Icon as={FaRegCommentDots} />
-                  <Text>0 comments written</Text>
-                </HStack>
-                <HStack>
                   <Icon as={TiGroup} />
                   <Text>0 followers</Text>
                 </HStack>
@@ -262,12 +214,13 @@ const Profile = () => {
               </Box>
               <Box />
             </Flex>
-            <Box maxW={"800px"} mx={"auto"} my={"100px"}>
+          </Box>
+          <Center px={2}>
+            <Box maxW={"800px"} mx={"auto"} mb={"100px"}>
               <Heading fontSize={"2xl"}>Articles</Heading>
-
               {postsLoading ? <Loading /> : <PostList posts={posts} />}
             </Box>
-          </Box>
+          </Center>
         </Stack>
         <Modal
           isCentered

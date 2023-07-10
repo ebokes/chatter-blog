@@ -15,8 +15,8 @@ const Hero = () => {
   const { colorMode } = useColorMode();
   return (
     <Center
-      h="764px"
-      backgroundImage="/images/writer.webp"
+      h="90vh"
+      backgroundImage="/images/team.webp"
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       backgroundSize="cover"
@@ -24,7 +24,7 @@ const Hero = () => {
       <Center
         h="100%"
         w="100%"
-        bgGradient="linear(to-l, #0000007f, #0000007f)"
+        bgGradient="linear(to-l, #0000009b, #0000009b)"
         px={"32px"}
         mx={"auto"}
       >

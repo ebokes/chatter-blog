@@ -80,7 +80,6 @@ export const ChatterProvider = ({
   const addUserToFirebase = async (user: any) => {
     await setDoc(doc(db, "users", user.uid), {
       id: user.uid,
-      // username: user.email.split("@")[0],
       firstName: user.displayName.split(" ")[0],
       lastName: user.displayName.split(" ")[1],
       displayName: user.displayName,
