@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/app/hooks/auth";
 import { PostProps, usePosts } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
 import Loading from "@/app/loader/Loading";
@@ -23,6 +22,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { VscBook } from "react-icons/vsc";
 import Comments from "../comments/CommentWrapper";
+import ReactMarkdown from "react-markdown";
 
 const Post = () => {
   const { colorMode } = useColorMode();
@@ -31,7 +31,6 @@ const Post = () => {
   const { id } = params;
   const { posts, isLoading: postsLoading } = usePosts();
   const { user, isLoading: userLoading } = useUser(currentPost?.uid);
-  const { user: userAuth } = useAuth();
 
   useEffect(() => {
     if (posts?.length === 0) {
@@ -41,12 +40,6 @@ const Post = () => {
     const selectedPost = posts?.find((post) => post.id === id);
     setCurrentPost(selectedPost);
   }, [posts, id, params]);
-
-  // function renderMarkdownToHtml(markdownText: string): React.ReactNode {
-  //   const md = new MarkdownIt();
-  //   const html = md.render(markdownText);
-  //   return <div dangerouslySetInnerHTML={{ __html: html }} />;
-  // }
 
   if (postsLoading || userLoading || !user) {
     return <Loading />;
@@ -59,7 +52,7 @@ const Post = () => {
         mb={6}
         color={colorMode === "light" ? "brand.800" : "brand.400"}
       >
-        <Stack mt={27}>
+        <Stack mt={27} px={2} mx={2}>
           <Box>
             <Flex justify={"space-between"} w={"full"}>
               <Flex gap={2} mb={"15px"}>
@@ -126,16 +119,11 @@ const Post = () => {
                 >
                   {currentPost?.title}
                 </Heading>
-
-                {/* <Box>{renderMarkdownToHtml(currentPost?.body)}</Box> */}
-                <Box>{currentPost?.body}</Box>
-                {/* <Box>
-                  <ReactMarkdown children={currentPost?.body} />
-                </Box> */}
+                {/* <HTMLFormatter htmlString={currentPost?.body} /> */}
+                <ReactMarkdown>{currentPost?.body}</ReactMarkdown>
               </Stack>
             </Box>
           </Box>
-          {/* <HStack></HStack> */}
           <Comments post={currentPost} />
         </Stack>
       </Box>
