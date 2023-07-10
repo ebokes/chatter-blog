@@ -222,7 +222,6 @@ export default function Signup() {
                               {errors.password && errors.password.message}
                             </FormErrorMessage>
                           </FormControl>
-
                           <Button
                             w="100%"
                             bg="brand.600"
