@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Textarea,
   useColorMode,
   useDisclosure,
   useToast,
@@ -27,6 +28,7 @@ import { useAuth } from "../hooks/auth";
 import { useAddPost } from "../hooks/post";
 import { calculateReadTime } from "../utils/funcns";
 import Preview from "./Preview";
+import TextareaAutoSize from "react-textarea-autosize";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -63,14 +65,7 @@ const LiteEditor: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const { addPost, isLoading: publishingPost } = useAddPost();
-  const { user, isLoading: authLoading } = useAuth();
-
-  // const {
-  //   setFile,
-  //   uploadBannerImg,
-  //   isLoading: fileLoading,
-  //   fileURL,
-  // } = useUploadBannerImg();
+  const { user } = useAuth();
 
   async function handlePublish(
     entry: Entry,
@@ -105,51 +100,11 @@ const LiteEditor: React.FC = () => {
     }
   }
 
-  // function handlePublish(
-  //   entry: Entry,
-  //   event: React.MouseEvent<HTMLButtonElement>
-  // ) {
-  //   event.preventDefault();
-  //   if (
-  //     entry.title === "" ||
-  //     entry.body === "" ||
-  //     entry.category === "" ||
-  //     entry.intro === "" ||
-  //     entry.bannerImg === ""
-  //   ) {
-  //     toast({
-  //       title: "Error",
-  //       description: "Please fill all the fields",
-  //       status: "error",
-  //       duration: 3000,
-  //       isClosable: true,
-  //     });
-  //   } else {
-  //     addPost({
-  //       uid: user?.id,
-  //       title: entry.title,
-  //       bannerImg: entry.bannerImg,
-  //       body: entry.body,
-  //       category: entry.category,
-  //       postLength: entry.postLength,
-  //       postedOn: Date.now(),
-  //       intro: entry.intro,
-  //     });
-  //     uploadBannerImg();
-  //   }
-  // }
-
-  const handleEditorChange = ({
-    html,
-    text,
-  }: {
-    text: string;
-    html: string;
-  }) => {
-    // console.log("handleEditorChange", html, text);
+  const handleEditorChange = ({ text }: { text: string }) => {
+    console.log("handleEditorChange", text);
     setEntry((prevEntry) => ({
       ...prevEntry,
-      body: html,
+      body: text,
     }));
   };
 
@@ -176,34 +131,31 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
-  // function handleBannerImgChange(e: any) {
-  //   setFile(e.target.files[0]);
-  // }
-  // You were going to figure out how to upload images firebase storage url to the post in firebase storage
-
   return (
     <Box w={"full"}>
       <form>
         <Flex flexDir={"column"} justify={"flex-end"} w={"full"}>
           <HStack justify={"space-between"} w={"100%"}>
-            {/* <Box /> */}
             <Button onClick={onOpen}>Preview</Button>
 
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
               <Button
                 type="submit"
-                // bg="#543EE0"
-                // _hover={{ bg: "#715fe3" }}
                 colorScheme="blue"
+                bg={"brand.600"}
                 color={"white"}
                 onClick={(event) => handlePublish(entry, event)}
                 isLoading={publishingPost}
+                _hover={{
+                  bg: "brand.700",
+                }}
               >
                 Publish
               </Button>
             </ButtonGroup>
           </HStack>
           <Input
+            as={TextareaAutoSize}
             required
             placeholder="Title"
             type="text"
@@ -214,12 +166,10 @@ const LiteEditor: React.FC = () => {
             fontWeight={600}
             variant={"flushed"}
             autoComplete="off"
-            // borderBottom={"1px solid brand.400"}
-            // _focus={{
-            //   borderBottom: "1px solid brand.400",
-            // }}
+            py={2}
           />
           <Input
+            as={TextareaAutoSize}
             required
             placeholder="Cover Image URL"
             type="text"
@@ -228,23 +178,10 @@ const LiteEditor: React.FC = () => {
             value={entry.bannerImg}
             autoComplete="off"
             variant={"flushed"}
+            py={2}
           />
-          {/* <Input
-            required
-            placeholder="Cover Image URL"
-            type="file"
-            name="bannerImg"
-            onChange={handleBannerImgChange}
-            value={entry.bannerImg}
-            autoComplete="off"
-            variant={"flushed"}
-            accept="image/*"
-          /> */}
-
-          {/* <label>You are joining as?</label> */}
           <Select
             required
-            // {...register("joiningAs")}
             placeholder="Select Category"
             name="category"
             border="1px  solid"
@@ -253,7 +190,6 @@ const LiteEditor: React.FC = () => {
             onChange={handleCategoryChange}
             variant={"flushed"}
           >
-            {/* <option value="">Select Category</option> */}
             {categories.map((category) => (
               <option key={category.value} value={category.value}>
                 {category.label}
@@ -262,6 +198,7 @@ const LiteEditor: React.FC = () => {
           </Select>
           <Input
             required
+            as={TextareaAutoSize}
             placeholder="Enter a brief description"
             type="text"
             name="intro"
@@ -270,6 +207,7 @@ const LiteEditor: React.FC = () => {
             autoComplete="off"
             variant={"flushed"}
             mb={"10px"}
+            py={2}
           />
         </Flex>
 
@@ -287,7 +225,6 @@ const LiteEditor: React.FC = () => {
             fullScreen: false,
             hideMenu: false,
           }}
-          // onImageUpload={onImageUpload}
         />
       </form>
 
