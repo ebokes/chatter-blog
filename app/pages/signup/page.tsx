@@ -1,7 +1,7 @@
 "use client";
 
 import OAuthButtons from "@/app/components/OAuthButtons";
-import Navbar from "@/app/components/nav/Navbar";
+import SimpleNav from "@/app/components/nav/SimpleNav";
 import { useRegister } from "@/app/hooks/auth";
 import { auth } from "@/app/lib/firebase";
 import {
@@ -12,7 +12,6 @@ import {
 } from "@/app/utils/form-validate";
 import { getCapitalizedName, removeSpaces } from "@/app/utils/funcns";
 import {
-  Box,
   Button,
   Center,
   Flex,
@@ -21,22 +20,16 @@ import {
   HStack,
   Heading,
   Input,
-  InputGroup,
-  InputRightElement,
   Select,
   Stack,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { FiEye } from "react-icons/fi";
-import { RxEyeClosed } from "react-icons/rx";
 
 interface SignUpForm {
-  // username: string;
   firstName: string;
   lastName: string;
   joiningAs: string;
@@ -71,7 +64,7 @@ export default function Signup() {
 
   return (
     <>
-      <Navbar />
+      <SimpleNav />
       <Stack mx="auto">
         <HStack align={"stretch"}>
           <Stack
@@ -81,7 +74,6 @@ export default function Signup() {
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
-            // h="100vh"
             display={{ base: "none", md: "flex" }}
             mx={"25px"}
           >
@@ -207,10 +199,9 @@ export default function Signup() {
                           <FormControl isInvalid={!!errors?.password}>
                             <label>Password</label>
                             <Input
-                              pr="4.5rem"
                               type="password"
                               placeholder="Enter password"
-                              border="1px  solid"
+                              border="1px solid"
                               borderColor={
                                 colorMode === "light"
                                   ? "brand.400"

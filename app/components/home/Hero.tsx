@@ -8,8 +8,11 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
+
+const MotionBox = motion(Box);
 
 const Hero = () => {
   const { colorMode } = useColorMode();
@@ -28,9 +31,12 @@ const Hero = () => {
         px={"32px"}
         mx={"auto"}
       >
-        <Box
+        <MotionBox
           maxW="850px"
           color={colorMode === "light" ? "brand.100" : "gray.200"}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
           <Heading fontSize="48px">
             Welcome to Chatter: A Haven for Text-Based Content
@@ -40,7 +46,8 @@ const Hero = () => {
             Writers
           </Text>
           <Flex gap={5}>
-            <Center
+            <MotionBox
+              as={Center}
               maxW="400px"
               bg="brand.600"
               color="white"
@@ -49,10 +56,14 @@ const Hero = () => {
               px="25px"
               borderRadius="md"
               fontWeight={600}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.6 }}
             >
               <Link href="/pages/signin">Get Started</Link>
-            </Center>
-            <Center
+            </MotionBox>
+            <MotionBox
+              as={Center}
               maxW="400px"
               bg="brand.600"
               color="white"
@@ -61,11 +72,14 @@ const Hero = () => {
               px="35px"
               borderRadius="md"
               fontWeight={600}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.7 }}
             >
               <Link href="/pages/feed">Feed</Link>
-            </Center>
+            </MotionBox>
           </Flex>
-        </Box>
+        </MotionBox>
       </Center>
     </Center>
   );

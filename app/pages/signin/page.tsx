@@ -2,6 +2,7 @@
 
 import OAuthButtons from "@/app/components/OAuthButtons";
 import Navbar from "@/app/components/nav/Navbar";
+import SimpleNav from "@/app/components/nav/SimpleNav";
 import { useLogin } from "@/app/hooks/auth";
 import { auth } from "@/app/lib/firebase";
 import { emailValidate, passwordValidate } from "@/app/utils/form-validate";
@@ -64,7 +65,7 @@ export default function Signin() {
 
   return (
     <>
-      <Navbar />
+      <SimpleNav />
       <Stack mx="auto">
         <HStack align={"stretch"}>
           <Stack
@@ -143,10 +144,9 @@ export default function Signin() {
                           <FormControl isInvalid={!!errors?.password}>
                             <label>Password</label>
                             <Input
-                              pr="4.5rem"
                               type="password"
                               placeholder="Enter password"
-                              border="1px  solid"
+                              border="1px solid"
                               borderColor={
                                 colorMode === "light"
                                   ? "brand.400"

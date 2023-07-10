@@ -12,10 +12,6 @@ import Image from "next/image";
 
 const About = () => {
   const { colorMode } = useColorMode();
-  // const isMobile = useBreakpointValue({ base: true, md: false });
-  // const imageWidth = isMobile ? "3000px" : "500px";
-  // const imageHeight = isMobile ? "300px" : "400px";
-
   return (
     <Box
       bg={colorMode === "light" ? "brand.300" : "brand.800"}
@@ -57,10 +53,7 @@ const About = () => {
             width={450}
             height={404}
             style={{
-              // borderRadius: "30px",
               objectFit: "contain",
-              // width: imageWidth,
-              // height: imageHeight,
               width: "auto",
               height: "auto",
             }}
