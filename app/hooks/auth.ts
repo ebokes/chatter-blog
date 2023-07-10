@@ -257,6 +257,7 @@ export function useLogout() {
         duration: 5000,
       });
       router.push("/");
+      // window.location.reload();
     } else {
       toast({
         title: "Logout failed",

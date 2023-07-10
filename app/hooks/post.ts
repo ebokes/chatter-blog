@@ -15,7 +15,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useCollectionData,
   useDocumentData,

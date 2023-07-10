@@ -38,7 +38,7 @@ import {
   MdSearch,
 } from "react-icons/md";
 import { SlPeople } from "react-icons/sl";
-import { useLogout } from "../../hooks/auth";
+import { useAuth, useLogout } from "../../hooks/auth";
 import { auth } from "../../lib/firebase";
 import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
@@ -58,18 +58,12 @@ const LinkItems: Array<ItemProps> = [
     icon: MdOutlineBookmarks,
     href: "/pages/dashboard/bookmarks",
   },
-  { name: "Team blogs", icon: SlPeople, href: "/pages/dashboard/team-blogs" },
   { name: "Drafts", icon: MdOutlineDrafts, href: "/pages/dashboard/drafts" },
   {
     name: "Analytics",
     icon: MdInsertChartOutlined,
     href: "/pages/dashboard/analytics",
   },
-];
-
-const Personal: Array<ItemProps> = [
-  { name: "Account", icon: MdPersonOutline },
-  { name: "Notifications", icon: MdNotificationsNone },
 ];
 
 export default function Sidebar({ children }: { children: ReactNode }) {
@@ -123,6 +117,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { posts, isLoading: postsLoading } = usePosts();
   const categories = Array.from(new Set(posts?.map((post) => post.category)));
   const recentCategories = categories?.slice(0, 5);
+  const { user: userAuth } = useAuth();
 
   return (
     // Top navbar
@@ -183,7 +178,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             {recentCategories.map((item: any) => (
               <Box key={item}>
                 {/* href={`/pages/categories/${posts?.id}`} */}
-                <NavItem>{item}</NavItem>
+                <NavItem href={"/pages/dashboard"}>{item}</NavItem>
               </Box>
             ))}
           </Stack>
@@ -191,17 +186,19 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <Stack>
           <Text fontSize={"18px"}>Personal</Text>
           <Stack pl={"20px"}>
-            {Personal.map((item) => (
-              <Box key={item.name}>
-                <NavItem icon={item.icon}>{item.name}</NavItem>
-              </Box>
-            ))}
+            <Flex
+              style={{ textDecoration: "none" }}
+              _focus={{ boxShadow: "none" }}
+            >
+              <Link href={`/pages/profile/${userAuth?.id}`}>
+                <Flex align="center" role="group" {...rest}>
+                  <Icon mr="4" fontSize="16" boxSize={5} as={MdPersonOutline} />
+                  Account
+                </Flex>
+              </Link>
+            </Flex>
           </Stack>
         </Stack>
-        {/* <HStack color={"red"} onClick={Logout} cursor={"pointer"}>
-          <Text>Logout</Text>
-          <FiLogOut size={"18px"} />
-        </HStack> */}
         <Stack pl={"20px"}>
           <Button
             leftIcon={<FiLogOut size={"18px"} />}
