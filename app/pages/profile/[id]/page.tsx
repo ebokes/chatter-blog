@@ -131,19 +131,16 @@ const Profile = () => {
         {/* <Box> */}
         <Stack bg={colorMode === "light" ? "#eeeded" : "#19202a"}>
           <Box
-            bgGradient={
-              colorMode === "light"
-                ? "linear(to bottom,  black 30%, #eeeded 30%, )"
-                : "linear(to bottom,  black 30%, #19202a 30%, )"
-            }
-            // bgGradient="linear(to bottom,  black 30%, #eeeded 30%, )"
-            w="100%"
-            h={"80vh"}
-            py={"150px"}
-          >
+            bgImage={"/images/abs2.webp"}
+            h={"200px"}
+            backgroundSize={"cover"}
+            backgroundRepeat={"no-repeat"}
+          />
+          <Box mx={{ base: 1, md: 0 }}>
             <Center
               mx={"auto"}
               mb={"10px"}
+              mt={"-60px"}
               // bg={"white"}
               bg={colorMode === "light" ? "white" : "brand.800"}
               borderRadius={"lg"}
@@ -156,7 +153,8 @@ const Profile = () => {
               pos={"relative"}
             >
               <Flex
-                border={"7px solid black"}
+                border={"2px solid "}
+                borderColor={colorMode === "light" ? "white" : "brand.800"}
                 mt={"-90px"}
                 borderRadius={"50%"}
               >
@@ -170,7 +168,7 @@ const Profile = () => {
               <Heading fontSize={{ base: "xl", md: "2xl" }}>
                 {user?.displayName}
               </Heading>
-              <Text>{user?.bio}</Text>
+              <Text>{user?.role}</Text>
               <HStack>
                 <Icon as={MdOutlineCake} size="33px" />
                 <Text>Joined on {formatDate(user?.date ?? 0)}</Text>
@@ -191,27 +189,35 @@ const Profile = () => {
               justify={"space-between"}
               mx={"auto"}
               w={{ base: "100%", md: "80%", lg: "70%" }}
+              mt={"10px"}
+              mb={"60px"}
             >
-              <Box
-                w={{ base: "100%", md: "300px" }}
+              <Flex
+                flexDir={"column"}
+                gap={"10px"}
+                w={{ base: "100%", md: "400px" }}
                 bg={colorMode === "light" ? "white" : "brand.800"}
                 p={"14px"}
                 borderRadius={"lg"}
                 color={colorMode === "light" ? "#777a80" : "brand.350"}
               >
-                <HStack>
-                  <Icon as={MdOutlineArticle} />
-                  <Text>{posts?.length} posts published</Text>
+                <HStack align={"flex-start"}>
+                  <Heading fontSize={"18px"}>Bio: </Heading>
+                  <Text>{user?.bio}</Text>
                 </HStack>
                 <HStack>
-                  <Icon as={TiGroup} />
-                  <Text>0 followers</Text>
+                  <Heading fontSize={"18px"}>Posts Published: </Heading>
+                  <Text>{posts?.length} </Text>
                 </HStack>
                 <HStack>
-                  <Icon as={IoIosPeople} fontSize={"lg"} />
-                  <Text>0 following</Text>
+                  <Heading fontSize={"18px"}>Followers: </Heading>
+                  <Text>0</Text>
                 </HStack>
-              </Box>
+                <HStack>
+                  <Heading fontSize={"18px"}>Following: </Heading>
+                  <Text>0 </Text>
+                </HStack>
+              </Flex>
               <Box />
             </Flex>
           </Box>
@@ -264,14 +270,7 @@ const Profile = () => {
                 // name={inputedUserProfile?.occupation}
                 name="role"
               />
-              {/* <FormLabel>Preferred display name</FormLabel>
-              <Input
-                type="text"
-                placeholder="Your preferred display name"
-                value={inputedUserProfile?.username}
-                onChange={handleTextChange}
-                name="username"
-              /> */}
+
               <FormLabel>Bio</FormLabel>
               <Input
                 name="bio"

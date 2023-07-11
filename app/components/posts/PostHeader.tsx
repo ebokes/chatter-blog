@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  Button,
   Flex,
   Heading,
   HStack,
@@ -18,6 +19,7 @@ interface PostHeaderProps {
     uid: string;
     role?: string;
     postedOn: number;
+    category: string;
   };
 }
 
@@ -38,26 +40,12 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post }) => {
             </Heading>
           </Link>
           <HStack flexWrap="wrap">
-            {/* {user?.role ? (
-              <>
-                <Text>{post?.role}</Text>
-                <Box
-                  boxSize="4px"
-                  bg={colorMode === "light" ? "brand.800" : "brand.400"}
-                  borderRadius="full"
-                />
-              </>
-            ) : (
-              <> */}
             <Text>@{user?.email?.split("@")[0]}</Text>
             <Box
               boxSize="4px"
               bg={colorMode === "light" ? "brand.800" : "brand.400"}
               borderRadius="full"
             />
-            {/* </>
-            )} */}
-            {/* <Text>{post?.postedOn}</Text> */}
             <Text>{formatDate(post?.postedOn)}</Text>
           </HStack>
         </Box>

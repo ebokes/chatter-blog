@@ -1,6 +1,5 @@
 import { Button, ButtonGroup, useColorMode, useToast } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
-// import { useGoogle } from "../hooks/auth";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { ChatterContext } from "../context/ChatterContext";
@@ -8,7 +7,6 @@ import { ChatterContext } from "../context/ChatterContext";
 const OAuthButtons = () => {
   const { colorMode } = useColorMode();
   const { googleUser, handleUserAuth } = useContext(ChatterContext);
-  // const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const toast = useToast();
   const router = useRouter();
 
@@ -31,9 +29,6 @@ const OAuthButtons = () => {
       flexDir={"column"}
       spacing={0}
       color={colorMode === "light" ? "brand.300" : "brand.850"}
-      // mx={{ base: "15px", md: "25px" }}
-      // w={"full"}
-      // maxW={"520px"}
     >
       <Button
         border="1px solid"
@@ -44,24 +39,10 @@ const OAuthButtons = () => {
         textAlign="center"
         leftIcon={<FcGoogle size={"24px"} />}
         bg={colorMode === "light" ? "brand.300" : "brand.800"}
-        // color={colorMode === "light" ? "brand.900" : "brand.350"}
-        // isLoading={googleLoading}
         onClick={handleUserAuth}
-        // isLoading={googleLoading}
-        // onClick={() => signInWithGoogle()}
       >
         Continue with google
       </Button>
-
-      {/* {gError &&
-        toast({
-          title: "Logging in failed",
-          description: gError?.message,
-          status: "error",
-          isClosable: true,
-          position: "top-right",
-          duration: 5000,
-        })} */}
     </ButtonGroup>
   );
 };

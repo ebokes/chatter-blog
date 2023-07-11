@@ -61,6 +61,7 @@ export default function Navbar() {
             fontFamily={"heading"}
             color="brand.600"
             fontWeight={"bold"}
+            display={{ base: "none", sm: "flex" }}
             _hover={{ textDecoration: "none" }}
           >
             <Link href="/">CHATTER</Link>
@@ -71,18 +72,20 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
-        <Button
-          aria-label="Toggle Color Mode"
-          onClick={toggleColorMode}
-          mr={5}
-          _focus={{ boxShadow: "none" }}
-          w="fit-content"
-          variant={"ghost"}
-          _hover={{ variant: "ghost" }}
-          _active={{ variant: "ghost" }}
-        >
-          {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
-        </Button>
+        {!user && (
+          <Button
+            aria-label="Toggle Color Mode"
+            onClick={toggleColorMode}
+            mr={5}
+            _focus={{ boxShadow: "none" }}
+            w="fit-content"
+            variant={"ghost"}
+            _hover={{ variant: "ghost" }}
+            _active={{ variant: "ghost" }}
+          >
+            {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
+          </Button>
+        )}
         {isLoading ? null : (
           <>
             {!user ? (

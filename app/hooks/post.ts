@@ -15,7 +15,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useCollectionData,
   useDocumentData,
@@ -38,7 +38,6 @@ export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
   const toast = useToast();
   const router = useRouter();
-  // const { setEntry } = useContext(ChatterContext);
 
   async function addPost(post: PostProps) {
     setLoading(true);
@@ -58,15 +57,6 @@ export function useAddPost() {
       });
       router.push("/pages/dashboard");
       window.location.reload();
-      // setEntry({
-      //   title: "",
-      //   bannerImg: "",
-      //   body: "",
-      //   category: "",
-      //   postedOn: Date.now(),
-      //   postLength: 0,
-      //   intro: "",
-      // });
     } catch (error: any) {
       toast({
         title: "An error occurred",

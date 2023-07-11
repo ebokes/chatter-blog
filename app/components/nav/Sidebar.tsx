@@ -44,6 +44,7 @@ import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ItemProps {
   name: string;
@@ -115,6 +116,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { colorMode } = useColorMode();
   const { logout, isLoading } = useLogout();
   const { posts, isLoading: postsLoading } = usePosts();
+  const currentRoute = usePathname();
+
   const categories = Array.from(new Set(posts?.map((post) => post.category)));
   const recentCategories = categories?.slice(0, 5);
   const { user: userAuth } = useAuth();
@@ -151,9 +154,25 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       <Stack ml={"35px"} spacing={6}>
         <Stack>
           <Text fontSize={"18px"}>Overview</Text>
-          <Stack pl={"20px"} spacing={4}>
+          <Stack pl={"20px"} spacing={1}>
             {LinkItems.map((item) => (
-              <Box key={item.name}>
+              <Box
+                key={item.name}
+                // color={
+                //   currentRoute === item.href && colorMode === "light"
+                //     ? "brand.300"
+                //     : "brand.100"
+                // }
+                color={currentRoute === item.href ? "white" : "default"}
+                bg={currentRoute === item.href ? "brand.600" : "none"}
+                py={2}
+                pl={2}
+                pr={4}
+                borderRadius={"md"}
+                width={"130px"}
+                // p={currentRoute === item.href ? "2" : "2"}
+                transition={"0.3s ease"}
+              >
                 <NavItem icon={item.icon} href={item.href}>
                   {item.name}
                 </NavItem>
@@ -191,9 +210,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               _focus={{ boxShadow: "none" }}
             >
               <Link href={`/pages/profile/${userAuth?.id}`}>
-                <Flex align="center" role="group" {...rest}>
-                  <Icon mr="4" fontSize="16" boxSize={5} as={MdPersonOutline} />
-                  Account
+                <Flex align="center">
+                  <Icon mr="2" fontSize="16" boxSize={5} as={MdPersonOutline} />
+                  <Text>Account</Text>
                 </Flex>
               </Link>
             </Flex>
@@ -223,7 +242,7 @@ const NavItem = ({ icon, href, key, children, ...rest }: any) => {
     <Flex style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
       <Link href={href || "#"}>
         <Flex align="center" role="group" {...rest}>
-          {icon && <Icon mr="4" fontSize="16" boxSize={5} as={icon} />}
+          {icon && <Icon mr="2" fontSize="16" boxSize={5} as={icon} />}
           {children}
         </Flex>
       </Link>
@@ -235,10 +254,8 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const [show, setShow] = useState(false);
+  const { colorMode } = useColorMode();
 
-  const handleToggle = () => setShow(!show);
   // if (isLoading) return <div>Loading...</div>;
   return (
     <Box w={"100vw"}>
@@ -263,56 +280,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         />
 
         <HStack justify={"flex-end"} w={"90%"} pos={"relative"}>
-          {show && (
-            <>
-              <Input
-                maxW="20rem"
-                placeholder="Search Chatter..."
-                borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-                borderRadius="5px"
-                // display={{ base: "none", md: "block" }}
-                justifySelf={"flex-start"}
-                // pl="35px"
-              />
-            </>
-          )}
-          <HStack
-            borderRadius={"30px"}
-            pr={"10px"}
-            bg={"brand.600"}
-            px={"10px"}
-            py={"7px"}
-            fontWeight={"semibold"}
-            color={colorMode === "light" ? "brand.100" : "brand.100"}
-            _hover={{
-              bg: "brand.700",
-              textDecoration: "none",
-            }}
-          >
-            <Link href={"/pages/dashboard/write"}>
-              <HStack>
-                <Icon as={CiEdit} boxSize={"20px"} />
-                <Text display={{ base: "none", md: "inline" }}>Write</Text>
-              </HStack>
-            </Link>
-          </HStack>
-          <HStack>
-            <IconButton
-              onClick={handleToggle}
-              icon={<MdSearch />}
-              aria-label="Toggle Search Bar"
-              variant={"ghost"}
-              _hover={{ variant: "ghost" }}
-            />
-
-            <IconButton
-              aria-label="Toggle Color Mode"
-              onClick={toggleColorMode}
-              variant={"ghost"}
-              _hover={{ variant: "ghost" }}
-              icon={colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
-            />
-          </HStack>
           <NavMenu />
         </HStack>
       </Flex>

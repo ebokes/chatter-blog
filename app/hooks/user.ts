@@ -60,22 +60,6 @@ interface ToggleFollowProps {
   uid: string;
 }
 
-// export function useToggleFollowMe({ id, isFollowMe, uid }: ToggleFollowProps) {
-//   const [followMeLoading, setLoading] = useState(false);
-
-//   async function toggleFollowMe() {
-//     setLoading(true);
-
-//     const docRef = doc(db, "users", id);
-//     await updateDoc(docRef, {
-//       followMe: isFollowMe ? arrayRemove(uid) : arrayUnion(uid),
-//     });
-//     setLoading(false);
-//   }
-
-//   return { toggleFollowMe, followMeLoading };
-// }
-
 export function useUsers() {
   const [users, isLoading] = useCollectionData(collection(db, "users"));
   return { users, isLoading };

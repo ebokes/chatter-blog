@@ -37,7 +37,7 @@ interface PostDetailProps {
 
 const PostDetail: Array<PostDetailProps> = [
   {
-    avatar: "/avatar1.svg",
+    avatar: "",
     name: "Grace Ikpang",
     role: "Product designer",
     date: "May 25th, 2023",

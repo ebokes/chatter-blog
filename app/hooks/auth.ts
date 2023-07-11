@@ -2,16 +2,14 @@ import { useToast } from "@chakra-ui/react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup,
 } from "firebase/auth";
 import { DocumentData, doc, getDoc, setDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
-import { auth, db, provider } from "../lib/firebase";
+import { auth, db } from "../lib/firebase";
 
 interface SignUpProps {
-  // username: string;
   email: string;
   password: string;
   firstName: string;
@@ -144,104 +142,6 @@ export function useRegister() {
   return { register, isLoading };
 }
 
-export function useGoogleAuth() {
-  const [isLoading, setLoading] = useState(false);
-  const [googleUser, setGoogleUser] = useState<any>(null);
-  const toast = useToast();
-  const router = useRouter();
-
-  setLoading(true);
-
-  try {
-    // const res = await signInWithPopup(auth, provider);
-    const addUserToFirebase = async (user: any) => {
-      await setDoc(doc(db, "users", user.uid), {
-        id: user.uid,
-        // username: user.email.split("@")[0],
-        firstName: user.displayName.split(" ")[0],
-        lastName: user.displayName.split(" ")[1],
-        displayName: user.displayName,
-        email: user.email,
-        joiningAs: "writer",
-        avatar: user.photoURL,
-        followMe: [],
-        iFollow: [],
-        date: Date.now(),
-      });
-    };
-
-    // const signInWithGoogle = async () => {
-    //   const res = await signInWithPopup(auth, provider);
-    //   const userData = res.user;
-    //   setGoogleUser(userData);
-    //   addUserToFirebase(userData);
-    // };
-
-    toast({
-      title: "Login successful",
-      status: "success",
-      isClosable: true,
-      position: "top-right",
-      duration: 5000,
-    });
-    router.push("/pages/dashboard");
-  } catch (error: any) {
-    toast({
-      title: "Signing in failed",
-      description: error.message,
-      status: "error",
-      isClosable: true,
-      position: "top-right",
-      duration: 5000,
-    });
-  } finally {
-    setLoading(false);
-  }
-  // }
-
-  return { googleUser, isLoading };
-}
-
-// export function useGoogleAuth() {
-//   const [signInWithGoogle, gUser, gLoading, gError] =
-//     useSignInWithGoogle(auth);
-
-//     async function register({
-
-//       useEffect(() => {
-//         if (gUser) {
-//           router.push("/pages/dashboard");
-//         }
-//       }, [gUser]);
-//     })
-//   return { gUser, gLoading, gError, signInWithGoogle };
-// // }
-
-// interface Props {}
-
-// export const useGoogle = () => {
-//   // const OAuthButtons = (props: Props) => {
-//   // const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-//   const [signInWithGoogle, googleUser, googleLoading, error] =
-//     useSignInWithGoogle(auth);
-//   const toast = useToast();
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     if (googleUser) {
-//       toast({
-//         title: "Login successful",
-//         status: "success",
-//         isClosable: true,
-//         position: "top-right",
-//         duration: 5000,
-//       });
-//       router.push("/pages/dashboard");
-//     }
-//   }, [googleUser, toast, router]);
-//   return { signInWithGoogle, googleUser, googleLoading, error };
-// };
-
 export function useLogout() {
   const [signOut, isLoading, error] = useSignOut(auth);
   const toast = useToast();
@@ -257,7 +157,6 @@ export function useLogout() {
         duration: 5000,
       });
       router.push("/");
-      // window.location.reload();
     } else {
       toast({
         title: "Logout failed",

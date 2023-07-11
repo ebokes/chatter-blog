@@ -13,22 +13,20 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Textarea,
   useColorMode,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import MarkdownIt from "markdown-it";
-import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
+import TextareaAutoSize from "react-textarea-autosize";
 import { ChatterContext } from "../context/ChatterContext";
 import { useAuth } from "../hooks/auth";
 import { useAddPost } from "../hooks/post";
 import { calculateReadTime } from "../utils/funcns";
 import Preview from "./Preview";
-import TextareaAutoSize from "react-textarea-autosize";
 
 const categories = [
   { value: "technology", label: "Technology" },
@@ -63,7 +61,6 @@ const LiteEditor: React.FC = () => {
   const mdParser = new MarkdownIt();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const router = useRouter();
   const { addPost, isLoading: publishingPost } = useAddPost();
   const { user } = useAuth();
 
@@ -101,7 +98,6 @@ const LiteEditor: React.FC = () => {
   }
 
   const handleEditorChange = ({ text }: { text: string }) => {
-    console.log("handleEditorChange", text);
     setEntry((prevEntry) => ({
       ...prevEntry,
       body: text,
@@ -137,7 +133,7 @@ const LiteEditor: React.FC = () => {
         <Flex flexDir={"column"} justify={"flex-end"} w={"full"}>
           <HStack justify={"space-between"} w={"100%"}>
             <Button onClick={onOpen}>Preview</Button>
-
+            {/* Publish Button */}
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
               <Button
                 type="submit"
@@ -154,6 +150,7 @@ const LiteEditor: React.FC = () => {
               </Button>
             </ButtonGroup>
           </HStack>
+          {/* Article Title */}
           <Input
             as={TextareaAutoSize}
             required
@@ -168,6 +165,7 @@ const LiteEditor: React.FC = () => {
             autoComplete="off"
             py={2}
           />
+          {/* Image URL */}
           <Input
             as={TextareaAutoSize}
             required
@@ -180,6 +178,7 @@ const LiteEditor: React.FC = () => {
             variant={"flushed"}
             py={2}
           />
+          {/* Categories */}
           <Select
             required
             placeholder="Select Category"
@@ -196,6 +195,7 @@ const LiteEditor: React.FC = () => {
               </option>
             ))}
           </Select>
+          {/* Brief */}
           <Input
             required
             as={TextareaAutoSize}
@@ -210,7 +210,7 @@ const LiteEditor: React.FC = () => {
             py={2}
           />
         </Flex>
-
+        {/* Body Text Editor */}
         <MdEditor
           style={{ height: "500px" }}
           renderHTML={(text) => mdParser.render(text)}
@@ -227,7 +227,7 @@ const LiteEditor: React.FC = () => {
           }}
         />
       </form>
-
+      {/* Article Previewer */}
       <Modal onClose={onClose} isOpen={isOpen} isCentered size={"3xl"}>
         <ModalOverlay />
         <ModalContent>

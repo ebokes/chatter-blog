@@ -17,7 +17,6 @@ import { useAuth } from "../hooks/auth";
 import { usePosts, usePostsUid } from "../hooks/post";
 import Loading from "../loader/Loading";
 import PostList from "./posts/PostList";
-// import PostList from "./PostList";
 
 const Feed = () => {
   const { posts, isLoading: postsLoading } = usePosts();
@@ -26,8 +25,6 @@ const Feed = () => {
     authUser?.id
   );
   const { colorMode } = useColorMode();
-
-  // console.log(posts?.category);
 
   if (authLoading) return <Loading />;
 
@@ -54,8 +51,7 @@ const Feed = () => {
           display={"flex"}
           justifyContent={"space-between"}
           textAlign={"center"}
-          // px={{ base: "0rem", md: "1rem" }}
-          overflow={"scroll"}
+          overflowX={"scroll"}
         >
           <HStack
             // minW={"300px"}

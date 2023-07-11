@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { VscBook } from "react-icons/vsc";
 import Comments from "../comments/CommentWrapper";
 import ReactMarkdown from "react-markdown";
+// import MarkdownRenderer from "../MarkdownRenderer";
 
 const Post = () => {
   const { colorMode } = useColorMode();
@@ -72,11 +73,7 @@ const Post = () => {
                     </Link>
                   </HStack>
                   <HStack flexWrap={"wrap"}>
-                    {user?.role ? (
-                      <Text>{user?.role}</Text>
-                    ) : (
-                      <Text>@{user?.email?.split("@")[0]}</Text>
-                    )}
+                    <Text>@{user?.email?.split("@")[0]}</Text>
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
@@ -119,15 +116,14 @@ const Post = () => {
                 >
                   {currentPost?.title}
                 </Heading>
-                {/* <HTMLFormatter htmlString={currentPost?.body} /> */}
                 <ReactMarkdown>{currentPost?.body}</ReactMarkdown>
+                {/* <MarkdownRenderer markdownContent={currentPost?.body} /> */}
               </Stack>
             </Box>
           </Box>
           <Comments post={currentPost} />
         </Stack>
       </Box>
-      {/* ))} */}
     </>
   );
 };

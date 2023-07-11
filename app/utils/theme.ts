@@ -16,6 +16,7 @@ const theme = extendTheme({
     brand: {
       100: "#fff",
       200: "#F5F5F5",
+      250: "#eeeded",
       300: "#F9FAFB", //Heading ==> Dark mode
       350: "#94A3B8", //Texr ===> Dark mode
       400: "#d0d0d0",

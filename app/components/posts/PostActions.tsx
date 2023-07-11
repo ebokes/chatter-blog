@@ -1,4 +1,12 @@
-import { Flex, HStack, IconButton, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  IconButton,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
@@ -6,12 +14,12 @@ import { useDeletePost, useToggleLike } from "@/app/hooks/post";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
+import { getCapitalizedName } from "@/app/utils/funcns";
 // import { useComments } from "../hooks/comments";
 
 const PostActions = ({ post, link }: any) => {
   const { likes, id, uid } = post;
   const { user, isLoading: userLoading } = useAuth();
-  // const { user, isLoading: userLoading } = useUser();
   const isLiked = likes?.includes(user?.id);
   const config = { id, isLiked, uid: user?.id };
   const { toggleLike, isLoading: likeLoading } = useToggleLike(config);
@@ -19,6 +27,7 @@ const PostActions = ({ post, link }: any) => {
   const { comments, isLoading: commentsLoading } = useComments(id);
   const path = usePathname();
   const router = useRouter();
+  const { colorMode } = useColorMode();
 
   const handleToggleLike = () => {
     if (!user) {
@@ -29,7 +38,18 @@ const PostActions = ({ post, link }: any) => {
   };
 
   return (
-    <Flex justify={"flex-end"}>
+    <Flex justify={"space-between"}>
+      <Box
+        as={Button}
+        variant={"flat"}
+        borderRadius={"35px"}
+        h={"35px"}
+        bg={colorMode === "light" ? "brand.100" : "dark"}
+        color={colorMode === "light" ? "brand.850" : "brand.350"}
+        // border={"1px solid brand.600"}
+      >
+        {getCapitalizedName(post?.category)}
+      </Box>
       <HStack gap={"20px"} w={"full"} justify={"flex-end"}>
         <HStack spacing={"1px"}>
           <IconButton
