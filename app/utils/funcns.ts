@@ -14,8 +14,8 @@ export const calculateReadTime = (content: string) => {
   return readTime;
 };
 
-export const getCapitalizedName = (displayName: string) => {
-  return displayName?.replace(/\b\w/g, (letter) => letter.toUpperCase());
+export const getCapitalizedName = (text: string) => {
+  return text.replace(/\b\w/g, (letter) => letter.toUpperCase());
 };
 
 export const removeSpaces = (string: string) => {

@@ -224,7 +224,11 @@ const Profile = () => {
           <Center px={2}>
             <Box maxW={"800px"} mx={"auto"} mb={"100px"}>
               <Heading fontSize={"2xl"}>Articles</Heading>
-              {postsLoading ? <Loading /> : <PostList posts={posts} />}
+              {postsLoading ? (
+                <Loading />
+              ) : (
+                <PostList posts={posts} link="dashboard" />
+              )}
             </Box>
           </Center>
         </Stack>

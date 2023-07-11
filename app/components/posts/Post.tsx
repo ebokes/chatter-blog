@@ -3,10 +3,11 @@
 import { PostProps, usePosts } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
 import Loading from "@/app/loader/Loading";
-import { formatDate } from "@/app/utils/funcns";
+import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
 import {
   Avatar,
   Box,
+  Button,
   Center,
   Flex,
   HStack,
@@ -23,6 +24,8 @@ import { useEffect, useState } from "react";
 import { VscBook } from "react-icons/vsc";
 import Comments from "../comments/CommentWrapper";
 import ReactMarkdown from "react-markdown";
+import { MarkdownRenderer } from "../MarkdownRenderer";
+import CategoryBtn from "../CategoryBtn";
 // import MarkdownRenderer from "../MarkdownRenderer";
 
 const Post = () => {
@@ -61,6 +64,7 @@ const Post = () => {
                   <Avatar
                     size="md"
                     name={user?.displayName}
+                    src={user?.avatar}
                     _hover={{ cursor: "pointer", opacity: "0.8" }}
                   />
                 </Link>
@@ -89,6 +93,9 @@ const Post = () => {
                       <Icon as={VscBook} />{" "}
                       <Text>{currentPost?.postLength} mins read</Text>
                     </HStack>
+                    <CategoryBtn>
+                      {getCapitalizedName(currentPost?.category)}
+                    </CategoryBtn>
                   </HStack>
                 </Box>
               </Flex>
@@ -116,8 +123,7 @@ const Post = () => {
                 >
                   {currentPost?.title}
                 </Heading>
-                <ReactMarkdown>{currentPost?.body}</ReactMarkdown>
-                {/* <MarkdownRenderer markdownContent={currentPost?.body} /> */}
+                <MarkdownRenderer markdownContent={currentPost?.body} />
               </Stack>
             </Box>
           </Box>

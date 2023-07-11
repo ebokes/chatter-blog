@@ -45,6 +45,7 @@ import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getCapitalizedName } from "@/app/utils/funcns";
 
 interface ItemProps {
   name: string;
@@ -197,7 +198,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             {recentCategories.map((item: any) => (
               <Box key={item}>
                 {/* href={`/pages/categories/${posts?.id}`} */}
-                <NavItem href={"/pages/dashboard"}>{item}</NavItem>
+                <NavItem href={"/pages/dashboard"}>
+                  {getCapitalizedName(item)}
+                </NavItem>
               </Box>
             ))}
           </Stack>

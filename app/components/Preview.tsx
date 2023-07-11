@@ -18,6 +18,7 @@ import { VscBook } from "react-icons/vsc";
 import { useAuth } from "../hooks/auth";
 import { formatDate } from "../utils/funcns";
 import ReactMarkdown from "react-markdown";
+import { MarkdownRenderer } from "./MarkdownRenderer";
 
 const Preview = () => {
   const { colorMode } = useColorMode();
@@ -82,7 +83,8 @@ const Preview = () => {
                 <Heading fontWeight={700} fontSize={"34px"} my={"30px"}>
                   {entry.title}
                 </Heading>
-                <ReactMarkdown>{entry?.body}</ReactMarkdown>
+                <MarkdownRenderer markdownContent={entry?.body} />
+                {/* <ReactMarkdown>{entry?.body}</ReactMarkdown> */}
               </Stack>
             </Box>
           </Box>

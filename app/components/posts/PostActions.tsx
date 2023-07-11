@@ -1,21 +1,13 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  IconButton,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
-import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
 import { useDeletePost, useToggleLike } from "@/app/hooks/post";
+import { getCapitalizedName } from "@/app/utils/funcns";
+import { Flex, HStack, IconButton, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
-import { getCapitalizedName } from "@/app/utils/funcns";
-// import { useComments } from "../hooks/comments";
+import CategoryBtn from "../CategoryBtn";
 
 const PostActions = ({ post, link }: any) => {
   const { likes, id, uid } = post;
@@ -24,10 +16,9 @@ const PostActions = ({ post, link }: any) => {
   const config = { id, isLiked, uid: user?.id };
   const { toggleLike, isLoading: likeLoading } = useToggleLike(config);
   const { deletePost, isLoading: deleteLoading } = useDeletePost(id);
-  const { comments, isLoading: commentsLoading } = useComments(id);
+  const { comments } = useComments(id);
   const path = usePathname();
   const router = useRouter();
-  const { colorMode } = useColorMode();
 
   const handleToggleLike = () => {
     if (!user) {
@@ -39,17 +30,7 @@ const PostActions = ({ post, link }: any) => {
 
   return (
     <Flex justify={"space-between"}>
-      <Box
-        as={Button}
-        variant={"flat"}
-        borderRadius={"35px"}
-        h={"35px"}
-        bg={colorMode === "light" ? "brand.100" : "dark"}
-        color={colorMode === "light" ? "brand.850" : "brand.350"}
-        // border={"1px solid brand.600"}
-      >
-        {getCapitalizedName(post?.category)}
-      </Box>
+      <CategoryBtn>{getCapitalizedName(post?.category)}</CategoryBtn>
       <HStack gap={"20px"} w={"full"} justify={"flex-end"}>
         <HStack spacing={"1px"}>
           <IconButton
@@ -66,7 +47,6 @@ const PostActions = ({ post, link }: any) => {
           <Link href={`/pages/${link}/${post.id}`}>
             <IconButton
               aria-label="comments"
-              // isLoading={commentsLoading}
               size="md"
               colorScheme="blue"
               variant="ghost"
