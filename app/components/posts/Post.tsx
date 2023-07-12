@@ -7,7 +7,6 @@ import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
 import {
   Avatar,
   Box,
-  Button,
   Center,
   Flex,
   HStack,
@@ -22,11 +21,10 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { VscBook } from "react-icons/vsc";
-import Comments from "../comments/CommentWrapper";
-import ReactMarkdown from "react-markdown";
-import { MarkdownRenderer } from "../MarkdownRenderer";
 import CategoryBtn from "../CategoryBtn";
-// import MarkdownRenderer from "../MarkdownRenderer";
+import { FloatingNav } from "../FloatingNav";
+import { MarkdownRenderer } from "../MarkdownRenderer";
+import Comments from "../comments/CommentWrapper";
 
 const Post = () => {
   const { colorMode } = useColorMode();
@@ -129,6 +127,7 @@ const Post = () => {
           </Box>
           <Comments post={currentPost} />
         </Stack>
+        {/* <FloatingNav /> */}
       </Box>
     </>
   );

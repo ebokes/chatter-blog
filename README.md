@@ -1,34 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Chatter - Blog App
 
-## Getting Started
+![Chatter-blog](./public/images/chatter-blog2.webp)
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+Chatter aims to be a haven for text-based content enthusiasts, offering a multi-functional platform where authors and readers can create and access their own content. It aspires to compete with platforms like Hashnode and Medium within its first two years of launch.
+
+## Features
+
+- **User Registration and Authentication**: Chatter allows users to register and create their own accounts on the platform. Users can sign up using their email address or social media accounts like Google.
+
+- **Content Creation**: Chatter provides a rich text editor that allows users to create and publish their own content easily. Users can write blog posts or any other content, and add images or videos to enhance their content. The blog posts will be written and saved in Markdown, then it gets displayed as HTML when the posts are viewed.
+
+- **Content Discovery**: Chatter provides a personalized feed based on the user's interests and reading history, making it easier for users to discover new content. Users can also browse and search for other users’ content. Users can explore different categories and tags to find content that interests them.
+
+- **Social Features**: Chatter provides social features like commenting and liking that allow users to interact with each other and engage in discussions.
+
+- **Analytics**: Chatter provides detailed analytics that allows users to track their content's performance. Users can see how many views, likes, and comments their content has received and how many users have bookmarked their content.
+
+- **Published Posts**: Users can read published posts created by other users.
+
+- **Author Profiles**: Users can view each author's profile, including their information and published posts.
+
+- **Updating User Profiles**: Users can update their own profile information.
+
+- **Bookmarking and Drafts**: Users can bookmark posts to save them for later. They can also save posts as drafts before publishing.
+
+- **Unit Tests**: The application includes unit tests to ensure the correctness of critical functionality.
+
+- **View Mode**: Users can switch between light and dark themes for a personalized experience.
+
+## Installation and Usage
+
+To run the development server locally, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone git@github.com:ebokes/chatter-blog.git
+   ```
+
+2. Install the dependencies:
+
+   ```bash
+   cd chatter-blog
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open http://localhost:3000 in your browser to see the application.
+
+## Technologies Used
+
+- Next.js: The foundation of the application.
+- Chakra UI: The UI component library for building the user interface.
+- TypeScript: The programming language used to write type-safe code.
+- React Hooks: A feature in React that allows functional components to use state and lifecycle methods.
+- Context API: A feature in React that provides a way to share data across the component tree without prop drilling.
+- Markdown: The format used for authoring blog posts.
+- Firebase: The database used to store user information and content data
+
+## Contributing
+
+Contributions to Chatter - Blog App are welcome! If you want to contribute to the project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes and push them to your forked repository.
+4. Submit a pull request describing your changes.
+
+## Deployment
+
+The application has been deployed using Vercel and can be found => [Chatter-blog](https://chatter-blog-opal.vercel.app/)
+
+## Resources
+
+- [Next.js Documentation](https://nextjs.org/docs): Learn about Next.js features and API.
+- [Chakra UI Documentation](https://chakra-ui.com/docs): Explore Chakra UI components and their usage.
+- [React Markdown Documentation](https://www.npmjs.com/package/react-markdown): Reference for React Markdown library.
+- [Firebase Documentation](https://firebase.google.com/docs): Learn about Firebase and its features for backend and database integration.
+
+---
+
+Happy reading and writing on Chatter! We hope you enjoy the platform and find it to be a true haven for text-based content.
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```

@@ -96,7 +96,7 @@ export default function Features() {
   const { colorMode } = useColorMode();
   return (
     <Box
-      px={4}
+      // px={{ base: "15px", md: "32px" }}
       py={{ base: "55px", md: "72px" }}
       bg={colorMode === "light" ? "light" : "brand.800"}
       color={colorMode === "light" ? "brand.800" : "gray.400"}

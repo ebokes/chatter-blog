@@ -22,10 +22,16 @@ const About = () => {
         align={"center"}
         maxW={"1200px"}
         mx={"auto"}
-        px={"32px"}
+        px={{ base: "15px", md: "32px" }}
         py={{ base: "55px", md: "72px" }}
       >
-        <Flex py={8} flex={1} align={"center"} justify={"center"} mr={"12px"}>
+        <Flex
+          py={8}
+          flex={1}
+          align={"center"}
+          justify={"center"}
+          mr={{ base: "0", md: "12px" }}
+        >
           <Stack spacing={6}>
             <Heading color={colorMode === "light" ? "brand.850" : "brand.300"}>
               About Chatter

@@ -159,11 +159,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             {LinkItems.map((item) => (
               <Box
                 key={item.name}
-                // color={
-                //   currentRoute === item.href && colorMode === "light"
-                //     ? "brand.300"
-                //     : "brand.100"
-                // }
                 color={currentRoute === item.href ? "white" : "default"}
                 bg={currentRoute === item.href ? "brand.600" : "none"}
                 py={2}
@@ -171,7 +166,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 pr={4}
                 borderRadius={"md"}
                 width={"130px"}
-                // p={currentRoute === item.href ? "2" : "2"}
                 transition={"0.3s ease"}
               >
                 <NavItem icon={item.icon} href={item.href}>

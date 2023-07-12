@@ -7,14 +7,12 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: transparent; /* Change this to the desired color */
+    background-color: transparent;
     border-radius: 3px;
   }
 }
 
 .formatted-article {
-  /* Define your styles for the article here */
-  /* Example styles for different HTML tags */
   h1 {
     font-size: 24px;
     font-weight: bold;
@@ -23,10 +21,8 @@
 
   p {
     margin-bottom: 12px;
-    /* color: #2c5382b7; */
+    /* color: #e0e4e9; */
   }
-
-  /* Add more styles for other HTML tags as needed */
 }
 
 .hover {

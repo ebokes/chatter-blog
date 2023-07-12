@@ -17,7 +17,6 @@ import { useContext } from "react";
 import { VscBook } from "react-icons/vsc";
 import { useAuth } from "../hooks/auth";
 import { formatDate } from "../utils/funcns";
-import ReactMarkdown from "react-markdown";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 
 const Preview = () => {
@@ -36,7 +35,7 @@ const Preview = () => {
           <Box>
             <Flex justify={"space-between"} w={"full"}>
               <Flex gap={2} mb={"15px"}>
-                <Avatar size="md" name={user?.displayName} />
+                <Avatar size="md" name={user?.displayName} src={user?.avatar} />
                 <Box>
                   <Heading fontSize={"20px"} fontWeight={600} mb={1}>
                     {user?.displayName}

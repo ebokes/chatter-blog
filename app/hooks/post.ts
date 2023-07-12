@@ -111,12 +111,16 @@ export function useToggleLike({ id, isLiked, uid }: ToggleLikeProps) {
 
   async function toggleLike() {
     setLoading(true);
-
-    const docRef = doc(db, "articles", id);
-    await updateDoc(docRef, {
-      likes: isLiked ? arrayRemove(uid) : arrayUnion(uid),
-    });
-    setLoading(false);
+    try {
+      const docRef = doc(db, "articles", id);
+      await updateDoc(docRef, {
+        likes: isLiked ? arrayRemove(uid) : arrayUnion(uid),
+      });
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return { toggleLike, isLoading };
