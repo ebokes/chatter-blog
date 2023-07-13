@@ -34,7 +34,7 @@ const About = () => {
         >
           <Stack spacing={6}>
             <Heading color={colorMode === "light" ? "brand.850" : "brand.300"}>
-              About Chatter
+              About<span style={{ color: "#2B6CB0" }}> Chatter</span>
             </Heading>
 
             <Text

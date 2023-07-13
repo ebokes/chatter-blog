@@ -107,7 +107,7 @@ export default function Features() {
           fontWeight={"bold"}
           color={colorMode === "light" ? "brand.850" : "brand.300"}
         >
-          Why you should join chatter
+          Why you should join <span style={{ color: "#2B6CB0" }}> Chatter</span>
         </Heading>
         <Text
           color={colorMode === "light" ? "brand.900" : "brand.350"}

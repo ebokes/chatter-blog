@@ -93,7 +93,8 @@ export default function Cta() {
               fontSize={{ base: "2xl", md: "4xl" }}
               mb={{ base: 0, md: 2 }}
             >
-              Write, read and connect with great minds on chatter
+              Write, read and connect with great minds on{" "}
+              <span style={{ color: "#2B6CB0" }}> Chatter</span>
             </Heading>
 
             <Text color={colorMode === "light" ? "brand.900" : "brand.350"}>
