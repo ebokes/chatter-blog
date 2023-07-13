@@ -100,7 +100,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
         <Box
           ml={{ base: 0, md: "241px" }}
           p={{ base: "0", sm: "4" }}
-          bg={colorMode === "light" ? "brand.300" : "brand.800"}
+          bg={colorMode === "light" ? "brand.200" : "brand.800"}
         >
           <DashboardWrapper>{children}</DashboardWrapper>
         </Box>
@@ -215,7 +215,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             </Flex>
           </Stack>
         </Stack>
-        <Stack pl={"20px"}>
+        <Flex px={0}>
           <Button
             leftIcon={<FiLogOut size={"18px"} />}
             onClick={logout}
@@ -224,11 +224,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             variant={"ghost"}
             _hover={{ variant: "ghost" }}
             _active={{ variant: "ghost" }}
-            w={"30px"}
           >
             Logout
           </Button>
-        </Stack>
+        </Flex>
       </Stack>
     </Box>
   );

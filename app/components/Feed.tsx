@@ -1,5 +1,6 @@
 "use client";
 import {
+  Box,
   Flex,
   HStack,
   Heading,
@@ -29,7 +30,7 @@ const Feed = () => {
   if (authLoading) return <Loading />;
 
   return (
-    <>
+    <Box bg={colorMode === "light" ? "brand.100" : "brand.480"}>
       <Flex align={"flex-end"} justify={"space-between"} my={5}>
         <Stack>
           <Heading fontWeight={500} fontSize={{ base: 24, md: 28 }}>
@@ -58,6 +59,7 @@ const Feed = () => {
             justify={"space-between"}
             w={"100%"}
             spacing={"5px"}
+            bg={colorMode === "light" ? "brand.200" : "brand.800"}
           >
             <Tab>
               <Heading
@@ -93,7 +95,7 @@ const Feed = () => {
         <TabIndicator
           mt="-1.5px"
           height="2.5px"
-          bg="#543EE0"
+          bg="brand.600"
           borderRadius="1px"
         />
         <TabPanels>
@@ -111,12 +113,16 @@ const Feed = () => {
               link="dashboard"
             />
           </TabPanel>
-          <TabPanel>
-            <p>Recent</p>
+          <TabPanel p={0}>
+            <PostList
+              posts={posts}
+              isLoading={postsLoading}
+              link={"dashboard"}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </>
+    </Box>
   );
 };
 

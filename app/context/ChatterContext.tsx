@@ -3,11 +3,13 @@ import { signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import React, { createContext, useState } from "react";
 import { auth, db, provider } from "../lib/firebase";
+import { UserDataProps } from "../hooks/user";
+import { PostProps } from "../hooks/post";
 
 export const ChatterContext = createContext<{
-  entry: Entry;
-  setEntry: React.Dispatch<React.SetStateAction<Entry>>;
-  handleUserAuth: React.Dispatch<React.SetStateAction<Users | any>>;
+  entry: PostProps;
+  setEntry: React.Dispatch<React.SetStateAction<PostProps>>;
+  handleUserAuth: React.Dispatch<React.SetStateAction<UserDataProps | any>>;
   googleUser: null | any;
 }>({
   googleUser: null,
@@ -24,49 +26,12 @@ export const ChatterContext = createContext<{
   setEntry: () => {},
 });
 
-export interface Posts {
-  id: string;
-  data: {
-    author: string;
-    title: string;
-    role: string;
-    postedOn: number;
-    category: string;
-    bannerImg: string;
-    body: string;
-    postLength: number;
-    intro: string;
-  };
-}
-
-export interface Users {
-  id?: string;
-  // username?: string;
-  firstName?: string;
-  lastName?: string;
-  displayName?: string;
-  email?: string;
-  joiningAs?: string;
-  avatar?: string;
-  date?: string;
-}
-
-interface Entry {
-  title: string;
-  bannerImg: string;
-  body: string;
-  category: string;
-  postedOn: number;
-  postLength: number;
-  intro: string;
-}
-
 export const ChatterProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [entry, setEntry] = useState<Entry>({
+  const [entry, setEntry] = useState<PostProps>({
     title: "",
     bannerImg: "",
     body: "",

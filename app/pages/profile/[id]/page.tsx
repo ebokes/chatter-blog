@@ -13,6 +13,7 @@ import {
   Button,
   Avatar as CAvatar,
   Center,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -36,10 +37,7 @@ import {
 import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaRegCommentDots } from "react-icons/fa";
-import { IoIosPeople } from "react-icons/io";
-import { MdOutlineArticle, MdOutlineCake } from "react-icons/md";
-import { TiGroup } from "react-icons/ti";
+import { MdOutlineCake } from "react-icons/md";
 
 const Profile = () => {
   const params = useParams();
@@ -59,15 +57,16 @@ const Profile = () => {
   } = useUpdateAvatar(userAuth?.id);
 
   const [displayName, setDisplayName] = useState("");
+  const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
   const [role, setRole] = useState("");
 
   const [initialProfile, updateInitialProfile] = useState(userAuth);
-  console.log(fileURL);
 
   useEffect(() => {
     if (userAuth) {
       setDisplayName(getCapitalizedName(userAuth.displayName) ?? "");
+      setUsername(userAuth.username ?? "");
       setBio(userAuth.bio ?? "");
       setRole(userAuth.role ?? "");
     }
@@ -82,12 +81,14 @@ const Profile = () => {
       const userRef = doc(db, "users", userAuth?.id);
       await updateDoc(userRef, {
         displayName,
+        username,
         bio,
         role,
       });
       updateInitialProfile({
         ...initialProfile,
         displayName,
+        username,
         bio,
         role,
       });
@@ -95,7 +96,7 @@ const Profile = () => {
         title: "Profile updated!",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
       window.location.reload();
@@ -104,7 +105,7 @@ const Profile = () => {
         title: "Error updating user profile",
         status: "error",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
     }
@@ -141,7 +142,6 @@ const Profile = () => {
               mx={"auto"}
               mb={"10px"}
               mt={"-60px"}
-              // bg={"white"}
               bg={colorMode === "light" ? "white" : "brand.800"}
               borderRadius={"lg"}
               flexDir={"column"}
@@ -162,13 +162,17 @@ const Profile = () => {
                   name={user?.displayName}
                   size={"2xl"}
                   src={user?.avatar}
-                  // mt={"-90px"}
                 />
               </Flex>
               <Heading fontSize={{ base: "xl", md: "2xl" }}>
                 {user?.displayName}
               </Heading>
-              <Text>{user?.role}</Text>
+              {user?.username ? (
+                <Text>@{user?.username}</Text>
+              ) : (
+                <Text>{user?.email}</Text>
+              )}
+
               <HStack>
                 <Icon as={MdOutlineCake} size="33px" />
                 <Text>Joined on {formatDate(user?.date ?? 0)}</Text>
@@ -193,30 +197,48 @@ const Profile = () => {
               mb={"60px"}
             >
               <Flex
-                flexDir={"column"}
+                // flexDir={"column"}
                 gap={"10px"}
-                w={{ base: "100%", md: "400px" }}
+                // w={{ base: "100%", md: "400px" }}
+                w={"full"}
                 bg={colorMode === "light" ? "white" : "brand.800"}
                 p={"14px"}
                 borderRadius={"lg"}
                 color={colorMode === "light" ? "#777a80" : "brand.350"}
               >
-                <HStack align={"flex-start"}>
-                  <Heading fontSize={"18px"}>Bio: </Heading>
-                  <Text>{user?.bio}</Text>
-                </HStack>
-                <HStack>
-                  <Heading fontSize={"18px"}>Posts Published: </Heading>
-                  <Text>{posts?.length} </Text>
-                </HStack>
-                <HStack>
-                  <Heading fontSize={"18px"}>Followers: </Heading>
-                  <Text>0</Text>
-                </HStack>
-                <HStack>
-                  <Heading fontSize={"18px"}>Following: </Heading>
-                  <Text>0 </Text>
-                </HStack>
+                <Stack flex={1}>
+                  <HStack align={"flex-start"}>
+                    <Heading fontSize={"18px"}>Bio: </Heading>
+                    <Text>{user?.bio}</Text>
+                  </HStack>
+                  <HStack align={"flex-start"}>
+                    <Heading fontSize={"18px"}>Occupation: </Heading>
+                    <Text>{user?.role}</Text>
+                  </HStack>
+                  <HStack>
+                    {user?.username && (
+                      <>
+                        <Heading fontSize={"18px"}>Email: </Heading>
+                        <Text>{user?.email}</Text>
+                      </>
+                    )}
+                  </HStack>
+                </Stack>
+                <Divider orientation="vertical" mx={4} />
+                <Stack flex={1}>
+                  <HStack>
+                    <Heading fontSize={"18px"}>Posts Published: </Heading>
+                    <Text>{posts?.length} </Text>
+                  </HStack>
+                  <HStack>
+                    <Heading fontSize={"18px"}>Followers: </Heading>
+                    <Text>0</Text>
+                  </HStack>
+                  <HStack>
+                    <Heading fontSize={"18px"}>Following: </Heading>
+                    <Text>0 </Text>
+                  </HStack>
+                </Stack>
               </Flex>
               <Box />
             </Flex>
@@ -264,6 +286,14 @@ const Profile = () => {
                 placeholder="Full name"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
+              />
+              <FormLabel>Username</FormLabel>
+              <Input
+                name="username"
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <FormLabel>Occupation</FormLabel>
               <Input

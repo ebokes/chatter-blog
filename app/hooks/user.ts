@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db, storage } from "../lib/firebase";
 
-export interface UserData {
+export interface UserDataProps {
   displayName?: string;
   avatar?: string;
   email?: string;
@@ -13,20 +13,19 @@ export interface UserData {
   date?: number;
   role?: string;
   bio?: string;
-  likes?: string[];
   id?: string;
   followMe?: string[];
   iFollow?: string[];
 }
 
 interface UserHookResult {
-  user: UserData | null;
+  user: UserDataProps | null;
   isLoading: boolean;
 }
 
 export function useUser(id: string): UserHookResult {
   const [isLoading, setLoading] = useState(false);
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserDataProps | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -36,7 +35,7 @@ export function useUser(id: string): UserHookResult {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          const userData = docSnap.data() as UserData;
+          const userData = docSnap.data() as UserDataProps;
           setUser(userData);
         } else {
           setUser(null);
@@ -52,12 +51,6 @@ export function useUser(id: string): UserHookResult {
   }, [id]);
 
   return { user, isLoading };
-}
-
-interface ToggleFollowProps {
-  id: string;
-  isFollowMe: boolean;
-  uid: string;
 }
 
 export function useUsers() {
@@ -100,5 +93,3 @@ export function useUpdateAvatar(uid: string) {
     fileURL: file && URL.createObjectURL(file),
   };
 }
-
-// export function useUpdateProfile(uid: string) {}

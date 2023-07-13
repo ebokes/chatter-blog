@@ -24,7 +24,7 @@ import "react-markdown-editor-lite/lib/index.css";
 import TextareaAutoSize from "react-textarea-autosize";
 import { ChatterContext } from "../context/ChatterContext";
 import { useAuth } from "../hooks/auth";
-import { useAddPost } from "../hooks/post";
+import { PostProps, useAddPost } from "../hooks/post";
 import { calculateReadTime } from "../utils/funcns";
 import Preview from "./Preview";
 
@@ -53,17 +53,6 @@ const categories = [
   { value: "culture", label: "Culture" },
 ];
 
-interface Entry {
-  uid?: string;
-  title: string;
-  bannerImg: string;
-  body: string;
-  category: string;
-  postedOn: number;
-  postLength: number;
-  intro: string;
-}
-
 const LiteEditor: React.FC = () => {
   const { entry, setEntry } = useContext(ChatterContext);
   const { colorMode } = useColorMode();
@@ -74,7 +63,7 @@ const LiteEditor: React.FC = () => {
   const { user } = useAuth();
 
   async function handlePublish(
-    entry: Entry,
+    entry: PostProps,
     event: React.MouseEvent<HTMLButtonElement>
   ) {
     event.preventDefault();

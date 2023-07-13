@@ -26,10 +26,10 @@ export interface PostProps {
   uid?: string;
   title?: string;
   bannerImg?: string;
-  body?: string;
+  body: string;
   category?: string;
-  postedOn?: number;
-  postLength?: number;
+  postedOn: number;
+  postLength: number;
   intro?: string;
   id?: string;
 }
@@ -52,10 +52,9 @@ export function useAddPost() {
         title: "Article Published Successfully!",
         status: "success",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
-      router.push("/pages/dashboard");
       window.location.reload();
     } catch (error: any) {
       toast({
@@ -63,7 +62,7 @@ export function useAddPost() {
         // description: error.message,
         status: "error",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
     } finally {
@@ -148,7 +147,7 @@ export function useDeletePost(id: string) {
         title: "Post deleted!",
         status: "info",
         isClosable: true,
-        position: "top",
+        position: "top-right",
         duration: 5000,
       });
 
@@ -185,7 +184,7 @@ export function useUploadBannerImg(id: string) {
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "top",
+        position: "top-right",
       });
 
       return;
@@ -205,7 +204,7 @@ export function useUploadBannerImg(id: string) {
     //   title: "Profile updated!",
     //   status: "success",
     //   isClosable: true,
-    //   position: "top",
+    //   position: "top-right",
     //   duration: 5000,
     // });
     setLoading(false);

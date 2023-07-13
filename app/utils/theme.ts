@@ -21,6 +21,7 @@ const theme = extendTheme({
       450: "#606477",
       460: "#334155", //floating nav ==> Dark mode
       470: "#19202a",
+      480: "#1a202c",
       500: "#ffedcc7f",
       600: "#2B6CB0",
       650: "#2c5382b7",

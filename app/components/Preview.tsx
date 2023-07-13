@@ -41,7 +41,11 @@ const Preview = () => {
                     {user?.displayName}
                   </Heading>
                   <HStack flexWrap={"wrap"}>
-                    <Text>@{user?.email}</Text>
+                    {user?.username ? (
+                      <Text>@{user?.username}</Text>
+                    ) : (
+                      <Text>@{user?.email?.split("@")[0]}</Text>
+                    )}
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
