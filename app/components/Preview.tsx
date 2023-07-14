@@ -4,6 +4,7 @@ import { ChatterContext } from "@/app/context/ChatterContext";
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   HStack,
   Heading,
@@ -60,6 +61,14 @@ const Preview = () => {
                     <HStack>
                       <Icon as={VscBook} />{" "}
                       <Text>{entry.postLength} mins read</Text>
+                    </HStack>
+                    <Box
+                      boxSize={"4px"}
+                      bg={colorMode === "light" ? "brand.800" : "brand.400"}
+                      borderRadius={"full"}
+                    />
+                    <HStack>
+                      <Button borderRadius={"2xl"}>{entry.category}</Button>
                     </HStack>
                   </HStack>
                 </Box>

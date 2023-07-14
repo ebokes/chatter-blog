@@ -18,7 +18,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import MarkdownIt from "markdown-it";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import TextareaAutoSize from "react-textarea-autosize";
@@ -27,31 +27,7 @@ import { useAuth } from "../hooks/auth";
 import { PostProps, useAddPost } from "../hooks/post";
 import { calculateReadTime } from "../utils/funcns";
 import Preview from "./Preview";
-
-const categories = [
-  { value: "technology", label: "Technology" },
-  { value: "coding", label: "Coding" },
-  { value: "programming", label: "Programming" },
-  { value: "science", label: "Science" },
-  { value: "ai", label: "AI" },
-  { value: "health", label: "Health" },
-  { value: "blockchain", label: "Blockchain" },
-  { value: "crypto", label: "Crypto" },
-  { value: "business", label: "Business" },
-  { value: "marketing", label: "Marketing" },
-  { value: "design", label: "Design" },
-  { value: "productivity", label: "Productivity" },
-  { value: "motivation", label: "Motivation" },
-  { value: "psychology", label: "Psychology" },
-  { value: "politics", label: "Politics" },
-  { value: "sports", label: "Sports" },
-  { value: "entertainment", label: "Entertainment" },
-  { value: "travel", label: "Travel" },
-  { value: "lifestyle", label: "Lifestyle" },
-  { value: "food", label: "Food" },
-  { value: "education", label: "Education" },
-  { value: "culture", label: "Culture" },
-];
+import { categories } from "../utils/constants";
 
 const LiteEditor: React.FC = () => {
   const { entry, setEntry } = useContext(ChatterContext);
@@ -61,6 +37,7 @@ const LiteEditor: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { addPost, isLoading: publishingPost } = useAddPost();
   const { user } = useAuth();
+  const [showCategory, setShowCategory] = useState(false);
 
   async function handlePublish(
     entry: PostProps,
@@ -117,12 +94,16 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleCategoryChange = (selectedCategory: any) => {
     setEntry((prevEntry) => ({
       ...prevEntry,
-      [name]: value,
+      category: selectedCategory,
     }));
+    setShowCategory(!showCategory);
+  };
+
+  const handleCategoryList = () => {
+    setShowCategory(!showCategory);
   };
 
   return (
@@ -130,9 +111,26 @@ const LiteEditor: React.FC = () => {
       <form>
         <Flex flexDir={"column"} justify={"flex-end"} w={"full"}>
           <HStack justify={"space-between"} w={"100%"}>
-            <Button onClick={onOpen}>Preview</Button>
+            <Button onClick={onOpen} colorScheme="gray">
+              Preview
+            </Button>
             {/* Publish Button */}
             <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
+              <Button
+                type="submit"
+                colorScheme="blue"
+                bg={"brand.600"}
+                color={"white"}
+                // onClick={(event) => handlePublish(entry, event)}
+                // isLoading={publishingPost}
+                // disabled={true}
+                isDisabled={true}
+                _hover={{
+                  bg: "brand.700",
+                }}
+              >
+                Save to Drafts
+              </Button>
               <Button
                 type="submit"
                 colorScheme="blue"
@@ -159,9 +157,11 @@ const LiteEditor: React.FC = () => {
             onChange={handleInputChange}
             value={entry.title}
             fontWeight={600}
-            variant={"flushed"}
+            variant={"ghost"}
             autoComplete="off"
             py={2}
+            px={0}
+            bg={"none"}
           />
           {/* Image URL */}
           <Input
@@ -173,26 +173,55 @@ const LiteEditor: React.FC = () => {
             onChange={handleInputChange}
             value={entry.bannerImg}
             autoComplete="off"
-            variant={"flushed"}
+            variant={"ghost"}
             py={2}
+            px={0}
+            bg={"none"}
           />
           {/* Categories */}
-          <Select
-            required
-            placeholder="Select Category"
-            name="category"
-            border="1px  solid"
-            borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-            value={entry.category}
-            onChange={handleCategoryChange}
-            variant={"flushed"}
-          >
-            {categories.map((category) => (
-              <option key={category.value} value={category.value}>
-                {category.label}
-              </option>
-            ))}
-          </Select>
+          <Flex my={2} gap="1rem" justify={"space-between"} direction="column">
+            <HStack align={"center"} justify={"space-between"}>
+              <Button
+                onClick={handleCategoryList}
+                cursor={"pointer"}
+                w="fit-content"
+                borderRadius="md"
+                px={4}
+                // py={1}
+                colorScheme={entry.category ? "linkedin" : "gray"}
+              >
+                {entry.category || "Select Category"}
+              </Button>
+            </HStack>
+
+            {showCategory && (
+              <Flex
+                columnGap="1.5rem"
+                flexWrap="wrap"
+                rowGap={"1rem"}
+                py="1rem"
+                h={{ base: "10rem", md: "fit-content" }}
+                overflowY="auto"
+              >
+                {categories?.map((category) => (
+                  <Button
+                    key={category.value}
+                    variant="solid"
+                    bg={colorMode === "light" ? "#f5f6f6" : "#2b2e40"}
+                    shadow={"md"}
+                    color={colorMode === "light" ? "dark" : "#d0d0d0"}
+                    px={4}
+                    py={2}
+                    borderRadius={"md"}
+                    onClick={() => handleCategoryChange(category.label)}
+                  >
+                    {category.label}
+                  </Button>
+                ))}
+              </Flex>
+            )}
+          </Flex>
+
           {/* Brief */}
           <Input
             required
@@ -203,9 +232,11 @@ const LiteEditor: React.FC = () => {
             onChange={handleInputChange}
             value={entry.intro}
             autoComplete="off"
-            variant={"flushed"}
+            variant={"ghost"}
             mb={"10px"}
             py={2}
+            px={0}
+            bg={"none"}
           />
         </Flex>
         {/* Body Text Editor */}
