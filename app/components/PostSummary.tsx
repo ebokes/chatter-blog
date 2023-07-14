@@ -10,78 +10,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { IconType } from "react-icons";
-import { IoChatbubblesOutline } from "react-icons/io5";
-import { MdInsertChartOutlined } from "react-icons/md";
-import { SlLike } from "react-icons/sl";
-
-interface PostHighlightsProps {
-  title: string;
-  count: string;
-}
-interface PostDetailProps {
-  avatar: string;
-  name: string;
-  role: string;
-  date: string;
-  title: string;
-  readTime: string;
-  intro: string;
-  image: string;
-  alt: string;
-  footer?: {
-    icon: IconType;
-    count?: number;
-  }[];
-}
-
-const PostDetail: Array<PostDetailProps> = [
-  {
-    avatar: "",
-    name: "Grace Ikpang",
-    role: "Product designer",
-    date: "May 25th, 2023",
-    title: "Starting out as a Product designer",
-    readTime: "10 mins read",
-    intro:
-      "Embarking on a journey as a product designer can be an exhilarating and fulfilling experience. As a profession that bridges the realms of art, technology, and problem-solving, product design offers an opportunity to shape the way people interact with the world around them.",
-    image: "/img.jpeg",
-    alt: "img",
-    footer: [
-      {
-        icon: IoChatbubblesOutline,
-        count: 200,
-      },
-      {
-        icon: SlLike,
-        count: 20,
-      },
-      {
-        icon: MdInsertChartOutlined,
-        count: 1280,
-      },
-    ],
-  },
-];
-
-const PostHighlights: PostHighlightsProps[] = [
-  {
-    title: "Post",
-    count: "3",
-  },
-  {
-    title: "Posts Impressions",
-    count: "2.98k",
-  },
-  {
-    title: "Profile visits",
-    count: "300",
-  },
-  {
-    title: "New followers",
-    count: "299",
-  },
-];
+import { PostDetail, PostHighlights } from "../utils/constants";
 
 const PostSummary = () => {
   return (
@@ -95,12 +24,7 @@ const PostSummary = () => {
         </Text>
       </HStack>
       {PostDetail.map((item) => (
-        <Box
-          borderTop={"3px solid #543EE0"}
-          //   borderRadius={"lg"}
-          key={item.title}
-          my={6}
-        >
+        <Box borderTop={"3px solid #543EE0"} key={item.title} my={6}>
           <Stack mt={27}>
             <Heading as="h4" size="md" fontWeight={600} mb={3}>
               Posts Highlights

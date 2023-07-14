@@ -23,11 +23,16 @@ import { usePathname } from "next/navigation";
 import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { useAuth } from "@/app/hooks/auth";
 import NavMenu from "./NavMenu";
+import { useState } from "react";
+import { MdSearch } from "react-icons/md";
+import Search from "../Search";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, isLoading, error } = useAuth();
+  const [show, setShow] = useState(false);
+  const handleToggle = () => setShow(!show);
 
   return (
     <Box
@@ -72,29 +77,43 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
-        {!user && (
-          <Button
-            aria-label="Toggle Color Mode"
-            onClick={toggleColorMode}
-            mr={5}
-            _focus={{ boxShadow: "none" }}
-            w="fit-content"
-            variant={"ghost"}
-            _hover={{ variant: "ghost" }}
-            _active={{ variant: "ghost" }}
-          >
-            {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
-          </Button>
-        )}
+        {/* {!user && (
+         
+        )} */}
         {isLoading ? null : (
           <>
+            <>
+              {show && (
+                <Box mr={"9px"}>
+                  <Search />
+                </Box>
+              )}
+            </>
             {!user ? (
               <Stack
                 flex={{ base: 1, md: 0 }}
                 justify={"flex-end"}
                 direction={"row"}
-                spacing={6}
+                spacing={5}
               >
+                <IconButton
+                  onClick={handleToggle}
+                  icon={<MdSearch size={"20px"} />}
+                  aria-label="Toggle Search Bar"
+                  variant={"ghost"}
+                  _hover={{ variant: "ghost" }}
+                />
+                <Button
+                  aria-label="Toggle Color Mode"
+                  onClick={toggleColorMode}
+                  _focus={{ boxShadow: "none" }}
+                  w="fit-content"
+                  variant={"ghost"}
+                  _hover={{ variant: "ghost" }}
+                  _active={{ variant: "ghost" }}
+                >
+                  {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
+                </Button>
                 <Center
                   fontSize={"sm"}
                   fontWeight={600}

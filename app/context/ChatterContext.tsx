@@ -10,8 +10,16 @@ export const ChatterContext = createContext<{
   entry: PostProps;
   setEntry: React.Dispatch<React.SetStateAction<PostProps>>;
   handleUserAuth: React.Dispatch<React.SetStateAction<UserDataProps | any>>;
+  searchResults: [] | any;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string | any>>;
+  setSearchResults: React.Dispatch<React.SetStateAction<[] | any>>;
   googleUser: null | any;
 }>({
+  searchResults: [],
+  searchTerm: "",
+  setSearchTerm: () => "",
+  setSearchResults: () => [],
   googleUser: null,
   handleUserAuth: () => {},
   entry: {
@@ -41,6 +49,8 @@ export const ChatterProvider = ({
     intro: "",
   });
   const [googleUser, setGoogleUser] = useState<any>(null);
+  const [searchResults, setSearchResults] = useState<PostProps[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const addUserToFirebase = async (user: any) => {
     await setDoc(doc(db, "users", user.uid), {
@@ -71,6 +81,10 @@ export const ChatterProvider = ({
         setEntry,
         googleUser,
         handleUserAuth,
+        searchResults,
+        setSearchResults,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

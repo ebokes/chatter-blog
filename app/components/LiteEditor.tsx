@@ -94,7 +94,7 @@ const LiteEditor: React.FC = () => {
     }));
   };
 
-  const handleCategoryChange = (selectedCategory: any) => {
+  const handleCategoryChange = (selectedCategory: string) => {
     setEntry((prevEntry) => ({
       ...prevEntry,
       category: selectedCategory,

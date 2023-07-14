@@ -2,21 +2,14 @@
 
 import { usePosts } from "@/app/hooks/post";
 import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Center, Flex, Text, useColorMode } from "@chakra-ui/react";
+import Link from "next/link";
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
-import Link from "next/link";
 
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
-  const { posts, isLoading } = usePosts();
+  const { posts } = usePosts();
   const sortedPosts = posts?.sort((a, b) => b.postedOn - a.postedOn);
   const recentPosts = sortedPosts?.slice(0, 5);
 

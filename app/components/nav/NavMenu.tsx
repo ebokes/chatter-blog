@@ -1,10 +1,10 @@
+import { useAuth, useLogout } from "@/app/hooks/auth";
 import {
   Box,
   Flex,
   HStack,
   Icon,
   IconButton,
-  Input,
   Menu,
   MenuButton,
   MenuDivider,
@@ -14,22 +14,20 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-// import { useAuth, useLogout } from "../hooks/auth";
-import { useAuth, useLogout } from "@/app/hooks/auth";
-import { default as Link, default as NextLink } from "next/link";
-import { FiChevronDown } from "react-icons/fi";
-import Avatar from "../Avatar";
+import { default as Link } from "next/link";
+import { useState } from "react";
 import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
+import { FiChevronDown } from "react-icons/fi";
 import { MdSearch } from "react-icons/md";
-import { useState } from "react";
+import Avatar from "../Avatar";
+import Search from "../Search";
 
 const NavMenu = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, isLoading } = useAuth();
   const { logout } = useLogout();
   const [show, setShow] = useState(false);
-
   const handleToggle = () => setShow(!show);
 
   if (!user) return <div></div>;
@@ -38,13 +36,7 @@ const NavMenu = () => {
     <>
       {show && (
         <Box mr={"9px"}>
-          <Input
-            maxW="20rem"
-            placeholder="Search Chatter..."
-            borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-            borderRadius="5px"
-            justifySelf={"flex-start"}
-          />
+          <Search />
         </Box>
       )}
       <HStack
@@ -76,7 +68,6 @@ const NavMenu = () => {
           variant={"ghost"}
           _hover={{ variant: "ghost" }}
         />
-
         <IconButton
           aria-label="Toggle Color Mode"
           onClick={toggleColorMode}

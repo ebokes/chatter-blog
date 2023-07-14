@@ -1,21 +1,17 @@
 "use client";
 
-import PostCard from "@/app/components/posts/PostCard";
 import Rightbar from "@/app/components/nav/Rightbar";
 import { usePosts } from "@/app/hooks/post";
 import { Box } from "@chakra-ui/react";
+import PostList from "@/app/components/posts/PostList";
 
 const Feed = () => {
   const { posts } = usePosts();
   return (
     <>
       <Rightbar>
-        <Box my={10}>
-          <Box>
-            {posts?.map((post) => (
-              <PostCard key={post.id} post={post} link={"feed"} />
-            ))}
-          </Box>
+        <Box my={5}>
+          <PostList posts={posts} link="feed" />
         </Box>
       </Rightbar>
     </>

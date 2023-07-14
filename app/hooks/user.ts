@@ -40,7 +40,7 @@ export function useUser(id: string): UserHookResult {
         } else {
           setUser(null);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
       } finally {
         setLoading(false);

@@ -12,7 +12,6 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ user, size }) => {
-  // if (!user) return <SkeletonCircle size="10" />;
   if (!user) {
     return null; // Return early if user is null
   }

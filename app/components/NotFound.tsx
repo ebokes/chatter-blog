@@ -1,9 +1,8 @@
 import { Box, Button, Text } from "@chakra-ui/react";
-// import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import React from "react";
 
-const NotFoundPage: React.FC = () => {
+const NotFound = () => {
   const router = useRouter();
 
   return (
@@ -33,7 +32,7 @@ const NotFoundPage: React.FC = () => {
           <li>Double-check the URL for any typos or errors.</li>
           <li>
             Go back to the{" "}
-            <Button colorScheme="blue" onClick={() => router.push("/")}>
+            <Button colorScheme="blue" onClick={() => router.back()}>
               homepage
             </Button>
             .
@@ -45,4 +44,4 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-export default NotFoundPage;
+export default NotFound;

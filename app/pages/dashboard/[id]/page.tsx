@@ -1,5 +1,3 @@
-"use client";
-
 import Post from "@/app/components/posts/Post";
 
 const ProtectedPostWrapper = () => {

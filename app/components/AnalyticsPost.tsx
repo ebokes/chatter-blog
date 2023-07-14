@@ -14,66 +14,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { VscBook } from "react-icons/vsc";
-import { IoChatbubblesOutline } from "react-icons/io5";
-import { SlLike } from "react-icons/sl";
-import { MdInsertChartOutlined } from "react-icons/md";
-import { IconType } from "react-icons";
-
-interface PostDetailProps {
-  avatar: string;
-  name: string;
-  role: string;
-  date: string;
-  title: string;
-  readTime: string;
-  intro: string;
-  image: string;
-  alt: string;
-  footer?: {
-    icon: IconType;
-    count?: number;
-  }[];
-}
-
-const PostDetail: Array<PostDetailProps> = [
-  {
-    avatar: "",
-    name: "Grace Ikpang",
-    role: "Product designer",
-    date: "May 25th, 2023",
-    title: "Starting out as a Product designer",
-    readTime: "10 mins read",
-    intro:
-      "Embarking on a journey as a product designer can be an exhilarating and fulfilling experience. As a profession that bridges the realms of art, technology, and problem-solving, product design offers an opportunity to shape the way people interact with the world around them.",
-    image: "/img.jpeg",
-    alt: "img",
-    footer: [
-      {
-        icon: IoChatbubblesOutline,
-        count: 200,
-      },
-      {
-        icon: SlLike,
-        count: 20,
-      },
-      {
-        icon: MdInsertChartOutlined,
-        count: 1280,
-      },
-    ],
-  },
-];
+import { PostDetail } from "../utils/constants";
 
 const AnalyticsPost = () => {
   return (
     <Box>
       {PostDetail.map((item) => (
-        <Box
-          borderTop={"3px solid brand.600"}
-          //   borderRadius={"lg"}
-          key={item.title}
-          mb={6}
-        >
+        <Box borderTop={"3px solid brand.600"} key={item.title} mb={6}>
           <Stack mt={27}>
             <Heading as="h4" size="lg" fontWeight={500} mb={3}>
               Posts highlights

@@ -1,6 +1,7 @@
 "use client";
 
 import { usePosts } from "@/app/hooks/post";
+import { getCapitalizedName } from "@/app/utils/funcns";
 import {
   Box,
   BoxProps,
@@ -14,59 +15,24 @@ import {
   HStack,
   Icon,
   IconButton,
-  Input,
   Skeleton,
   Stack,
   Text,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
-import { ReactNode, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ReactNode } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { IconType } from "react-icons";
-import { BsLayoutWtf, BsMoonStarsFill, BsSun } from "react-icons/bs";
-import { CiEdit } from "react-icons/ci";
+import { MdOutlineShowChart, MdPersonOutline } from "react-icons/md";
 import { FiLogOut, FiMenu } from "react-icons/fi";
-import {
-  MdInsertChartOutlined,
-  MdNotificationsNone,
-  MdOutlineBookmarks,
-  MdOutlineDrafts,
-  MdOutlineShowChart,
-  MdPersonOutline,
-  MdSearch,
-} from "react-icons/md";
-import { SlPeople } from "react-icons/sl";
+import { LinkItems } from "@/app/utils/constants";
 import { useAuth, useLogout } from "../../hooks/auth";
 import { auth } from "../../lib/firebase";
 import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { getCapitalizedName } from "@/app/utils/funcns";
-
-interface ItemProps {
-  name: string;
-  icon?: IconType;
-  href?: string;
-}
-
-const LinkItems: Array<ItemProps> = [
-  { name: "Feed", icon: BsLayoutWtf, href: "/pages/dashboard" },
-  {
-    name: "Bookmarks",
-    icon: MdOutlineBookmarks,
-    href: "/pages/dashboard/bookmarks",
-  },
-  { name: "Drafts", icon: MdOutlineDrafts, href: "/pages/dashboard/drafts" },
-  {
-    name: "Analytics",
-    icon: MdInsertChartOutlined,
-    href: "/pages/dashboard/analytics",
-  },
-];
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();

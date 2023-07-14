@@ -1,72 +1,49 @@
-import {
-  VStack,
-  Heading,
-  Input,
-  Divider,
-  Box,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { FaUser, FaBlog } from "react-icons/fa";
-import { useSearchFirebase } from "../hooks/search";
+import { useContext } from "react";
+import { ChatterContext } from "../context/ChatterContext";
+import { usePosts } from "../hooks/post";
+import { Box, Input, useColorMode } from "@chakra-ui/react";
 
-const Search = () => {
+// interface SearchProps {
+//   items: any[]; // Replace `any` with the actual type of `items`
+// }
+
+const Search: React.FC = () => {
   const { colorMode } = useColorMode();
-  const [searchTerm, setSearchTerm] = useState("");
-  const { users, posts } = useSearchFirebase(searchTerm);
+  const { posts } = usePosts();
+  const { setSearchResults, searchTerm, setSearchTerm } =
+    useContext(ChatterContext);
 
-  console.log("users", users);
-  console.log("posts", posts);
+  const handleSearch = (e: any) => {
+    const value = e.target.value;
+    setSearchTerm(value);
 
-  const handleSearchTermChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchTerm(event.target.value);
+    const filteredPosts = posts?.filter((post) => {
+      const categoryLower = post?.category?.toLowerCase();
+      const titleLower = post?.title?.toLowerCase();
+      // const authorLower = post?.author?.toLowerCase();
+      const searchLower = value.toLowerCase();
+
+      return (
+        categoryLower.includes(searchLower) ||
+        // authorLower.includes(searchLower) ||
+        titleLower.includes(searchLower)
+      );
+    });
+
+    setSearchResults(filteredPosts);
   };
 
   return (
-    <Box>
-      <VStack>
-        <Box pos={"relative"}>
-          <Input
-            maxW="20rem"
-            placeholder="Search Chatter..."
-            borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
-            borderRadius="5px"
-            justifySelf={"flex-start"}
-            value={searchTerm}
-            onChange={handleSearchTermChange}
-          />
-        </Box>
-        <Box
-          pos={"absolute"}
-          top={"50px"}
-          zIndex={"10"}
-          bg={"white"}
-          w={"200px"}
-        >
-          {searchTerm.length > 0 && (
-            <Box>
-              <Divider />
-              <Text>
-                <FaUser /> Users
-              </Text>
-              {users?.map((user) => (
-                <Text key={user.id}>{user.displayName}</Text>
-                // Render additional user details as needed
-              ))}
-              <Text>
-                <FaBlog /> Posts
-              </Text>
-              {posts?.map((post) => (
-                <Text key={post.id}>{post.title}</Text>
-                // Render additional post details as needed
-              ))}
-            </Box>
-          )}
-        </Box>
-      </VStack>
+    <Box mr={"9px"}>
+      <Input
+        maxW="20rem"
+        placeholder="Search Chatter..."
+        borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
+        borderRadius="5px"
+        justifySelf={"flex-start"}
+        onChange={handleSearch}
+        value={searchTerm}
+      />
     </Box>
   );
 };
