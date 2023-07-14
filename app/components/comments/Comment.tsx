@@ -15,13 +15,14 @@ import { useAuth } from "../../hooks/auth";
 import { useUser } from "../../hooks/user";
 import { formatDate } from "../../utils/funcns";
 import Avatar from "../Avatar";
+import { useDeleteComment } from "@/app/hooks/comments";
 
 const Comment = ({ comment }: any) => {
   const { text, date, uid, id } = comment;
   const { colorMode } = useColorMode();
   const { user, isLoading } = useUser(uid);
   const { user: userAuth, isLoading: authLoading } = useAuth();
-  // const { deleteComment, isLoading: deleteLoading } = useDeleteComment(id);
+  const { deleteComment, isLoading: deleteLoading } = useDeleteComment(id);
 
   if (isLoading || !user) return <div>Loading...</div>;
 
@@ -56,8 +57,8 @@ const Comment = ({ comment }: any) => {
             <IconButton
               ml="auto"
               aria-label="delete post"
-              // onClick={deleteComment}
-              // isLoading={deleteLoading}
+              onClick={deleteComment}
+              isLoading={deleteLoading}
               colorScheme="red"
               variant="ghost"
               icon={<FaTrash />}
