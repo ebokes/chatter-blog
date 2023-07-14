@@ -14,6 +14,7 @@ const theme = extendTheme({
       250: "#eeeded",
       300: "#F9FAFB", //Heading ==> Dark mode
       350: "#94A3B8", //Text ===> Dark mode
+      390: "#dedcdc",
       400: "#d0d0d0",
       410: "#4b5a70", //floating nav border ==> Dark mode
       420: "#f0f3f7", //floating nav border ==> Light mode
