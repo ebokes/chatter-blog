@@ -84,7 +84,7 @@ export default function Navbar() {
           <>
             <>
               {show && (
-                <Box mr={"9px"}>
+                <Box mr={{ base: "1px", md: "9px" }}>
                   <Search />
                 </Box>
               )}
@@ -94,56 +94,60 @@ export default function Navbar() {
                 flex={{ base: 1, md: 0 }}
                 justify={"flex-end"}
                 direction={"row"}
-                spacing={5}
+                spacing={{ base: 1, md: 5 }}
               >
-                <IconButton
-                  onClick={handleToggle}
-                  icon={<MdSearch size={"20px"} />}
-                  aria-label="Toggle Search Bar"
-                  variant={"ghost"}
-                  _hover={{ variant: "ghost" }}
-                />
-                <Button
-                  aria-label="Toggle Color Mode"
-                  onClick={toggleColorMode}
-                  _focus={{ boxShadow: "none" }}
-                  w="fit-content"
-                  variant={"ghost"}
-                  _hover={{ variant: "ghost" }}
-                  _active={{ variant: "ghost" }}
-                >
-                  {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
-                </Button>
-                <Center
-                  fontSize={"sm"}
-                  fontWeight={600}
-                  py={2}
-                  color={"brand.600"}
-                  border={"1px solid"}
-                  borderColor={"brand.600"}
-                  _hover={{
-                    bg: "brand.700",
-                    color: "white",
-                  }}
-                  borderRadius={"lg"}
-                  w={"90px"}
-                >
-                  <Link href={"/pages/signin"}>Sign In</Link>
+                <Center gap={{ base: 2, sm: 4 }}>
+                  <IconButton
+                    onClick={handleToggle}
+                    icon={<MdSearch size={"20px"} />}
+                    aria-label="Toggle Search Bar"
+                    variant={"ghost"}
+                    _hover={{ variant: "ghost" }}
+                  />
+                  <Button
+                    aria-label="Toggle Color Mode"
+                    onClick={toggleColorMode}
+                    _focus={{ boxShadow: "none" }}
+                    w="fit-content"
+                    variant={"ghost"}
+                    _hover={{ variant: "ghost" }}
+                    _active={{ variant: "ghost" }}
+                  >
+                    {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
+                  </Button>
                 </Center>
-                <Center
-                  display={{ base: "none", md: "inline-flex" }}
-                  fontSize={"sm"}
-                  fontWeight={600}
-                  py={2}
-                  color={"white"}
-                  bg={"brand.600"}
-                  _hover={{
-                    bg: "brand.700",
-                  }}
-                  w={"90px"}
-                  borderRadius={"lg"}
-                >
-                  <Link href={"/pages/signup"}>Sign Up</Link>
+                <Center gap={4}>
+                  <Center
+                    fontSize={"sm"}
+                    fontWeight={600}
+                    py={2}
+                    color={"brand.600"}
+                    border={"1px solid"}
+                    borderColor={"brand.600"}
+                    _hover={{
+                      bg: "brand.700",
+                      color: "white",
+                    }}
+                    borderRadius={"lg"}
+                    w={"90px"}
+                  >
+                    <Link href={"/pages/signin"}>Sign In</Link>
+                  </Center>
+                  <Center
+                    display={{ base: "none", md: "inline-flex" }}
+                    fontSize={"sm"}
+                    fontWeight={600}
+                    py={2}
+                    color={"white"}
+                    bg={"brand.600"}
+                    _hover={{
+                      bg: "brand.700",
+                    }}
+                    w={"90px"}
+                    borderRadius={"lg"}
+                  >
+                    <Link href={"/pages/signup"}>Sign Up</Link>
+                  </Center>
                 </Center>
               </Stack>
             ) : (

@@ -64,6 +64,8 @@ export const ChatterProvider = ({
       followMe: [],
       iFollow: [],
       date: Date.now(),
+      bio: "",
+      role: "",
     });
   };
 

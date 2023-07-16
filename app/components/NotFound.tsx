@@ -1,9 +1,9 @@
-import { Box, Button, Text } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React from "react";
+"use client";
+
+import { Box, Text } from "@chakra-ui/react";
 
 const NotFound = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <>
@@ -32,9 +32,9 @@ const NotFound = () => {
           <li>Double-check the URL for any typos or errors.</li>
           <li>
             Go back to the{" "}
-            <Button colorScheme="blue" onClick={() => router.back()}>
+            {/* <Button colorScheme="blue" onClick={() => router.back()}>
               homepage
-            </Button>
+            </Button> */}
             .
           </li>
           <li>Contact the website administrator for further assistance.</li>

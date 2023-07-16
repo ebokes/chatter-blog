@@ -33,6 +33,7 @@ import { auth } from "../../lib/firebase";
 import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
+import ListSkeleton from "@/app/loader/ListSkeleton";
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -146,15 +147,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             Trending Tags <Icon as={MdOutlineShowChart} />
           </Text>
           <Stack pl={"20px"} spacing={"10px"}>
-            {postsLoading && (
-              <Stack spacing={3}>
-                <Skeleton height="15px" w={"100px"} />
-                <Skeleton height="15px" w={"100px"} />
-                <Skeleton height="15px" w={"100px"} />
-                <Skeleton height="15px" w={"100px"} />
-                <Skeleton height="15px" w={"100px"} />
-              </Stack>
-            )}
+            {postsLoading && <ListSkeleton />}
             {recentCategories.map((item: any) => (
               <Box key={item}>
                 {/* href={`/pages/categories/${posts?.id}`} */}
