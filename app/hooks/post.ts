@@ -32,6 +32,7 @@ export interface PostProps {
   postLength: number;
   intro?: string;
   id?: string;
+  bookmarks?: string[];
 }
 
 export function useAddPost() {
@@ -47,6 +48,7 @@ export function useAddPost() {
         ...post,
         id,
         likes: [],
+        bookmarks: [],
       });
       toast({
         title: "Article Published Successfully!",
