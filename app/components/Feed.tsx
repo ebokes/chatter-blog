@@ -26,6 +26,8 @@ const Feed = () => {
     authUser?.id
   );
   const { colorMode } = useColorMode();
+  const sortedPosts = posts?.sort((a, b) => b.postedOn - a.postedOn);
+  const recentPosts = sortedPosts?.slice(0, 5);
 
   if (authLoading) return <Loading />;
 
@@ -115,7 +117,7 @@ const Feed = () => {
           </TabPanel>
           <TabPanel p={0}>
             <PostList
-              posts={posts}
+              posts={recentPosts}
               isLoading={postsLoading}
               link={"dashboard"}
             />

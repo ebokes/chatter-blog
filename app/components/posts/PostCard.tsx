@@ -40,7 +40,11 @@ const PostCard = ({ post, link }: any) => {
           <Link href={`/pages/${link}/${post.id}`}>
             <Flex flexDir={{ base: "column-reverse", lg: "row" }} gap={4}>
               <Stack flex={1} mr={{ base: "0", lg: "22px" }}>
-                <Heading fontWeight={500} fontSize={"24px"} mt={"10px"}>
+                <Heading
+                  fontWeight={500}
+                  fontSize={{ base: "20px", md: "24px" }}
+                  mt={"10px"}
+                >
                   {post?.title}
                 </Heading>
                 <HStack>
