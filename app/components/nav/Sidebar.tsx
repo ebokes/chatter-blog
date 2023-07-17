@@ -34,11 +34,14 @@ import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
 import ListSkeleton from "@/app/loader/ListSkeleton";
+import SignInRequired from "../SignInRequired";
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
   const [user, loading, error] = useAuthState(auth);
+
+  // if (!user) return <SignInRequired />;
 
   if (error) return <Text>Oops, something went wrong</Text>;
   if (loading) return <Loading />;

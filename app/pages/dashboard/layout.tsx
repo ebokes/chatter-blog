@@ -1,9 +1,8 @@
 import Sidebar from "@/app/components/nav/Sidebar";
-import React from "react";
 
 export const metadata = {
-  title: "Dashboard",
-  description: "Your Backend Dashboard",
+  title: "Blog Feed",
+  description: "Latest blog posts from our community",
 };
 
 export default async function DashboardLayout({

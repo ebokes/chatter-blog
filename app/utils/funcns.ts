@@ -21,3 +21,8 @@ export const getCapitalizedName = (text: string) => {
 export const removeSpaces = (string: string) => {
   return string.replace(/\s/g, "");
 };
+
+export const sortPost = (posts: any) => {
+  const sortedPosts = posts?.sort((a: any, b: any) => b.postedOn - a.postedOn);
+  return sortedPosts?.slice(0, 5);
+};

@@ -1,20 +1,12 @@
-"use client";
+import LiteEditor from "@/app/pages/dashboard/write/LiteEditor";
 
-import LiteEditor from "@/app/components/LiteEditor";
-import { Flex, Stack } from "@chakra-ui/react";
-import "firebase/firestore";
-import React from "react";
+export const metadata = {
+  title: "Write a New Post",
+  description: "Start crafting your blog post",
+};
 
 const Write = (): React.JSX.Element => {
-  return (
-    <>
-      <Stack maxW={"854px"} mx={"auto"} my={6} p={{ base: 0, md: 5 }}>
-        <Flex pos={"relative"}>
-          <LiteEditor />
-        </Flex>
-      </Stack>
-    </>
-  );
+  return <LiteEditor />;
 };
 
 export default Write;
