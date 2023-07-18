@@ -1,4 +1,4 @@
-import BookmarksComp from "./BookmarksComp";
+import BookmarksPage from "./BookmarksPage";
 
 export const metadata = {
   title: "Bookmarks",
@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 const Bookmarks = (): React.JSX.Element => {
-  return <BookmarksComp />;
+  return <BookmarksPage />;
 };
 
 export default Bookmarks;

@@ -1,4 +1,4 @@
-import DraftsComp from "./DraftsComp";
+import DraftsPage from "./DraftsPage";
 
 export const metadata = {
   title: "Drafts",
@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 const page = () => {
-  return <DraftsComp />;
+  return <DraftsPage />;
 };
 
 export default page;

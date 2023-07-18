@@ -1,3 +1,5 @@
+"use client";
+
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
