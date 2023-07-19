@@ -25,6 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export const Profile = () => {
+const Profile = () => {
   return <ProfilePage />;
 };
+
+export default Profile;
