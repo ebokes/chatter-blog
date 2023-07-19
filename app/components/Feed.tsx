@@ -18,6 +18,7 @@ import { useAuth } from "../hooks/auth";
 import { usePosts, usePostsUid } from "../hooks/post";
 import Loading from "../loader/Loading";
 import PostList from "./posts/PostList";
+import { sortPost } from "../utils/funcns";
 
 const Feed = () => {
   const { posts, isLoading: postsLoading } = usePosts();
@@ -26,8 +27,7 @@ const Feed = () => {
     authUser?.id
   );
   const { colorMode } = useColorMode();
-  const sortedPosts = posts?.sort((a, b) => b.postedOn - a.postedOn);
-  const recentPosts = sortedPosts?.slice(0, 5);
+  const recentPosts = sortPost(posts);
 
   if (authLoading) return <Loading />;
 

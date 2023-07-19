@@ -1,9 +1,12 @@
-"use client";
+import DraftsPage from "./DraftsPage";
 
-import { Center } from "@chakra-ui/react";
+export const metadata = {
+  title: "Drafts",
+  description: "Your unfinished blog posts",
+};
 
 const page = () => {
-  return <Center h={"88vh"}>Coming soon ...</Center>;
+  return <DraftsPage />;
 };
 
 export default page;

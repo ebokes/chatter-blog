@@ -10,7 +10,6 @@ interface Props {
 }
 
 const SessionProvider = ({ children, session }: Props) => {
-  console.log(session);
   return <Provider session={session}>{children}</Provider>;
 };
 
