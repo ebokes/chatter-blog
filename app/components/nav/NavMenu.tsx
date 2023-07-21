@@ -87,13 +87,8 @@ const NavMenu = () => {
             >
               <HStack>
                 <Box w={"32px"}>
-                  {isLoading ? (
-                    <SkeletonCircle size="32px" />
-                  ) : (
-                    <Avatar user={user} size="sm" />
-                  )}
+                  <Avatar user={user} size="sm" />
                 </Box>
-                {/* <Icon as={ChevronDownIcon} /> */}
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
                 </Box>
