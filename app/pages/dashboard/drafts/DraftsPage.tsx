@@ -33,7 +33,6 @@ const DraftsPage = () => {
         </Stack>
       </Flex>
       <Box bg={colorMode === "light" ? "white" : "gray.700"} rounded="lg" p={4}>
-        {/* <Text>Coming soon...</Text> */}
         <PostList posts={posts} link="feed" />
       </Box>
     </Box>
