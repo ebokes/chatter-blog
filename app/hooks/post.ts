@@ -1,3 +1,5 @@
+"use client";
+
 import { useToast } from "@chakra-ui/react";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { uuidv4 } from "@firebase/util";
@@ -26,10 +28,10 @@ export interface PostProps {
   uid?: string;
   title?: string;
   bannerImg?: string;
-  body: string;
+  body?: string;
   category?: string;
-  postedOn: number;
-  postLength: number;
+  postedOn?: number;
+  postLength?: number;
   intro?: string;
   id?: string;
   bookmarks?: string[];
