@@ -71,6 +71,7 @@ const PostPage = () => {
                       borderRadius={"full"}
                     />
                     <Text>{formatDate(currentPost?.postedOn)}</Text>
+
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
@@ -80,9 +81,11 @@ const PostPage = () => {
                       <Icon as={VscBook} />{" "}
                       <Text>{currentPost?.postLength} mins read</Text>
                     </HStack>
-                    <CategoryBtn>
-                      {getCapitalizedName(currentPost?.category)}
-                    </CategoryBtn>
+                    <Link href={`/pages/categories/${currentPost?.category}`}>
+                      <CategoryBtn>
+                        {getCapitalizedName(currentPost?.category)}
+                      </CategoryBtn>
+                    </Link>
                   </HStack>
                 </Box>
               </Flex>

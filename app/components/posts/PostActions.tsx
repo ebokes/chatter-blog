@@ -44,7 +44,9 @@ const PostActions = ({ post, link }: any) => {
 
   return (
     <Flex justify={"space-between"}>
-      <CategoryBtn>{getCapitalizedName(post?.category)}</CategoryBtn>
+      <Link href={`/pages/categories/${post?.category}`}>
+        <CategoryBtn>{getCapitalizedName(post?.category)}</CategoryBtn>
+      </Link>
       <HStack gap={"20px"} w={"full"} justify={"flex-end"}>
         <HStack spacing={"1px"}>
           <Tooltip label="Like" aria-label="Like" hasArrow>

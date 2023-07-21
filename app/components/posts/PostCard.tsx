@@ -21,7 +21,7 @@ const PostCard = ({ post, link }: any) => {
 
   return (
     <Box
-      border={"1px solid "}
+      border={"1px solid"}
       borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
       borderRadius={"5px"}
       mb={6}

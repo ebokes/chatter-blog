@@ -2,7 +2,6 @@
 
 import Rightbar from "@/app/components/nav/Rightbar";
 import { usePosts } from "@/app/hooks/post";
-import { Box } from "@chakra-ui/react";
 import PostList from "@/app/components/posts/PostList";
 
 export const metadata = {
@@ -13,13 +12,9 @@ export const metadata = {
 const FeedComp = () => {
   const { posts } = usePosts();
   return (
-    <>
-      <Rightbar>
-        <Box my={5}>
-          <PostList posts={posts} link="feed" />
-        </Box>
-      </Rightbar>
-    </>
+    <Rightbar>
+      <PostList posts={posts} link="feed" title={"Feed"} />
+    </Rightbar>
   );
 };
 

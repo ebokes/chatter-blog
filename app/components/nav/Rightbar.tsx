@@ -1,17 +1,27 @@
 "use client";
 
-import { usePosts } from "@/app/hooks/post";
-import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
-import { Box, Center, Flex, Text, useColorMode } from "@chakra-ui/react";
+import { PostProps, usePosts } from "@/app/hooks/post";
+import {
+  getCapitalizedName,
+  sortPost,
+  formatPostedOn,
+} from "@/app/utils/funcns";
+import {
+  Box,
+  Center,
+  Flex,
+  Skeleton,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
 
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
-  const { posts } = usePosts();
-  const sortedPosts = posts?.sort((a, b) => b.postedOn - a.postedOn);
-  const recentPosts = sortedPosts?.slice(0, 5);
+  const { posts, isLoading } = usePosts();
+  const recentPosts = sortPost(posts);
 
   return (
     <>
@@ -52,9 +62,6 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
               className={"hide-scrollbar"}
             >
               <Flex direction="column" align="center" mb="8">
-                {/* <Text fontSize="xl" fontWeight="bold">
-                  Rightbars
-                </Text> */}
                 <Text
                   fontSize="sm"
                   color={colorMode === "light" ? "brand.900" : "brand.350"}
@@ -67,39 +74,39 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                   Top Categories
                 </Text>
                 <Flex gap={2} flexWrap={"wrap"}>
-                  {Array.from(
-                    new Set(
-                      posts?.map((post) => getCapitalizedName(post.category))
+                  {Array.from(new Set(posts?.map((post) => post.category))).map(
+                    (category) => (
+                      <Center
+                        px={3}
+                        py={"4px"}
+                        h={"full"}
+                        borderRadius={"3xl"}
+                        key={category}
+                        display="block"
+                        mb="1"
+                        bg="blue.500"
+                        color="white"
+                        fontSize={"sm"}
+                        _hover={{
+                          textDecoration: "none",
+                          bg: "blue.400",
+                          transform: "scale(1.05)",
+                        }}
+                        transition={"all 0.2s ease-in-out"}
+                      >
+                        <Link href={`/pages/categories/${category}`}>
+                          {getCapitalizedName(category)}
+                        </Link>
+                      </Center>
                     )
-                  ).map((category) => (
-                    <Center
-                      px={3}
-                      py={"4px"}
-                      h={"full"}
-                      borderRadius={"3xl"}
-                      key={category}
-                      display="block"
-                      mb="1"
-                      bg="blue.500"
-                      color="white"
-                      fontSize={"sm"}
-                      _hover={{
-                        textDecoration: "none",
-                        bg: "blue.400",
-                        transform: "scale(1.05)",
-                      }}
-                      transition={"all 0.2s ease-in-out"}
-                    >
-                      <Link href="/pages/feed">{category}</Link>
-                    </Center>
-                  ))}
+                  )}
                 </Flex>
               </Box>
               <Box mt="8">
                 <Text fontSize="md" fontWeight="bold" mb="4">
                   Recent Posts
                 </Text>
-                {recentPosts?.map((post) => (
+                {recentPosts?.map((post: PostProps) => (
                   <Box
                     mb="2"
                     key={post.title}
@@ -113,19 +120,18 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                     borderRadius={"lg"}
                     p={2}
                   >
-                    {/* <Skeleton isLoaded={!isLoading}> */}
-                    <Link href={`/pages/feed/${post.id}`}>{post.title}</Link>
-                    {/* </Skeleton> */}
+                    <Skeleton isLoaded={!isLoading}>
+                      <Link href={`/pages/feed/${post.id}`}>{post.title}</Link>
+                    </Skeleton>
                     <Text
                       fontSize="sm"
                       color={colorMode === "light" ? "brand.900" : "brand.350"}
                     >
-                      {formatDate(post.postedOn)}
+                      {formatPostedOn(post?.postedOn)}
                     </Text>
                   </Box>
                 ))}
               </Box>
-              <Box>{/* <Card /> */}</Box>
             </Box>
           </Box>
         </Flex>
