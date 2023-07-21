@@ -1,11 +1,8 @@
 "use client";
 
-import { ReactNode } from "react";
-
 import {
   Box,
   Container,
-  Flex,
   Heading,
   Link,
   SimpleGrid,

@@ -1,13 +1,5 @@
 "use client";
 
-import Navbar from "@/app/components/nav/Navbar";
-import PostList from "@/app/components/posts/PostList";
-import { useAuth } from "@/app/hooks/auth";
-import { usePostsUid } from "@/app/hooks/post";
-import { useUpdateAvatar, useUser } from "@/app/hooks/user";
-import { db } from "@/app/lib/firebase";
-import Loading from "@/app/loader/Loading";
-import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
 import {
   Box,
   Button,
@@ -32,22 +24,26 @@ import {
   Text,
   useColorMode,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
-import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MdOutlineCake } from "react-icons/md";
+import Navbar from "@/app/components/nav/Navbar";
+import PostList from "@/app/components/posts/PostList";
+import { useAuth } from "@/app/hooks/auth";
+import { usePostsUid } from "@/app/hooks/post";
+import { useProfileEdit, useUpdateAvatar, useUser } from "@/app/hooks/user";
+import Loading from "@/app/loader/Loading";
+import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
 
 const ProfilePage = () => {
   const { colorMode } = useColorMode();
-  const params = useParams();
-  const { id } = params;
+  const { id } = useParams();
   const { user, isLoading } = useUser(id);
   const { user: userAuth, isLoading: authLoading } = useAuth();
-  const toast = useToast();
   const { posts, isLoading: postsLoading } = usePostsUid(id);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isEditing, handleUserEdit } = useProfileEdit();
 
   const {
     setFile,
@@ -61,8 +57,6 @@ const ProfilePage = () => {
   const [bio, setBio] = useState("");
   const [role, setRole] = useState("");
 
-  const [initialProfile, updateInitialProfile] = useState(userAuth);
-
   useEffect(() => {
     if (userAuth) {
       setDisplayName(getCapitalizedName(userAuth.displayName) ?? "");
@@ -72,49 +66,14 @@ const ProfilePage = () => {
     }
   }, [userAuth]);
 
-  function handleChange(e: any) {
+  const handleChange = (e: any) => {
     setFile(e.target.files[0]);
-  }
-
-  const handleUserEdit = async () => {
-    try {
-      const userRef = doc(db, "users", userAuth?.id);
-      await updateDoc(userRef, {
-        displayName,
-        username,
-        bio,
-        role,
-      });
-      updateInitialProfile({
-        ...initialProfile,
-        displayName,
-        username,
-        bio,
-        role,
-      });
-      toast({
-        title: "Profile updated!",
-        status: "success",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-      window.location.reload();
-    } catch (error) {
-      toast({
-        title: "Error updating user profile",
-        status: "error",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-    }
   };
 
-  const handleSave = () => {
-    updateAvatar();
+  const handleSave = async () => {
+    await updateAvatar();
     onClose();
-    handleUserEdit();
+    await handleUserEdit(userAuth, displayName, username, bio, role);
   };
 
   if (isLoading || !user) {
@@ -198,9 +157,7 @@ const ProfilePage = () => {
               mb={"60px"}
             >
               <Flex
-                // flexDir={"column"}
                 gap={"10px"}
-                // w={{ base: "100%", md: "400px" }}
                 w={"full"}
                 bg={colorMode === "light" ? "white" : "brand.800"}
                 p={"14px"}
@@ -267,12 +224,10 @@ const ProfilePage = () => {
             <ModalCloseButton />
             <ModalBody>
               <Flex gap={3}>
-                {/* <Avatar user={user} size={"lg"} /> */}
                 <CAvatar
                   name={user?.displayName}
                   size={"lg"}
                   src={fileURL ?? user?.avatar}
-                  // mt={"-90px"}
                 />
                 <FormControl>
                   <FormLabel>Avatar</FormLabel>
@@ -281,7 +236,6 @@ const ProfilePage = () => {
               </Flex>
               <FormLabel>Full name</FormLabel>
               <Input
-                // name={userProfile?.displayName}
                 name="displayName"
                 type="text"
                 placeholder="Full name"
@@ -302,14 +256,12 @@ const ProfilePage = () => {
                 placeholder="Occupation"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                // name={inputedUserProfile?.occupation}
                 name="role"
               />
 
               <FormLabel>Bio</FormLabel>
               <Input
                 name="bio"
-                // name={bio}
                 type="text"
                 placeholder="Tell us about yourself"
                 value={bio}
@@ -327,7 +279,7 @@ const ProfilePage = () => {
                 colorScheme="blue"
                 variant="solid"
                 onClick={handleSave}
-                isLoading={fileLoading}
+                isLoading={fileLoading || isEditing}
               >
                 Save
               </Button>
