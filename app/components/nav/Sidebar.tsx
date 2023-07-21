@@ -15,7 +15,6 @@ import {
   HStack,
   Icon,
   IconButton,
-  Skeleton,
   Stack,
   Text,
   useColorMode,
@@ -34,7 +33,6 @@ import Loading from "../../loader/Loading";
 import DashboardWrapper from "../DashboardWrapper";
 import NavMenu from "./NavMenu";
 import ListSkeleton from "@/app/loader/ListSkeleton";
-import SignInRequired from "../SignInRequired";
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -103,7 +101,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       borderRight="1px"
       borderRightColor={colorMode === "light" ? "brand.400" : "brand.450"}
       w={{ base: "full", md: "240px" }}
-      // w="230px"
       pos="fixed"
       right={0}
       left={0}
@@ -153,10 +150,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             {postsLoading && <ListSkeleton />}
             {recentCategories.map((item: any) => (
               <Box key={item}>
-                {/* href={`/pages/categories/${posts?.id}`} */}
-                <NavItem href={"/pages/dashboard"}>
+                <Link href={`/pages/categories/${item}`}>
                   {getCapitalizedName(item)}
-                </NavItem>
+                </Link>
               </Box>
             ))}
           </Stack>
