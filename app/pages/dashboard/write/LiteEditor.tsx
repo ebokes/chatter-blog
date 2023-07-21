@@ -14,7 +14,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Stack,
   useColorMode,
   useDisclosure,
@@ -85,7 +84,7 @@ const LiteEditor: React.FC = () => {
   useEffect(() => {
     setEntry((prevEntry) => ({
       ...prevEntry,
-      postLength: calculateReadTime(entry.body),
+      postLength: calculateReadTime(entry?.body ?? ""),
     }));
   }, [entry.body, setEntry]);
 
