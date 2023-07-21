@@ -26,7 +26,7 @@ import "react-markdown-editor-lite/lib/index.css";
 import TextareaAutoSize from "react-textarea-autosize";
 import { ChatterContext } from "../../../context/ChatterContext";
 import { useAuth } from "../../../hooks/auth";
-import { PostProps, useAddPost } from "../../../hooks/post";
+import { PostProps, useAddPost, useSavePost } from "../../../hooks/post";
 import { calculateReadTime } from "../../../utils/funcns";
 import Preview from "../../../components/Preview";
 import { categories } from "../../../utils/constants";
@@ -38,6 +38,7 @@ const LiteEditor: React.FC = () => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { addPost, isLoading: publishingPost } = useAddPost();
+  const { savePost, isLoading: SavingPost } = useSavePost();
   const { user } = useAuth();
   const [showCategory, setShowCategory] = useState(false);
 
@@ -72,6 +73,24 @@ const LiteEditor: React.FC = () => {
         intro: entry.intro,
       });
     }
+  }
+  async function handleSave(
+    entry: PostProps,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) {
+    event.preventDefault();
+
+    savePost({
+      uid: user?.id,
+      title: entry.title,
+      bannerImg: entry.bannerImg,
+      body: entry.body,
+      category: entry.category,
+      postLength: entry.postLength,
+      postedOn: Date.now(),
+      intro: entry.intro,
+    });
+    // }
   }
 
   const handleEditorChange = ({ text }: { text: string }) => {
@@ -125,10 +144,10 @@ const LiteEditor: React.FC = () => {
                     colorScheme="blue"
                     bg={"brand.600"}
                     color={"white"}
-                    // onClick={(event) => handlePublish(entry, event)}
-                    // isLoading={publishingPost}
+                    onClick={(event) => handleSave(entry, event)}
+                    isLoading={SavingPost}
                     // disabled={true}
-                    isDisabled={true}
+                    // isDisabled={true}
                     _hover={{
                       bg: "brand.700",
                     }}
