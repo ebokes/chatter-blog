@@ -76,10 +76,6 @@ export default function Navbar() {
             <DesktopNav />
           </Flex>
         </Flex>
-
-        {/* {!user && (
-         
-        )} */}
         {isLoading ? null : (
           <>
             <>

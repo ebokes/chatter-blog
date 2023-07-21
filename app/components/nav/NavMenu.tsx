@@ -22,6 +22,7 @@ import { FiChevronDown } from "react-icons/fi";
 import { MdSearch } from "react-icons/md";
 import Avatar from "../Avatar";
 import Search from "../Search";
+import NavMenuSkeleton from "@/app/loader/NavMenuSkeleton";
 
 const NavMenu = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -30,7 +31,7 @@ const NavMenu = () => {
   const [show, setShow] = useState(false);
   const handleToggle = () => setShow(!show);
 
-  if (!user) return <div></div>;
+  if (!user || isLoading) return <NavMenuSkeleton />;
 
   return (
     <>
@@ -86,13 +87,8 @@ const NavMenu = () => {
             >
               <HStack>
                 <Box w={"32px"}>
-                  {isLoading ? (
-                    <SkeletonCircle size="32px" />
-                  ) : (
-                    <Avatar user={user} size="sm" />
-                  )}
+                  <Avatar user={user} size="sm" />
                 </Box>
-                {/* <Icon as={ChevronDownIcon} /> */}
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
                 </Box>
