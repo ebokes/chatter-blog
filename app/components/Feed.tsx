@@ -18,7 +18,6 @@ import { useAuth } from "../hooks/auth";
 import { usePosts, usePostsUid } from "../hooks/post";
 import Loading from "../loader/Loading";
 import PostList from "./posts/PostList";
-import { sortPost } from "../utils/funcns";
 
 const Feed = () => {
   const { posts, isLoading: postsLoading } = usePosts();
@@ -27,7 +26,6 @@ const Feed = () => {
     authUser?.id
   );
   const { colorMode } = useColorMode();
-  const recentPosts = sortPost(posts);
 
   if (authLoading) return <Loading />;
 
@@ -117,7 +115,7 @@ const Feed = () => {
           </TabPanel>
           <TabPanel p={0}>
             <PostList
-              posts={recentPosts}
+              posts={posts}
               isLoading={postsLoading}
               link={"dashboard"}
             />

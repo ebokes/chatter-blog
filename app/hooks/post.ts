@@ -30,7 +30,7 @@ export interface PostProps {
   bannerImg?: string;
   body?: string;
   category?: string;
-  postedOn?: number;
+  postedOn?: number | Date;
   postLength?: number;
   intro?: string;
   id?: string;
@@ -40,7 +40,6 @@ export interface PostProps {
 export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
   const toast = useToast();
-  const router = useRouter();
 
   async function addPost(post: PostProps) {
     setLoading(true);

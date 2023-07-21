@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Button,
   Flex,
   Heading,
   HStack,
@@ -10,9 +9,9 @@ import {
 } from "@chakra-ui/react";
 import Avatar from "../Avatar";
 import Link from "next/link";
-import { formatDate } from "@/app/utils/funcns";
 import { useUser } from "@/app/hooks/user";
 import PostHeaderSkeleton from "@/app/loader/PostHeaderSkeleton";
+import { formatDate } from "@/app/utils/funcns";
 
 interface PostHeaderProps {
   post: {
