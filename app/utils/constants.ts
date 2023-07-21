@@ -137,3 +137,38 @@ export const PostHighlights: PostHighlightsProps[] = [
     count: "299",
   },
 ];
+
+export const footer = [
+  {
+    title: "Product",
+    child: [
+      { item: "Overview", link: "#" },
+      { item: "Features", link: "#" },
+      { item: "Pricing", link: "#" },
+    ],
+  },
+  {
+    title: "Company",
+    child: [
+      { item: "About", link: "#" },
+      { item: "Careers", link: "#" },
+      { item: "Contact", link: "#" },
+    ],
+  },
+  {
+    title: "Support",
+    child: [
+      { item: "Terms of Service", link: "#" },
+      { item: "Legal", link: "#" },
+      { item: "Privacy Policy", link: "#" },
+    ],
+  },
+  {
+    title: "Follow Us",
+    child: [
+      { item: "Facebook", link: "#" },
+      { item: "Twitter", link: "#" },
+      { item: "LinkedIn", link: "#" },
+    ],
+  },
+];
