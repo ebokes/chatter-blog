@@ -17,7 +17,7 @@ import Image from "next/image";
 import { useContext } from "react";
 import { VscBook } from "react-icons/vsc";
 import { useAuth } from "../hooks/auth";
-import { formatDate } from "../utils/funcns";
+import { formatDate, formatPostedOn } from "../utils/funcns";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 
 const Preview = () => {
@@ -52,7 +52,7 @@ const Preview = () => {
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
                       borderRadius={"full"}
                     />
-                    <Text>{formatDate(entry.postedOn)}</Text>
+                    <Text>{formatPostedOn(entry?.postedOn)}</Text>
                     <Box
                       boxSize={"4px"}
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
@@ -95,7 +95,7 @@ const Preview = () => {
                 <Heading fontWeight={700} fontSize={"34px"} my={"30px"}>
                   {entry.title}
                 </Heading>
-                <MarkdownRenderer markdownContent={entry?.body} />
+                <MarkdownRenderer markdownContent={entry?.body ?? ""} />
                 {/* <ReactMarkdown>{entry?.body}</ReactMarkdown> */}
               </Stack>
             </Box>
