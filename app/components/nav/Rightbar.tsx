@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
+import CategoriesSkeleton from "@/app/loader/CategoriesSkeleton";
 
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
@@ -73,9 +74,13 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                 <Text fontSize="md" fontWeight="bold" mb="4">
                   Top Categories
                 </Text>
-                <Flex gap={2} flexWrap={"wrap"}>
-                  {Array.from(new Set(posts?.map((post) => post.category))).map(
-                    (category) => (
+                {isLoading ? (
+                  <CategoriesSkeleton />
+                ) : (
+                  <Flex gap={2} flexWrap={"wrap"}>
+                    {Array.from(
+                      new Set(posts?.map((post) => post.category))
+                    ).map((category) => (
                       <Center
                         px={3}
                         py={"4px"}
@@ -94,13 +99,15 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                         }}
                         transition={"all 0.2s ease-in-out"}
                       >
-                        <Link href={`/pages/categories/${category}`}>
-                          {getCapitalizedName(category)}
-                        </Link>
+                        <Skeleton isLoaded={!isLoading}>
+                          <Link href={`/pages/categories/${category}`}>
+                            {getCapitalizedName(category)}
+                          </Link>
+                        </Skeleton>
                       </Center>
-                    )
-                  )}
-                </Flex>
+                    ))}
+                  </Flex>
+                )}
               </Box>
               <Box mt="8">
                 <Text fontSize="md" fontWeight="bold" mb="4">

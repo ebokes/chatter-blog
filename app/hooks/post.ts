@@ -76,6 +76,45 @@ export function useAddPost() {
   return { addPost, isLoading };
 }
 
+export function useSavePost() {
+  const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
+
+  async function savePost(post: PostProps) {
+    setLoading(true);
+    try {
+      const id = uuidv4();
+      await setDoc(doc(db, "drafts", id), {
+        ...post,
+        id,
+        likes: [],
+        bookmarks: [],
+      });
+      toast({
+        title: "Article Saved Successfully!",
+        status: "success",
+        isClosable: true,
+        position: "top-right",
+        duration: 5000,
+      });
+      window.location.reload();
+    } catch (error: any) {
+      toast({
+        title: "An error occurred",
+        // description: error.message,
+        status: "error",
+        isClosable: true,
+        position: "top-right",
+        duration: 5000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return { savePost, isLoading };
+}
+
 export function usePost(id: string) {
   const q = doc(db, "articles", id);
   const [post, isLoading] = useDocumentData(q);
@@ -161,6 +200,18 @@ export function useDeletePost(id: string) {
   return { deletePost, isLoading };
 }
 
+export function useDrafts(uid: string | null = null) {
+  const q = query(
+    collection(db, "drafts"),
+    orderBy("postedOn", "desc"),
+    where("uid", "==", uid)
+  );
+
+  const [posts, isLoading, error] = useCollectionData(q);
+  if (error) throw error;
+  return { posts, isLoading };
+}
+
 export function usePostCategory(category: string) {
   const q = query(
     collection(db, "articles"),
@@ -176,8 +227,6 @@ export function useUploadBannerImg(id: string) {
   const [isLoading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const toast = useToast();
-  const router = useRouter();
-  // const navigate = useNavigate();
 
   async function uploadBannerImg() {
     if (!file) {

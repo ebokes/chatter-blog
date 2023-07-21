@@ -8,10 +8,15 @@ import { Flex, HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
-import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
+import { FaComment, FaRegComment } from "react-icons/fa";
 import CategoryBtn from "../CategoryBtn";
 import { useToggleBookmark } from "@/app/hooks/bookmarks";
-import { BsBookmarkPlus, BsFillBookmarkCheckFill } from "react-icons/bs";
+import {
+  BsBookmarkPlus,
+  BsFillBookmarkCheckFill,
+  BsTrash,
+} from "react-icons/bs";
+import { LuEdit } from "react-icons/lu";
 
 const PostActions = ({ post, link }: any) => {
   const { likes, id, uid, bookmarks } = post;
@@ -48,7 +53,10 @@ const PostActions = ({ post, link }: any) => {
         <CategoryBtn>{getCapitalizedName(post?.category)}</CategoryBtn>
       </Link>
       <HStack gap={"20px"} w={"full"} justify={"flex-end"}>
-        <HStack spacing={"1px"}>
+        <HStack
+          spacing={"1px"}
+          hidden={path.includes("pages/dashboard/drafts")}
+        >
           <Tooltip label="Like" aria-label="Like" hasArrow>
             <IconButton
               onClick={handleToggleLike}
@@ -61,7 +69,10 @@ const PostActions = ({ post, link }: any) => {
           </Tooltip>
           <Text>{likes?.length}</Text>
         </HStack>
-        <HStack spacing={"1px"}>
+        <HStack
+          spacing={"1px"}
+          hidden={path.includes("pages/dashboard/drafts")}
+        >
           <Tooltip label="Comment" aria-label="Comment" hasArrow>
             <Link href={`/pages/${link}/${post.id}`}>
               <IconButton
@@ -76,9 +87,23 @@ const PostActions = ({ post, link }: any) => {
           </Tooltip>
           <Text>{comments?.length}</Text>
         </HStack>
+        <HStack hidden={!path.includes("pages/dashboard/drafts")}>
+          <Tooltip label="Edit post" aria-label="Edit post" hasArrow>
+            <IconButton
+              aria-label="edit"
+              icon={<LuEdit />}
+              size="md"
+              colorScheme="blue"
+              variant="ghost"
+              isRound
+              isDisabled
+            />
+          </Tooltip>
+        </HStack>
         {!userLoading &&
           user?.id === uid &&
-          path.includes("/pages/profile/") && (
+          (path.includes("/pages/profile/") ||
+            path.includes("pages/dashboard/drafts")) && (
             <HStack spacing={"1px"}>
               <Tooltip label="Delete post" aria-label="Delete post" hasArrow>
                 <IconButton
@@ -89,13 +114,14 @@ const PostActions = ({ post, link }: any) => {
                   size="md"
                   colorScheme="red"
                   variant="ghost"
-                  icon={<FaTrash />}
+                  icon={<BsTrash />}
                   isRound
                 />
               </Tooltip>
             </HStack>
           )}
-        <HStack>
+
+        <HStack hidden={path.includes("pages/dashboard/drafts")}>
           <Tooltip label="Bookmark" aria-label="Bookmark" hasArrow>
             <IconButton
               onClick={handleToggleBookmark}
