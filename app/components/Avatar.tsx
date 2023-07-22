@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar as ChakraAvatar, SkeletonCircle } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";

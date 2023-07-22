@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Flex, Heading, Text, useColorMode } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import PostCard from "./PostCard";

@@ -89,7 +89,6 @@ const ProfilePage = () => {
     <>
       <Navbar />
       <main>
-        {/* <Box> */}
         <Stack bg={colorMode === "light" ? "#eeeded" : "#19202a"}>
           <Box
             bgImage={"/images/abs2.webp"}
@@ -97,7 +96,7 @@ const ProfilePage = () => {
             backgroundSize={"cover"}
             backgroundRepeat={"no-repeat"}
           />
-          <Box mx={{ base: 1, md: 0 }}>
+          <Box mx={{ base: 1, md: "auto" }} maxW={"1200px"} w={"full"}>
             <Center
               mx={"auto"}
               mb={"10px"}
@@ -108,7 +107,7 @@ const ProfilePage = () => {
               textAlign={"center"}
               px={"10px"}
               py={"20px"}
-              w={{ base: "100%", md: "80%", lg: "70%" }}
+              w={{ base: "100%", md: "90%", lg: "80%" }}
               gap={"10px"}
               pos={"relative"}
             >
@@ -152,7 +151,7 @@ const ProfilePage = () => {
             <Flex
               justify={"space-between"}
               mx={"auto"}
-              w={{ base: "100%", md: "80%", lg: "70%" }}
+              w={{ base: "100%", md: "90%", lg: "80%" }}
               mt={"10px"}
               mb={"60px"}
             >

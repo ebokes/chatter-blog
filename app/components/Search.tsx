@@ -1,11 +1,9 @@
+"use client";
+
 import { useContext } from "react";
 import { ChatterContext } from "../context/ChatterContext";
 import { usePosts } from "../hooks/post";
 import { Box, Input, useColorMode } from "@chakra-ui/react";
-
-// interface SearchProps {
-//   items: any[]; // Replace `any` with the actual type of `items`
-// }
 
 const Search: React.FC = () => {
   const { colorMode } = useColorMode();
