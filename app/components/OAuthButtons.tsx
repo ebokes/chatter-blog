@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, ButtonGroup, useColorMode, useToast } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";

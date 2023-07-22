@@ -4,8 +4,11 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Divider,
   Flex,
+  FormLabel,
   HStack,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -15,21 +18,25 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
+  Tooltip,
   useColorMode,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import MarkdownIt from "markdown-it";
+import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
+import { FiImage } from "react-icons/fi";
+import { RiSave3Fill, RiSendPlaneFill } from "react-icons/ri";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import TextareaAutoSize from "react-textarea-autosize";
+import Preview from "../../../components/Preview";
 import { ChatterContext } from "../../../context/ChatterContext";
 import { useAuth } from "../../../hooks/auth";
 import { PostProps, useAddPost, useSavePost } from "../../../hooks/post";
-import { calculateReadTime } from "../../../utils/funcns";
-import Preview from "../../../components/Preview";
 import { categories } from "../../../utils/constants";
+import { calculateReadTime } from "../../../utils/funcns";
 
 const LiteEditor: React.FC = () => {
   const { entry, setEntry } = useContext(ChatterContext);
@@ -37,10 +44,14 @@ const LiteEditor: React.FC = () => {
   const mdParser = new MarkdownIt();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { addPost, isLoading: publishingPost } = useAddPost();
+  const { addPost, isLoading: publishingPost, setFile, fileURL } = useAddPost();
   const { savePost, isLoading: SavingPost } = useSavePost();
   const { user } = useAuth();
   const [showCategory, setShowCategory] = useState(false);
+
+  const handleChange = (e: any) => {
+    setFile(e.target.files[0]);
+  };
 
   async function handlePublish(
     entry: PostProps,
@@ -51,13 +62,12 @@ const LiteEditor: React.FC = () => {
       entry.title === "" ||
       entry.body === "" ||
       entry.category === "" ||
-      entry.intro === "" ||
-      entry.bannerImg === ""
+      entry.intro === ""
     ) {
       toast({
-        title: "Error",
-        description: "Please fill all the fields",
+        title: "Please fill all the fields",
         status: "error",
+        position: "top-right",
         duration: 3000,
         isClosable: true,
       });
@@ -65,7 +75,6 @@ const LiteEditor: React.FC = () => {
       addPost({
         uid: user?.id,
         title: entry.title,
-        bannerImg: entry.bannerImg,
         body: entry.body,
         category: entry.category,
         postLength: entry.postLength,
@@ -83,14 +92,12 @@ const LiteEditor: React.FC = () => {
     savePost({
       uid: user?.id,
       title: entry.title,
-      bannerImg: entry.bannerImg,
       body: entry.body,
       category: entry.category,
       postLength: entry.postLength,
       postedOn: Date.now(),
       intro: entry.intro,
     });
-    // }
   }
 
   const handleEditorChange = ({ text }: { text: string }) => {
@@ -128,7 +135,7 @@ const LiteEditor: React.FC = () => {
   };
 
   return (
-    <Stack maxW={"854px"} mx={"auto"} my={6} p={{ base: 0, md: 5 }}>
+    <Stack maxW={"854px"} mx={"auto"} my={10} p={{ base: 0, md: 5 }}>
       <Flex pos={"relative"}>
         <Box w={"full"}>
           <form>
@@ -139,75 +146,113 @@ const LiteEditor: React.FC = () => {
                 </Button>
                 {/* Publish Button */}
                 <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
-                  <Button
-                    type="submit"
-                    colorScheme="blue"
-                    bg={"brand.600"}
-                    color={"white"}
-                    onClick={(event) => handleSave(entry, event)}
-                    isLoading={SavingPost}
-                    // disabled={true}
-                    // isDisabled={true}
-                    _hover={{
-                      bg: "brand.700",
-                    }}
-                  >
-                    Save to Drafts
-                  </Button>
-                  <Button
-                    type="submit"
-                    colorScheme="blue"
-                    bg={"brand.600"}
-                    color={"white"}
-                    onClick={(event) => handlePublish(entry, event)}
-                    isLoading={publishingPost}
-                    _hover={{
-                      bg: "brand.700",
-                    }}
-                  >
-                    Publish
-                  </Button>
+                  <Tooltip hasArrow label="Save to Drafts">
+                    <IconButton
+                      aria-label="Save to Drafts"
+                      icon={<RiSave3Fill fontSize={"25px"} />}
+                      type="submit"
+                      colorScheme="blue"
+                      bg={"brand.600"}
+                      color={"white"}
+                      onClick={(event) => handleSave(entry, event)}
+                      isLoading={SavingPost}
+                      _hover={{
+                        bg: "brand.700",
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip hasArrow label="Publish">
+                    <IconButton
+                      aria-label="publish"
+                      icon={<RiSendPlaneFill fontSize={"25px"} />}
+                      type="submit"
+                      colorScheme="blue"
+                      bg={"brand.600"}
+                      color={"white"}
+                      onClick={(event) => handlePublish(entry, event)}
+                      isLoading={publishingPost}
+                      _hover={{
+                        bg: "brand.700",
+                      }}
+                    />
+                  </Tooltip>
                 </ButtonGroup>
               </HStack>
               {/* Article Title */}
-              <Input
-                as={TextareaAutoSize}
-                required
-                placeholder="Title"
-                type="text"
-                name="title"
-                fontSize="2xl"
-                onChange={handleInputChange}
-                value={entry.title}
-                fontWeight={600}
-                variant={"ghost"}
-                autoComplete="off"
-                py={2}
-                px={0}
-                bg={"none"}
+              <Box>
+                <Input
+                  as={TextareaAutoSize}
+                  required
+                  placeholder="Title"
+                  type="text"
+                  name="title"
+                  fontSize="2xl"
+                  onChange={handleInputChange}
+                  value={entry.title}
+                  fontWeight={600}
+                  variant={"ghost"}
+                  autoComplete="off"
+                  py={2}
+                  px={0}
+                  bg={"none"}
+                />
+                {/* Brief */}
+                <Input
+                  required
+                  as={TextareaAutoSize}
+                  placeholder="Enter a brief description"
+                  type="text"
+                  name="intro"
+                  onChange={handleInputChange}
+                  value={entry.intro}
+                  autoComplete="off"
+                  variant={"ghost"}
+                  mb={"10px"}
+                  py={2}
+                  px={0}
+                  bg={"none"}
+                />
+              </Box>
+            </Flex>
+            {/* Image File Upload */}
+            {fileURL && (
+              <Image
+                src={fileURL}
+                width={300}
+                height={300}
+                alt={"banner image"}
               />
-              {/* Image URL */}
-              <Input
-                as={TextareaAutoSize}
-                required
-                placeholder="Cover Image URL"
-                type="text"
-                name="bannerImg"
-                onChange={handleInputChange}
-                value={entry.bannerImg}
-                autoComplete="off"
-                variant={"ghost"}
-                py={2}
-                px={0}
-                bg={"none"}
+            )}
+
+            <HStack align={"flex-start"}>
+              <HStack>
+                <Box>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleChange}
+                    id="image-input"
+                    display={"none"}
+                  />
+                  <FormLabel htmlFor="image-input" m={0}>
+                    <Tooltip hasArrow label="Upload Image">
+                      <IconButton
+                        as={"span"}
+                        aria-label="Image Select"
+                        icon={<FiImage fontSize="25px" />}
+                      />
+                    </Tooltip>
+                  </FormLabel>
+                </Box>
+              </HStack>
+              <Divider
+                orientation="vertical"
+                h={"25px"}
+                bg={"gray.700"}
+                mx={2}
               />
               {/* Categories */}
-              <Flex
-                my={2}
-                gap="1rem"
-                justify={"space-between"}
-                direction="column"
-              >
+              <Flex gap="1rem" justify={"space-between"} direction="column">
                 <HStack align={"center"} justify={"space-between"}>
                   <Button
                     onClick={handleCategoryList}
@@ -215,7 +260,6 @@ const LiteEditor: React.FC = () => {
                     w="fit-content"
                     borderRadius="md"
                     px={4}
-                    // py={1}
                     colorScheme={entry.category ? "linkedin" : "gray"}
                   >
                     {entry.category || "Select Category"}
@@ -249,40 +293,27 @@ const LiteEditor: React.FC = () => {
                   </Flex>
                 )}
               </Flex>
+            </HStack>
 
-              {/* Brief */}
-              <Input
-                required
-                as={TextareaAutoSize}
-                placeholder="Enter a brief description"
-                type="text"
-                name="intro"
-                onChange={handleInputChange}
-                value={entry.intro}
-                autoComplete="off"
-                variant={"ghost"}
-                mb={"10px"}
-                py={2}
-                px={0}
-                bg={"none"}
-              />
-            </Flex>
             {/* Body Text Editor */}
-            <MdEditor
-              style={{ height: "500px" }}
-              renderHTML={(text) => mdParser.render(text)}
-              onChange={handleEditorChange}
-              view={{ menu: true, md: true, html: false }}
-              shortcuts={true}
-              canView={{
-                menu: true,
-                md: true,
-                html: false,
-                both: false,
-                fullScreen: false,
-                hideMenu: false,
-              }}
-            />
+
+            <Box mt={4}>
+              <MdEditor
+                style={{ height: "500px" }}
+                renderHTML={(text) => mdParser.render(text)}
+                onChange={handleEditorChange}
+                view={{ menu: true, md: true, html: false }}
+                shortcuts={true}
+                canView={{
+                  menu: true,
+                  md: true,
+                  html: false,
+                  both: false,
+                  fullScreen: false,
+                  hideMenu: false,
+                }}
+              />
+            </Box>
           </form>
           {/* Article Previewer */}
           <Modal onClose={onClose} isOpen={isOpen} isCentered size={"3xl"}>

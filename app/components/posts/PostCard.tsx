@@ -26,8 +26,8 @@ const PostCard = ({ post, link }: any) => {
       borderRadius={"5px"}
       mb={6}
       color={colorMode === "light" ? "brand.800" : "brand.400"}
-      pb={"20px"}
       bg={colorMode === "light" ? "brand.200" : "brand.800"}
+      pb={"20px"}
     >
       <Stack mt={27} mx={{ base: "24px", lg: "44px" }}>
         <PostHeader post={post} />

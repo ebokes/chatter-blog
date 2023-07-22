@@ -9,7 +9,7 @@ import React from "react";
 
 const CategoryList = () => {
   const { id } = useParams();
-  const { postCategory, isLoading } = usePostCategory(id);
+  const { postCategory } = usePostCategory(id);
 
   return (
     <Rightbar>

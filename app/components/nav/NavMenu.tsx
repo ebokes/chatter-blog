@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuth, useLogout } from "@/app/hooks/auth";
 import {
   Box,
@@ -10,7 +12,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  SkeletonCircle,
   Text,
   useColorMode,
 } from "@chakra-ui/react";

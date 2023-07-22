@@ -37,6 +37,7 @@ export const categories = [
   { value: "food", label: "Food" },
   { value: "education", label: "Education" },
   { value: "culture", label: "Culture" },
+  { value: "games", label: "Games" },
 ];
 
 export const LinkItems: Array<ItemProps> = [

@@ -1,9 +1,10 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useColorMode } from "@chakra-ui/react";
 
 const NotFound = () => {
   // const router = useRouter();
+  const { colorMode } = useColorMode();
 
   return (
     <>
@@ -15,7 +16,8 @@ const NotFound = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        bg="gray.100"
+        color={colorMode === "light" ? "brand.800" : "brand.400"}
+        bg={colorMode === "light" ? "brand.200" : "brand.800"}
       >
         <Text fontSize="5xl" fontWeight="bold" mb={4}>
           404

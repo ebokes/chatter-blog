@@ -15,8 +15,8 @@ import {
   setDoc,
   updateDoc,
   where,
+  DocumentData,
 } from "firebase/firestore";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   useCollectionData,
@@ -27,7 +27,7 @@ import { db, storage } from "../lib/firebase";
 export interface PostProps {
   uid?: string;
   title?: string;
-  bannerImg?: string;
+  bannerImg?: File | string | null;
   body?: string;
   category?: string;
   postedOn?: number | Date;
@@ -36,15 +36,33 @@ export interface PostProps {
   id?: string;
   bookmarks?: string[];
 }
+type FileURL = string | undefined;
 
 export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
   const toast = useToast();
+  const [file, setFile] = useState<File | null>(null);
 
   async function addPost(post: PostProps) {
     setLoading(true);
     try {
       const id = uuidv4();
+      const fileRef = ref(storage, "bannerImg/" + Date.now());
+      if (!file) {
+        toast({
+          title: "Please Select a banner image!",
+          status: "error",
+          isClosable: true,
+          position: "top-right",
+          duration: 5000,
+        });
+        return;
+      } else {
+        await uploadBytes(fileRef, file);
+        const bannerURL = await getDownloadURL(fileRef);
+        post.bannerImg = bannerURL;
+      }
+
       await setDoc(doc(db, "articles", id), {
         ...post,
         id,
@@ -73,17 +91,40 @@ export function useAddPost() {
     }
   }
 
-  return { addPost, isLoading };
-}
+  const fileURL: FileURL = file ? URL.createObjectURL(file) : undefined;
 
+  return {
+    addPost,
+    isLoading,
+    setFile,
+    fileURL,
+  };
+}
 export function useSavePost() {
   const [isLoading, setLoading] = useState(false);
   const toast = useToast();
+  const [file, setFile] = useState<File | null>(null);
 
   async function savePost(post: PostProps) {
     setLoading(true);
     try {
       const id = uuidv4();
+      const fileRef = ref(storage, "bannerImg/" + Date.now());
+      if (!file) {
+        toast({
+          title: "Please Select a banner image!",
+          status: "error",
+          isClosable: true,
+          position: "top-right",
+          duration: 5000,
+        });
+        return;
+      } else {
+        await uploadBytes(fileRef, file);
+        const bannerURL = await getDownloadURL(fileRef);
+        post.bannerImg = bannerURL;
+      }
+
       await setDoc(doc(db, "drafts", id), {
         ...post,
         id,
@@ -91,7 +132,7 @@ export function useSavePost() {
         bookmarks: [],
       });
       toast({
-        title: "Article Saved Successfully!",
+        title: "Article Saved to Drafts!",
         status: "success",
         isClosable: true,
         position: "top-right",
@@ -112,7 +153,14 @@ export function useSavePost() {
     }
   }
 
-  return { savePost, isLoading };
+  const fileURL: FileURL = file ? URL.createObjectURL(file) : undefined;
+
+  return {
+    savePost,
+    isLoading,
+    setFile,
+    fileURL,
+  };
 }
 
 export function usePost(id: string) {
@@ -221,53 +269,4 @@ export function usePostCategory(category: string) {
   const [postCategory, isLoading, error] = useCollectionData(q);
   if (error) throw error;
   return { postCategory, isLoading };
-}
-
-export function useUploadBannerImg(id: string) {
-  const [isLoading, setLoading] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const toast = useToast();
-
-  async function uploadBannerImg() {
-    if (!file) {
-      toast({
-        title: "No file selected",
-        description: "Please select a file to upload",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "top-right",
-      });
-
-      return;
-    }
-
-    setLoading(true);
-
-    const fileRef = ref(storage, "bannerImg/" + id);
-    await uploadBytes(fileRef, file);
-
-    const bannerURL = await getDownloadURL(fileRef);
-
-    const docRef = doc(db, "articles", id);
-    await updateDoc(docRef, { bannerImg: bannerURL });
-
-    // toast({
-    //   title: "Profile updated!",
-    //   status: "success",
-    //   isClosable: true,
-    //   position: "top-right",
-    //   duration: 5000,
-    // });
-    setLoading(false);
-
-    window.location.reload();
-  }
-
-  return {
-    setFile,
-    uploadBannerImg,
-    isLoading,
-    fileURL: file && URL.createObjectURL(file),
-  };
 }
