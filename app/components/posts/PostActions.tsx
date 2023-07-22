@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
-import { useDeletePost, useToggleLike } from "@/app/hooks/post";
+import { useDeletePost, useDraftEdit, useToggleLike } from "@/app/hooks/post";
 import { getCapitalizedName } from "@/app/utils/funcns";
 import { Flex, HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
@@ -17,6 +17,7 @@ import {
   BsTrash,
 } from "react-icons/bs";
 import { LuEdit } from "react-icons/lu";
+import { useState, useEffect } from "react";
 
 const PostActions = ({ post, link }: any) => {
   const { likes, id, uid, bookmarks } = post;
@@ -31,6 +32,7 @@ const PostActions = ({ post, link }: any) => {
     useToggleBookmark(config);
   const path = usePathname();
   const router = useRouter();
+  const { isEditing, draftEdit } = useDraftEdit();
 
   const handleToggleLike = () => {
     if (!user) {
@@ -46,6 +48,26 @@ const PostActions = ({ post, link }: any) => {
       toggleBookmark();
     }
   };
+
+  // const [title, setTitle] = useState("");
+  // const [bannerImg, setBannerImg] = useState("");
+  // const [body, setBody] = useState("");
+  // const [category, setCategory] = useState("");
+  // const [intro, setIntro] = useState("");
+
+  // useEffect(() => {
+  //   if (user) {
+  //     setTitle(getCapitalizedName(user.title) ?? "");
+  //     setBannerImg(user.bannerImg ?? "");
+  //     setBody(user.body ?? "");
+  //     setCategory(user.category ?? "");
+  //     setIntro(user.intro ?? "");
+  //   }
+  // }, [user]);
+
+  // const handleSave = async () => {
+  //   await draftEdit(user, title, bannerImg, body, category, intro);
+  // };
 
   return (
     <Flex justify={"space-between"}>

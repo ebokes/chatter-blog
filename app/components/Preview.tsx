@@ -17,13 +17,15 @@ import Image from "next/image";
 import { useContext } from "react";
 import { VscBook } from "react-icons/vsc";
 import { useAuth } from "../hooks/auth";
-import { formatDate, formatPostedOn } from "../utils/funcns";
+import { formatPostedOn } from "../utils/funcns";
 import { MarkdownRenderer } from "./MarkdownRenderer";
+import { useAddPost } from "../hooks/post";
 
 const Preview = () => {
   const { colorMode } = useColorMode();
   const { entry } = useContext(ChatterContext);
   const { user } = useAuth();
+  const { fileURL } = useAddPost();
 
   return (
     <>
@@ -75,9 +77,23 @@ const Preview = () => {
               </Flex>
             </Flex>
             <Flex flex={0.7}>
-              {entry.bannerImg && (
+              {/* {entry.bannerImg && (
                 <Image
                   src={entry.bannerImg}
+                  width={412}
+                  height={142}
+                  alt="img"
+                  style={{
+                    width: "612px",
+                    objectFit: "cover",
+                    height: "342px",
+                    objectPosition: "center",
+                  }}
+                />
+              )} */}
+              {fileURL && (
+                <Image
+                  src={fileURL}
                   width={412}
                   height={142}
                   alt="img"
