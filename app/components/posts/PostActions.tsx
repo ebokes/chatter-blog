@@ -52,10 +52,11 @@ const PostActions = ({ post, link }: any) => {
       <Link href={`/pages/categories/${post?.category}`}>
         <CategoryBtn>{getCapitalizedName(post?.category)}</CategoryBtn>
       </Link>
-      <HStack gap={"20px"} w={"full"} justify={"flex-end"}>
+      <HStack w={"full"} justify={"flex-end"}>
         <HStack
           spacing={"1px"}
           hidden={path.includes("pages/dashboard/drafts")}
+          mr={"10px"}
         >
           <Tooltip label="Like" aria-label="Like" hasArrow>
             <IconButton
@@ -70,6 +71,7 @@ const PostActions = ({ post, link }: any) => {
           <Text>{likes?.length}</Text>
         </HStack>
         <HStack
+          mr={"10px"}
           spacing={"1px"}
           hidden={path.includes("pages/dashboard/drafts")}
         >
@@ -121,7 +123,12 @@ const PostActions = ({ post, link }: any) => {
             </HStack>
           )}
 
-        <HStack hidden={path.includes("pages/dashboard/drafts")}>
+        <HStack
+          hidden={
+            path.includes("pages/dashboard/drafts") ||
+            path.includes("/pages/profile/")
+          }
+        >
           <Tooltip label="Bookmark" aria-label="Bookmark" hasArrow>
             <IconButton
               onClick={handleToggleBookmark}
