@@ -46,6 +46,7 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
           {children}
           <Box
             minW={"350px"}
+            w={"350px"}
             display={{ base: "none", lg: "block" }}
             mt={"40px"}
             bg={colorMode === "light" ? "brand.300" : "brand.800"}

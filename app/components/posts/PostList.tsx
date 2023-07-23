@@ -10,7 +10,7 @@ const PostList = ({ posts, link, title }: any) => {
   const { colorMode } = useColorMode();
   const { searchResults } = useContext(ChatterContext);
   return (
-    <Box borderRadius={"lg"} mt={"41px"}>
+    <Box borderRadius={"lg"} mt={"41px"} w={"full"}>
       {searchResults?.length ? (
         searchResults?.map((post: PostProps) => (
           <PostCard key={post.id} post={post} link={link} />
@@ -26,7 +26,7 @@ const PostList = ({ posts, link, title }: any) => {
               borderRadius={"5px"}
               mb={4}
               p={4}
-              flex={1}
+              // flex={1}
             >
               <Heading fontSize={"28px"}>{title}</Heading>
             </Flex>

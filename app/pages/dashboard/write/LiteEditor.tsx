@@ -146,7 +146,7 @@ const LiteEditor: React.FC = () => {
                 </Button>
                 {/* Publish Button */}
                 <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
-                  <Tooltip hasArrow label="Save to Drafts">
+                  <Tooltip hasArrow label="Save to Drafts (coming soon)">
                     <IconButton
                       aria-label="Save to Drafts"
                       icon={<RiSave3Fill fontSize={"25px"} />}
@@ -156,6 +156,7 @@ const LiteEditor: React.FC = () => {
                       color={"white"}
                       onClick={(event) => handleSave(entry, event)}
                       isLoading={SavingPost}
+                      isDisabled={true}
                       _hover={{
                         bg: "brand.700",
                       }}
@@ -216,12 +217,14 @@ const LiteEditor: React.FC = () => {
             </Flex>
             {/* Image File Upload */}
             {fileURL && (
-              <Image
-                src={fileURL}
-                width={300}
-                height={300}
-                alt={"banner image"}
-              />
+              <Box mb={4}>
+                <Image
+                  src={fileURL}
+                  width={300}
+                  height={300}
+                  alt={"banner image"}
+                />
+              </Box>
             )}
 
             <HStack align={"flex-start"}>
@@ -250,6 +253,7 @@ const LiteEditor: React.FC = () => {
                 h={"25px"}
                 bg={"gray.700"}
                 mx={2}
+                mt={2}
               />
               {/* Categories */}
               <Flex gap="1rem" justify={"space-between"} direction="column">
@@ -285,7 +289,7 @@ const LiteEditor: React.FC = () => {
                         px={4}
                         py={2}
                         borderRadius={"md"}
-                        onClick={() => handleCategoryChange(category.label)}
+                        onClick={() => handleCategoryChange(category.value)}
                       >
                         {category.label}
                       </Button>
