@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/app/hooks/auth";
 import { useComments } from "@/app/hooks/comments";
-import { useDeletePost, useToggleLike } from "@/app/hooks/post";
+import { useDeleteDraft, useDeletePost, useToggleLike } from "@/app/hooks/post";
 import { getCapitalizedName } from "@/app/utils/funcns";
 import { Flex, HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
 import Link from "next/link";
@@ -26,6 +26,7 @@ const PostActions = ({ post, link }: any) => {
   const config = { id, isLiked, uid: user?.id, isBookmarked };
   const { toggleLike, isLoading: likeLoading } = useToggleLike(config);
   const { deletePost, isLoading: deleteLoading } = useDeletePost(id);
+  const { deleteDraft, isLoading: draftLoading } = useDeleteDraft(id);
   const { comments } = useComments(id);
   const { toggleBookmark, isLoading: bookmarkLoading } =
     useToggleBookmark(config);
@@ -45,6 +46,10 @@ const PostActions = ({ post, link }: any) => {
     } else {
       toggleBookmark();
     }
+  };
+
+  const deleteDraftPost = () => {
+    path.includes("drafts") ? deleteDraft() : deletePost();
   };
 
   return (
@@ -111,8 +116,8 @@ const PostActions = ({ post, link }: any) => {
                 <IconButton
                   ml="auto"
                   aria-label="delete post"
-                  onClick={deletePost}
-                  isLoading={deleteLoading}
+                  onClick={deleteDraftPost}
+                  isLoading={deleteLoading || draftLoading}
                   size="md"
                   colorScheme="red"
                   variant="ghost"

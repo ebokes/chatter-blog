@@ -136,7 +136,7 @@ const LiteEditor: React.FC = () => {
                 </Button>
                 <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
                   {/* Save to draft Button */}
-                  <Tooltip hasArrow label="Save to Drafts (coming soon)">
+                  <Tooltip hasArrow label="Save to Drafts">
                     <IconButton
                       aria-label="Save to Drafts"
                       icon={<RiSave3Fill fontSize={"25px"} />}

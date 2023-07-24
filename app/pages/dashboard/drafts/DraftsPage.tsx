@@ -33,7 +33,7 @@ const DraftsPage = () => {
         </Stack>
       </Flex>
       <Box bg={colorMode === "light" ? "white" : "gray.700"} rounded="lg" p={4}>
-        <PostList posts={posts} link="feed" />
+        <PostList posts={posts} link="dashboard" />
       </Box>
     </Box>
   );

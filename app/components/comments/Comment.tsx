@@ -10,7 +10,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { FaTrash } from "react-icons/fa";
+import { BsTrash } from "react-icons/bs";
 import { useAuth } from "../../hooks/auth";
 import { useUser } from "../../hooks/user";
 import { formatDate } from "../../utils/funcns";
@@ -61,7 +61,7 @@ const Comment = ({ comment }: any) => {
               isLoading={deleteLoading}
               colorScheme="red"
               variant="ghost"
-              icon={<FaTrash />}
+              icon={<BsTrash />}
               isRound
             />
           )}
