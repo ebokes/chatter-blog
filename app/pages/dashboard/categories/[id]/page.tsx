@@ -1,6 +1,5 @@
 "use client";
 
-import Rightbar from "@/app/components/nav/Rightbar";
 import PostList from "@/app/components/posts/PostList";
 import { usePostCategory } from "@/app/hooks/post";
 import { getCapitalizedName } from "@/app/utils/funcns";
@@ -12,14 +11,12 @@ const CategoryList = () => {
   const { postCategory, isLoading } = usePostCategory(id);
 
   return (
-    <Rightbar>
-      <PostList
-        isLoading={isLoading}
-        posts={postCategory}
-        link={"feed"}
-        title={getCapitalizedName(id)}
-      />
-    </Rightbar>
+    <PostList
+      isLoading={isLoading}
+      posts={postCategory}
+      link={"dashboard"}
+      title={getCapitalizedName(id)}
+    />
   );
 };
 

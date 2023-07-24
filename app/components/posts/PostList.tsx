@@ -5,10 +5,14 @@ import React, { useContext } from "react";
 import PostCard from "./PostCard";
 import { PostProps } from "@/app/hooks/post";
 import { ChatterContext } from "@/app/context/ChatterContext";
+import Loading from "@/app/loader/Loading";
 
-const PostList = ({ posts, link, title }: any) => {
+const PostList = ({ posts, link, title, isLoading }: any) => {
   const { colorMode } = useColorMode();
   const { searchResults } = useContext(ChatterContext);
+
+  // if (isLoading) return <Loading />;
+
   return (
     <Box borderRadius={"lg"} mt={"41px"} w={"full"}>
       {searchResults?.length ? (
@@ -26,7 +30,6 @@ const PostList = ({ posts, link, title }: any) => {
               borderRadius={"5px"}
               mb={4}
               p={4}
-              // flex={1}
             >
               <Heading fontSize={"28px"}>{title}</Heading>
             </Flex>
@@ -35,7 +38,12 @@ const PostList = ({ posts, link, title }: any) => {
             <Text>No posts yet</Text>
           ) : (
             posts?.map((post: PostProps) => (
-              <PostCard key={post.id} post={post} link={link} />
+              <PostCard
+                key={post.id}
+                post={post}
+                link={link}
+                isLoading={isLoading}
+              />
             ))
           )}
         </Box>

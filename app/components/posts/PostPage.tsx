@@ -27,10 +27,9 @@ import CommentWrapper from "../comments/CommentWrapper";
 
 const PostPage = () => {
   const { colorMode } = useColorMode();
-  const params = useParams();
-  const { id } = params;
-  const { post: currentPost, isLoading: postsLoading } = usePost(id);
-  const { user, isLoading: userLoading } = useUser(currentPost?.uid);
+  const { id } = useParams();
+  const { post, isLoading: postsLoading } = usePost(id);
+  const { user, isLoading: userLoading } = useUser(post?.uid);
 
   if (postsLoading || userLoading || !user) {
     return <Loading />;
@@ -70,7 +69,7 @@ const PostPage = () => {
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
                       borderRadius={"full"}
                     />
-                    <Text>{formatDate(currentPost?.postedOn)}</Text>
+                    <Text>{formatDate(post?.postedOn)}</Text>
 
                     <Box
                       boxSize={"4px"}
@@ -79,11 +78,11 @@ const PostPage = () => {
                     />
                     <HStack>
                       <Icon as={VscBook} />{" "}
-                      <Text>{currentPost?.postLength} mins read</Text>
+                      <Text>{post?.postLength} mins read</Text>
                     </HStack>
-                    <Link href={`/pages/categories/${currentPost?.category}`}>
+                    <Link href={`/pages/categories/${post?.category}`}>
                       <CategoryBtn>
-                        {getCapitalizedName(currentPost?.category)}
+                        {getCapitalizedName(post?.category)}
                       </CategoryBtn>
                     </Link>
                   </HStack>
@@ -91,9 +90,9 @@ const PostPage = () => {
               </Flex>
             </Flex>
             <Center flex={0.7}>
-              {currentPost?.bannerImg && (
+              {post?.bannerImg && (
                 <Image
-                  src={currentPost?.bannerImg}
+                  src={post?.bannerImg}
                   width={612}
                   height={242}
                   alt="banner image"
@@ -111,13 +110,13 @@ const PostPage = () => {
                   fontSize={{ base: "28px", md: "34px" }}
                   fontWeight={700}
                 >
-                  {currentPost?.title}
+                  {post?.title}
                 </Heading>
-                <MarkdownRenderer markdownContent={currentPost?.body} />
+                <MarkdownRenderer markdownContent={post?.body} />
               </Stack>
             </Box>
           </Box>
-          {currentPost && <CommentWrapper post={currentPost} />}
+          {post && <CommentWrapper post={post} />}
         </Stack>
         {/* <FloatingNav /> */}
       </Box>

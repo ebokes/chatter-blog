@@ -26,7 +26,10 @@ export const removeSpaces = (string: string) => {
   return string.replace(/\s/g, "");
 };
 
-export const sortPost = (posts: (PostProps | DocumentData)[] | undefined) => {
+export const sortPost = (
+  posts: (PostProps | DocumentData)[] | undefined,
+  len: number
+) => {
   if (!posts) return [];
   const filteredPosts = posts.filter((post) => post.hasOwnProperty("postedOn"));
 
@@ -36,7 +39,7 @@ export const sortPost = (posts: (PostProps | DocumentData)[] | undefined) => {
     return (postedOnB as any) - (postedOnA as any);
   });
 
-  return sortedPosts.slice(0, 5);
+  return sortedPosts.slice(0, len);
 };
 
 export const formatPostedOn = (

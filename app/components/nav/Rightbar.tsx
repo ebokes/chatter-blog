@@ -22,7 +22,8 @@ import CategoriesSkeleton from "@/app/loader/CategoriesSkeleton";
 const Rightbar = ({ children }: { children: ReactNode }) => {
   const { colorMode } = useColorMode();
   const { posts, isLoading } = usePosts();
-  const recentPosts = sortPost(posts);
+  const recentPosts = sortPost(posts, 5);
+  const cPost = sortPost(posts, 6);
 
   return (
     <>
@@ -80,7 +81,7 @@ const Rightbar = ({ children }: { children: ReactNode }) => {
                 ) : (
                   <Flex gap={2} flexWrap={"wrap"}>
                     {Array.from(
-                      new Set(posts?.map((post) => post.category))
+                      new Set(cPost?.map((post) => post.category)) //["lifestyle","games","tech"]
                     ).map((category) => (
                       <Center
                         px={3}

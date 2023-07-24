@@ -15,9 +15,12 @@ import { VscBook } from "react-icons/vsc";
 import PostActions from "./PostActions";
 import PostHeader from "./PostHeader";
 import Link from "next/link";
+import Loading from "@/app/loader/Loading";
 
-const PostCard = ({ post, link }: any) => {
+const PostCard = ({ post, link, isLoading }: any) => {
   const { colorMode } = useColorMode();
+
+  if (isLoading) return <Loading />;
 
   return (
     <Box
