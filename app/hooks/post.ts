@@ -45,6 +45,7 @@ interface UseAddSavePostResult {
   addSavePost: (post: PostProps, isSave: boolean) => void;
 }
 
+// Publish or save post
 export function useAddSavePost(): UseAddSavePostResult {
   const [isLoading, setLoading] = useState(false);
   const [isDraftLoading, setDraftLoading] = useState(false);
@@ -83,7 +84,6 @@ export function useAddSavePost(): UseAddSavePostResult {
     } catch (error: any) {
       toast({
         title: "An error occurred",
-        // description: error.message,
         status: "error",
         isClosable: true,
         position: "top-right",
@@ -106,6 +106,7 @@ export function useAddSavePost(): UseAddSavePostResult {
   };
 }
 
+// Fetch a single post
 export function usePost(id: string) {
   const q = doc(db, "articles", id);
   const [post, isLoading] = useDocumentData(q);
@@ -125,7 +126,7 @@ export function usePostsUid(uid: string | null = null) {
   return { posts, isLoading };
 }
 
-// To fetch a collection of posts from all users
+// Fetch a collection of posts from all users
 export function usePosts() {
   const q = query(collection(db, "articles"), orderBy("postedOn", "desc"));
   const [posts, isLoading, error] = useCollectionData(q);
@@ -193,8 +194,36 @@ export function useDeletePost(id: string) {
 
   return { deletePost, isLoading };
 }
+// Delete selected Draft created by logged-in user
+export function useDeleteDraft(id: string) {
+  const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
 
-// To fetch a collection of draft by logged-in user
+  async function deleteDraft() {
+    const res = window.confirm("Are you sure you want to delete this draft?");
+
+    if (res) {
+      setLoading(true);
+
+      // Delete post document
+      await deleteDoc(doc(db, "drafts", id));
+
+      toast({
+        title: "Draft deleted!",
+        status: "info",
+        isClosable: true,
+        position: "top-right",
+        duration: 5000,
+      });
+
+      setLoading(false);
+    }
+  }
+
+  return { deleteDraft, isLoading };
+}
+
+// Fetch a collection of draft by logged-in user
 export function useDrafts(uid: string | null = null) {
   const q = query(
     collection(db, "drafts"),
@@ -207,7 +236,15 @@ export function useDrafts(uid: string | null = null) {
   return { posts, isLoading };
 }
 
-// To fetch a single post category
+// Fetch a single draft
+export function useDraft(id: string) {
+  const q = doc(db, "drafts", id);
+  const [post, isLoading] = useDocumentData(q);
+
+  return { post, isLoading };
+}
+
+// Fetch a single post category
 export function usePostCategory(category: string) {
   const q = query(
     collection(db, "articles"),

@@ -1,6 +1,6 @@
 "use client";
 
-import { usePost } from "@/app/hooks/post";
+import { useDraft, usePost } from "@/app/hooks/post";
 import { useUser } from "@/app/hooks/user";
 import Loading from "@/app/loader/Loading";
 import { formatDate, getCapitalizedName } from "@/app/utils/funcns";
@@ -29,9 +29,10 @@ const PostPage = () => {
   const { colorMode } = useColorMode();
   const { id } = useParams();
   const { post, isLoading: postsLoading } = usePost(id);
-  const { user, isLoading: userLoading } = useUser(post?.uid);
+  const { post: draft, isLoading: draftLoading } = useDraft(id);
+  const { user } = useUser(post?.uid);
 
-  if (postsLoading || userLoading || !user) {
+  if (postsLoading || draftLoading) {
     return <Loading />;
   }
 
@@ -69,7 +70,7 @@ const PostPage = () => {
                       bg={colorMode === "light" ? "brand.800" : "brand.400"}
                       borderRadius={"full"}
                     />
-                    <Text>{formatDate(post?.postedOn)}</Text>
+                    <Text>{formatDate(post?.postedOn || draft?.postedOn)}</Text>
 
                     <Box
                       boxSize={"4px"}
@@ -78,11 +79,17 @@ const PostPage = () => {
                     />
                     <HStack>
                       <Icon as={VscBook} />{" "}
-                      <Text>{post?.postLength} mins read</Text>
+                      <Text>
+                        {post?.postLength || draft?.postLength} mins read
+                      </Text>
                     </HStack>
-                    <Link href={`/pages/categories/${post?.category}`}>
+                    <Link
+                      href={`/pages/categories/${
+                        post?.category || draft?.category
+                      }`}
+                    >
                       <CategoryBtn>
-                        {getCapitalizedName(post?.category)}
+                        {getCapitalizedName(post?.category || draft?.category)}
                       </CategoryBtn>
                     </Link>
                   </HStack>
@@ -90,9 +97,9 @@ const PostPage = () => {
               </Flex>
             </Flex>
             <Center flex={0.7}>
-              {post?.bannerImg && (
+              {(post?.bannerImg || draft?.bannerImg) && (
                 <Image
-                  src={post?.bannerImg}
+                  src={post?.bannerImg || draft?.bannerImg}
                   width={612}
                   height={242}
                   alt="banner image"
@@ -110,9 +117,9 @@ const PostPage = () => {
                   fontSize={{ base: "28px", md: "34px" }}
                   fontWeight={700}
                 >
-                  {post?.title}
+                  {post?.title || draft?.title}
                 </Heading>
-                <MarkdownRenderer markdownContent={post?.body} />
+                <MarkdownRenderer markdownContent={post?.body || draft?.body} />
               </Stack>
             </Box>
           </Box>
