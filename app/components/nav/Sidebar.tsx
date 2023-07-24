@@ -15,6 +15,7 @@ import {
   HStack,
   Icon,
   IconButton,
+  Skeleton,
   Stack,
   Text,
   useColorMode,
@@ -150,7 +151,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             {postsLoading && <ListSkeleton />}
             {recentCategories.map((item: any) => (
               <Box key={item}>
-                <Link href={`/pages/categories/${item}`}>
+                <Link href={`/pages/dashboard/categories/${item}`}>
                   {getCapitalizedName(item)}
                 </Link>
               </Box>

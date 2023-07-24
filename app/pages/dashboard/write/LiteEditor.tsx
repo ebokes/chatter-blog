@@ -34,7 +34,7 @@ import TextareaAutoSize from "react-textarea-autosize";
 import Preview from "../../../components/Preview";
 import { ChatterContext } from "../../../context/ChatterContext";
 import { useAuth } from "../../../hooks/auth";
-import { PostProps, useAddPost, useSavePost } from "../../../hooks/post";
+import { PostProps, useAddSavePost } from "../../../hooks/post";
 import { categories } from "../../../utils/constants";
 import { calculateReadTime } from "../../../utils/funcns";
 
@@ -44,25 +44,28 @@ const LiteEditor: React.FC = () => {
   const mdParser = new MarkdownIt();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { addPost, isLoading: publishingPost, setFile, fileURL } = useAddPost();
-  const { savePost, isLoading: SavingPost } = useSavePost();
   const { user } = useAuth();
   const [showCategory, setShowCategory] = useState(false);
+  const { isLoading, isDraftLoading, fileURL, setFile, addSavePost } =
+    useAddSavePost();
 
-  const handleChange = (e: any) => {
+  const handleImageChange = (e: any) => {
     setFile(e.target.files[0]);
   };
 
-  async function handlePublish(
+  async function handleAddSave(
     entry: PostProps,
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
+    isSave: boolean
   ) {
     event.preventDefault();
+
     if (
-      entry.title === "" ||
-      entry.body === "" ||
-      entry.category === "" ||
-      entry.intro === ""
+      !isSave &&
+      (entry.title === "" ||
+        entry.body === "" ||
+        entry.category === "" ||
+        entry.intro === "")
     ) {
       toast({
         title: "Please fill all the fields",
@@ -72,32 +75,19 @@ const LiteEditor: React.FC = () => {
         isClosable: true,
       });
     } else {
-      addPost({
-        uid: user?.id,
-        title: entry.title,
-        body: entry.body,
-        category: entry.category,
-        postLength: entry.postLength,
-        postedOn: Date.now(),
-        intro: entry.intro,
-      });
+      addSavePost(
+        {
+          uid: user?.id,
+          title: entry.title,
+          body: entry.body,
+          category: entry.category,
+          postLength: entry.postLength,
+          postedOn: Date.now(),
+          intro: entry.intro,
+        },
+        isSave
+      );
     }
-  }
-  async function handleSave(
-    entry: PostProps,
-    event: React.MouseEvent<HTMLButtonElement>
-  ) {
-    event.preventDefault();
-
-    savePost({
-      uid: user?.id,
-      title: entry.title,
-      body: entry.body,
-      category: entry.category,
-      postLength: entry.postLength,
-      postedOn: Date.now(),
-      intro: entry.intro,
-    });
   }
 
   const handleEditorChange = ({ text }: { text: string }) => {
@@ -144,8 +134,8 @@ const LiteEditor: React.FC = () => {
                 <Button onClick={onOpen} colorScheme="gray">
                   Preview
                 </Button>
-                {/* Publish Button */}
                 <ButtonGroup as={Flex} mb={"10px"} justifySelf={"flex-end"}>
+                  {/* Save to draft Button */}
                   <Tooltip hasArrow label="Save to Drafts (coming soon)">
                     <IconButton
                       aria-label="Save to Drafts"
@@ -154,14 +144,14 @@ const LiteEditor: React.FC = () => {
                       colorScheme="blue"
                       bg={"brand.600"}
                       color={"white"}
-                      onClick={(event) => handleSave(entry, event)}
-                      isLoading={SavingPost}
-                      isDisabled={true}
+                      onClick={(event) => handleAddSave(entry, event, true)}
+                      isLoading={isDraftLoading}
                       _hover={{
                         bg: "brand.700",
                       }}
                     />
                   </Tooltip>
+                  {/* Publish Button */}
                   <Tooltip hasArrow label="Publish">
                     <IconButton
                       aria-label="publish"
@@ -170,8 +160,8 @@ const LiteEditor: React.FC = () => {
                       colorScheme="blue"
                       bg={"brand.600"}
                       color={"white"}
-                      onClick={(event) => handlePublish(entry, event)}
-                      isLoading={publishingPost}
+                      onClick={(event) => handleAddSave(entry, event, false)}
+                      isLoading={isLoading}
                       _hover={{
                         bg: "brand.700",
                       }}
@@ -233,7 +223,7 @@ const LiteEditor: React.FC = () => {
                   <Input
                     type="file"
                     accept="image/*"
-                    onChange={handleChange}
+                    onChange={handleImageChange}
                     id="image-input"
                     display={"none"}
                   />

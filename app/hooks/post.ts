@@ -15,7 +15,6 @@ import {
   setDoc,
   updateDoc,
   where,
-  DocumentData,
 } from "firebase/firestore";
 import { useState } from "react";
 import {
@@ -38,101 +37,43 @@ export interface PostProps {
 }
 type FileURL = string | undefined;
 
-export function useAddPost() {
-  const [isLoading, setLoading] = useState(false);
-  const toast = useToast();
-  const [file, setFile] = useState<File | null>(null);
-
-  async function addPost(post: PostProps) {
-    setLoading(true);
-    try {
-      const id = uuidv4();
-      const fileRef = ref(storage, "bannerImg/" + Date.now());
-      if (!file) {
-        toast({
-          title: "Please Select a banner image!",
-          status: "error",
-          isClosable: true,
-          position: "top-right",
-          duration: 5000,
-        });
-        return;
-      } else {
-        await uploadBytes(fileRef, file);
-        const bannerURL = await getDownloadURL(fileRef);
-        post.bannerImg = bannerURL;
-      }
-
-      await setDoc(doc(db, "articles", id), {
-        ...post,
-        id,
-        likes: [],
-        bookmarks: [],
-      });
-      toast({
-        title: "Article Published Successfully!",
-        status: "success",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-      window.location.reload();
-    } catch (error: any) {
-      toast({
-        title: "An error occurred",
-        // description: error.message,
-        status: "error",
-        isClosable: true,
-        position: "top-right",
-        duration: 5000,
-      });
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const fileURL: FileURL = file ? URL.createObjectURL(file) : undefined;
-
-  return {
-    addPost,
-    isLoading,
-    setFile,
-    fileURL,
-  };
+interface UseAddSavePostResult {
+  isLoading: boolean;
+  isDraftLoading: boolean;
+  fileURL: FileURL;
+  setFile: (file: File | null) => void;
+  addSavePost: (post: PostProps, isSave: boolean) => void;
 }
-export function useSavePost() {
-  const [isLoading, setLoading] = useState(false);
-  const toast = useToast();
-  const [file, setFile] = useState<File | null>(null);
 
-  async function savePost(post: PostProps) {
-    setLoading(true);
+export function useAddSavePost(): UseAddSavePostResult {
+  const [isLoading, setLoading] = useState(false);
+  const [isDraftLoading, setDraftLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const toast = useToast();
+
+  async function addSavePost(post: PostProps, isSave: boolean) {
+    isSave ? setDraftLoading(true) : setLoading(true);
+
     try {
       const id = uuidv4();
-      const fileRef = ref(storage, "bannerImg/" + Date.now());
-      if (!file) {
-        toast({
-          title: "Please Select a banner image!",
-          status: "error",
-          isClosable: true,
-          position: "top-right",
-          duration: 5000,
-        });
-        return;
-      } else {
+      if (file) {
+        const fileRef = ref(storage, "bannerImg/" + Date.now());
         await uploadBytes(fileRef, file);
         const bannerURL = await getDownloadURL(fileRef);
         post.bannerImg = bannerURL;
       }
 
-      await setDoc(doc(db, "drafts", id), {
+      await setDoc(doc(db, isSave ? "drafts" : "articles", id), {
         ...post,
         id,
         likes: [],
         bookmarks: [],
       });
+
       toast({
-        title: "Article Saved to Drafts!",
+        title: isSave
+          ? "Article Saved to Drafts!"
+          : "Article Published Successfully!",
         status: "success",
         isClosable: true,
         position: "top-right",
@@ -150,16 +91,18 @@ export function useSavePost() {
       });
     } finally {
       setLoading(false);
+      setDraftLoading(false);
     }
   }
 
   const fileURL: FileURL = file ? URL.createObjectURL(file) : undefined;
 
   return {
-    savePost,
     isLoading,
-    setFile,
+    isDraftLoading,
     fileURL,
+    setFile,
+    addSavePost,
   };
 }
 
@@ -182,6 +125,7 @@ export function usePostsUid(uid: string | null = null) {
   return { posts, isLoading };
 }
 
+// To fetch a collection of posts from all users
 export function usePosts() {
   const q = query(collection(db, "articles"), orderBy("postedOn", "desc"));
   const [posts, isLoading, error] = useCollectionData(q);
@@ -195,6 +139,7 @@ interface ToggleLikeProps {
   uid: string;
 }
 
+// Toggle like on selected post
 export function useToggleLike({ id, isLiked, uid }: ToggleLikeProps) {
   const [isLoading, setLoading] = useState(false);
 
@@ -215,6 +160,7 @@ export function useToggleLike({ id, isLiked, uid }: ToggleLikeProps) {
   return { toggleLike, isLoading };
 }
 
+// Delete selected post created by logged-in user
 export function useDeletePost(id: string) {
   const [isLoading, setLoading] = useState(false);
   const toast = useToast();
@@ -248,6 +194,7 @@ export function useDeletePost(id: string) {
   return { deletePost, isLoading };
 }
 
+// To fetch a collection of draft by logged-in user
 export function useDrafts(uid: string | null = null) {
   const q = query(
     collection(db, "drafts"),
@@ -260,6 +207,7 @@ export function useDrafts(uid: string | null = null) {
   return { posts, isLoading };
 }
 
+// To fetch a single post category
 export function usePostCategory(category: string) {
   const q = query(
     collection(db, "articles"),

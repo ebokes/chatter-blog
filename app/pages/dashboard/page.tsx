@@ -8,9 +8,8 @@ const Dashboard = () => {
   const { colorMode } = useColorMode();
   return (
     <Box
-      bg={colorMode === "light" ? "brand.300" : "brand.800"}
+      bg={colorMode === "light" ? "light" : "dark"}
       color={colorMode === "light" ? "brand.850" : "brand.300"}
-      // borderColor={colorMode === "light" ? "brand.400" : "brand.450"}
     >
       <Feed />
     </Box>

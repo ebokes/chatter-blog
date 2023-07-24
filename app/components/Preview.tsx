@@ -19,13 +19,13 @@ import { VscBook } from "react-icons/vsc";
 import { useAuth } from "../hooks/auth";
 import { formatPostedOn } from "../utils/funcns";
 import { MarkdownRenderer } from "./MarkdownRenderer";
-import { useAddPost } from "../hooks/post";
+import { useAddSavePost } from "../hooks/post";
 
 const Preview = () => {
   const { colorMode } = useColorMode();
   const { entry } = useContext(ChatterContext);
   const { user } = useAuth();
-  const { fileURL } = useAddPost();
+  const { fileURL } = useAddSavePost();
 
   return (
     <>
