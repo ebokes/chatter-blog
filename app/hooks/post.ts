@@ -22,6 +22,7 @@ import {
   useDocumentData,
 } from "react-firebase-hooks/firestore";
 import { db, storage } from "../lib/firebase";
+import { useRouter } from "next/navigation";
 
 export interface PostProps {
   uid?: string;
@@ -51,6 +52,7 @@ export function useAddSavePost(): UseAddSavePostResult {
   const [isDraftLoading, setDraftLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const toast = useToast();
+  const router = useRouter();
 
   async function addSavePost(post: PostProps, isSave: boolean) {
     isSave ? setDraftLoading(true) : setLoading(true);
@@ -80,7 +82,8 @@ export function useAddSavePost(): UseAddSavePostResult {
         position: "top-right",
         duration: 5000,
       });
-      window.location.reload();
+      // window.location.reload();
+      router.push(`/pages/${isSave ? "dashboard/drafts" : "dashboard"}`);
     } catch (error: any) {
       toast({
         title: "An error occurred",

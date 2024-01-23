@@ -30,7 +30,7 @@ const Feed = () => {
   if (authLoading) return <Loading />;
 
   return (
-    <Box bg={colorMode === "light" ? "brand.100" : "brand.480"}>
+    <Box>
       <Flex align={"flex-end"} justify={"space-between"} my={5}>
         <Stack>
           <Heading fontWeight={500} fontSize={{ base: 24, md: 28 }}>

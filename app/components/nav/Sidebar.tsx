@@ -100,7 +100,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={colorMode === "light" ? "white" : "dark"}
       color={colorMode === "light" ? "#171923" : "#F9FAFB"}
       borderRight="1px"
-      borderRightColor={colorMode === "light" ? "brand.400" : "brand.450"}
+      borderRightColor={colorMode === "light" ? "brand.400" : "#2D3748"}
       w={{ base: "full", md: "240px" }}
       pos="fixed"
       right={0}
@@ -149,13 +149,15 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           </Text>
           <Stack pl={"20px"} spacing={"10px"}>
             {postsLoading && <ListSkeleton />}
-            {recentCategories.map((item: any) => (
-              <Box key={item}>
-                <Link href={`/pages/dashboard/categories/${item}`}>
-                  {getCapitalizedName(item)}
-                </Link>
-              </Box>
-            ))}
+            <>
+              {recentCategories.map((item: any) => (
+                <Box key={item}>
+                  <Link href={`/pages/dashboard/categories/${item}`}>
+                    {getCapitalizedName(item)}
+                  </Link>
+                </Box>
+              ))}
+            </>
           </Stack>
         </Stack>
         <Stack>
@@ -222,7 +224,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         bg={colorMode === "light" ? "white" : "dark"}
         color={colorMode === "light" ? "brand.800" : "brand.300"}
         borderBottomWidth="1px"
-        borderBottomColor={colorMode === "light" ? "brand.400" : "brand.450"}
+        borderBottomColor={colorMode === "light" ? "brand.400" : "#2D3748"}
         justifyContent={{ base: "space-between", md: "flex-end" }}
         {...rest}
       >
