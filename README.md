@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-Chatter aims to be a haven for text-based content enthusiasts, offering a multi-functional platform where authors and readers can create and access their own content. It aspires to compete with platforms like Hashnode and Medium within its first two years of launch.
+Chatter is a haven for text-based content enthusiasts, offering a multi-functional platform where authors and readers can create and access their own content. 
 
 ## Features
 
@@ -26,9 +26,30 @@ Chatter aims to be a haven for text-based content enthusiasts, offering a multi-
 
 - **Bookmarking and Drafts**: Users can bookmark posts to save them for later. They can also save posts as drafts before publishing.
 
-- **Unit Tests**: The application includes unit tests to ensure the correctness of critical functionality.
-
 - **View Mode**: Users can switch between light and dark themes for a personalized experience.
+
+## Technologies Used
+
+- Next.js: The foundation of the application.
+- Chakra UI: The UI component library for building the user interface.
+- TypeScript: The programming language used to write type-safe code.
+- React Hooks: A feature in React that allows functional components to use state and lifecycle methods.
+- Context API: A feature in React that provides a way to share data across the component tree without prop drilling.
+- Markdown: The format used for authoring blog posts.
+- Firebase: The database used to store user information and content data
+
+## Contributing
+
+Contributions to Chatter - Blog App are welcome! If you want to contribute to the project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes and push them to your forked repository.
+4. Submit a pull request describing your changes.
+
+## Deployment
+
+The application has been deployed using Vercel and can be found => [Chatter-blog](https://chatter-blog-opal.vercel.app/)
 
 ## Installation and Usage
 
@@ -54,29 +75,6 @@ To run the development server locally, follow these steps:
    ```
 
 4. Open http://localhost:3000 in your browser to see the application.
-
-## Technologies Used
-
-- Next.js: The foundation of the application.
-- Chakra UI: The UI component library for building the user interface.
-- TypeScript: The programming language used to write type-safe code.
-- React Hooks: A feature in React that allows functional components to use state and lifecycle methods.
-- Context API: A feature in React that provides a way to share data across the component tree without prop drilling.
-- Markdown: The format used for authoring blog posts.
-- Firebase: The database used to store user information and content data
-
-## Contributing
-
-Contributions to Chatter - Blog App are welcome! If you want to contribute to the project, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes and push them to your forked repository.
-4. Submit a pull request describing your changes.
-
-## Deployment
-
-The application has been deployed using Vercel and can be found => [Chatter-blog](https://chatter-blog-opal.vercel.app/)
 
 ## Resources
 
