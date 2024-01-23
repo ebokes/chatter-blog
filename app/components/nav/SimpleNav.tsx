@@ -19,7 +19,8 @@ export default function SimpleNav() {
       width="full"
       bg={colorMode === "light" ? "brand.300" : "brand.800"}
       borderBottom={"1px solid"}
-      borderBottomColor={colorMode === "light" ? "brand.400" : "brand.450"}
+      // borderBottomColor={colorMode === "light" ? "brand.400" : "brand.450"}
+      borderBottomColor={colorMode === "light" ? "brand.400" : "#2D3748"}
     >
       <Flex
         color={colorMode === "light" ? "brand.800" : "brand.300"}

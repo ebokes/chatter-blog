@@ -39,7 +39,7 @@ export default function Navbar() {
       width="full"
       bg={colorMode === "light" ? "brand.300" : "brand.800"}
       borderBottom={"1px solid"}
-      borderBottomColor={colorMode === "light" ? "brand.400" : "brand.450"}
+      borderBottomColor={colorMode === "light" ? "brand.400" : "#2D3748"}
     >
       <Flex
         color={colorMode === "light" ? "brand.800" : "brand.300"}
@@ -127,7 +127,7 @@ export default function Navbar() {
                     borderRadius={"lg"}
                     w={"90px"}
                   >
-                    <Link href={"/pages/signin"}>Sign In</Link>
+                    <Link href={"/pages/signin"}>Write</Link>
                   </Center>
                   <Center
                     display={{ base: "none", md: "inline-flex" }}
@@ -142,7 +142,7 @@ export default function Navbar() {
                     w={"90px"}
                     borderRadius={"lg"}
                   >
-                    <Link href={"/pages/signup"}>Sign Up</Link>
+                    <Link href={"/pages/signin"}>Sign In</Link>
                   </Center>
                 </Center>
               </Stack>

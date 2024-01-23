@@ -158,7 +158,7 @@ const LiteEditor: React.FC = () => {
                       icon={<RiSendPlaneFill fontSize={"25px"} />}
                       type="submit"
                       colorScheme="blue"
-                      bg={"brand.600"}
+                      bg={"brand.970"}
                       color={"white"}
                       onClick={(event) => handleAddSave(entry, event, false)}
                       isLoading={isLoading}
